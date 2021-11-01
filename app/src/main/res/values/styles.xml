@@ -1,0 +1,230 @@
+<resources>
+
+
+    <!-- Base application theme. -->
+
+
+    <style name="StyleEditTextNormal">
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="fontFamily">@font/worksans_light</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleEditText">
+        <item name="android:background">@drawable/bg_edit_text</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="fontFamily">@font/worksans_light</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleEditTextGray">
+        <item name="android:background">@drawable/bg_gray_border</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="fontFamily">@font/worksans_light</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleChooseButton">
+        <item name="android:background">@drawable/bg_white_right_rounded</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:layout_width">@dimen/_100sdp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="android:textSize">@dimen/_8ssp</item>
+        <item name="fontFamily">@font/worksans_light</item>
+
+    </style>
+
+    <style name="StyleEditTextWhite">
+        <item name="android:background">@drawable/drawable_white_cornered</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="fontFamily">@font/worksans_light</item>
+        <item name="android:textColorHint">@color/colorBlack</item>
+    </style>
+
+
+    <style name="StyleButtonYellow">
+        <item name="android:background">@drawable/bg_yellow_rounded</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleButtonGreen">
+        <item name="android:background">@drawable/bg_green</item>
+        <item name="android:padding">@dimen/_5sdp</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleButtonGreenBorder">
+        <item name="android:background">@drawable/bg_white_green_border</item>
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingLeft">@dimen/_10sdp</item>
+        <item name="android:paddingRight">@dimen/_10sdp</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorGreen</item>
+        <item name="android:textColorHint">@color/colorWhiteTransText</item>
+    </style>
+
+    <style name="StyleButtonYellowThin">
+        <item name="android:background">@drawable/drawable_yellow_cornered_less</item>
+        <item name="android:paddingTop">@dimen/_5sdp</item>
+        <item name="android:paddingBottom">@dimen/_5sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+    <style name="StyleGrayThin">
+        <item name="android:background">@drawable/drawable_grey_cornered</item>
+        <item name="android:paddingTop">@dimen/_5sdp</item>
+        <item name="android:paddingBottom">@dimen/_5sdp</item>
+        <item name="android:paddingStart">@dimen/_20sdp</item>
+        <item name="android:paddingLeft">@dimen/_20sdp</item>
+        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:paddingRight">@dimen/_20sdp</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="MyAlertDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowFixedWidthMajor">90%</item>
+        <item name="windowFixedWidthMinor">90%</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:gravity">center</item>
+        <item name="android:windowBackground">@drawable/transparent_bg</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="FilterAlertDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowFixedWidthMajor">90%</item>
+        <item name="windowFixedWidthMinor">90%</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorWhite</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="Theme.Custom" parent="Theme.AppCompat">
+        <item name="android:calendarViewStyle">@style/Widget.CalendarView.Custom</item>
+    </style>
+
+    <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
+        <item name="android:focusedMonthDateColor">@color/colorWhite</item>
+        <item name="android:weekNumberColor">@color/colorGray</item>
+        <item name="android:weekDayTextAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:dateTextAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+
+
+    <style name="CustomCalendarMonth" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+    </style>
+
+    <style name="CustomCalendarDay" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="CustomCalendarWeek" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+    <style name="CustomTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+    <style name="RatingBar1" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorGray</item>
+        <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+    <!--<style name="RatingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+-->
+
+    <style name="SearchViewTheme" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+        <!-- Gets rid of the "underline" in the text -->
+        <item name="queryBackground">@color/colorWhite</item>
+        <!-- Gets rid of the search icon when the SearchView is expanded -->
+        <item name="searchHintIcon">@null</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:tint">@color/colorWhite</item>
+        <item name="android:focusable">false</item>
+    </style>
+    <style name="Theme.AppCompat.CardTheme">
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorGrayLight</item>
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+</resources>

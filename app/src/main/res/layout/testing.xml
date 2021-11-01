@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:background="@drawable/rectangle_round_bg"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingTop="15dip"
+        android:paddingBottom="15dip">
+
+
+        <LinearLayout
+            android:id="@+id/fgfg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking Date    :"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/tvdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 28-98-2021"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dssderts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking Time    :"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 12:00Pm - 01:00Pm"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_slotstus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slot Status       :"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"></TextView>
+
+            <TextView
+                android:id="@+id/tv_slotstus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Available"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dsertsds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slot Status       :"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"></TextView>
+
+            <TextView
+                android:id="@+id/tvEventHostedBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Booked"
+                android:textSize="12dp"
+                android:fontFamily="@font/worksans_medium"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp">
+
+
+
+            <ImageView
+                android:id="@+id/numberDays"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                 android:layout_gravity="center"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/colorBlack" />
+
+    </LinearLayout>
+</LinearLayout>

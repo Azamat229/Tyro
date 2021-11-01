@@ -1,0 +1,2 @@
+rootProject.name = "Tyro Student"
+include ':app'

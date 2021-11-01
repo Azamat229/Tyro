@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardCornerRadius="20dp"
+    android:layout_gravity="center_vertical|center_horizontal">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/img_cls"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/cancel_image"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason For Cancelation?"
+            android:padding="10dp"
+            android:visibility="visible"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/worksans_medium"
+            android:textSize="@dimen/_14sdp"/>
+
+        <EditText
+            android:id="@+id/et_reason"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/bg_boarder"
+            android:hint="Write Here.."
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/btn_reason_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/StyleButtonYellow"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="5dp"
+            android:text="Submit"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_16ssp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

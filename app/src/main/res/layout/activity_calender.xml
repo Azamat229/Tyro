@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blue_black">
+
+    <!-- Header aligned to top -->
+    <RelativeLayout
+        android:id="@+id/rlHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_12sdp"
+            android:src="@drawable/icn_arrow_left_white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/ivBack"
+            android:gravity="center"
+            android:text="Schedule Availability"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_18ssp"
+            app:fontFamily="@font/worksans_medium" />
+
+    </RelativeLayout>
+
+
+    <!-- Content below header and above footer -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlHeading"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_25sdp"
+                    app:mcv_dateTextAppearance="@style/CustomTextAppearance"
+                    app:mcv_headerTextAppearance="@style/CustomTextAppearance"
+                    app:mcv_leftArrow="@drawable/ic_baseline_arrow_left_24"
+                    app:mcv_rightArrow="@drawable/ic_baseline_arrow_right_24"
+                    app:mcv_weekDayTextAppearance="@style/CustomTextAppearance" />
+
+                <TextView
+                    android:id="@+id/time_slot_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/calendarView"
+                    android:layout_marginTop="5dp"
+                    android:text="Monday,04 jan 2021"
+                    android:textColor="#fff"
+                    android:textSize="10sp"
+                    android:visibility="gone"></TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/calendarView"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/calendarView"
+                        android:layout_marginTop="5dp"
+                        android:drawableLeft="@drawable/ic_baseline_green"
+                        android:drawablePadding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="@string/available"
+                        android:textColor="#fff"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/calendarView"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="5dp"
+                        android:drawableLeft="@drawable/ic_baseline_fiber_manual_record_24"
+                        android:drawablePadding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="@string/bsy"
+                        android:textColor="#fff"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <!-- Footer aligned to bottom -->
+                <RelativeLayout
+                    android:id="@+id/footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/no_slots_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/drawable_white_cornered"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingLeft="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingRight="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txt_noclasses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/_20sdp"
+                            android:paddingBottom="@dimen/_20sdp"
+                            android:text="No Slots Available"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_18sdp"
+                            android:visibility="visible"
+                            app:fontFamily="@font/worksans_medium" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/drawable_white_cornered1"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingLeft="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingRight="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/_15ssp"
+                                app:fontFamily="@font/worksans_medium" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txt_avail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text=""
+                                android:textColor="@color/colorGreen"
+                                android:textSize="@dimen/_13ssp"
+                                app:fontFamily="@font/worksans_medium" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/time_slot_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnBookNow"
+                            style="@style/StyleButtonYellow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:text="Book Now"
+                            android:textSize="@dimen/_16ssp" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

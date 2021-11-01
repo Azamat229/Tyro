@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "283616796487",
+    "project_id": "tyro-android-6473b",
+    "storage_bucket": "tyro-android-6473b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283616796487:android:f6450911d168427d063662",
+        "android_client_info": {
+          "package_name": "com.instructor.tyro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283616796487-80bcuov5hftq93j97cr058puoaef9din.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARXkgHvhi2gasMDqostPdZnRru1Y7w7Qs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283616796487-80bcuov5hftq93j97cr058puoaef9din.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283616796487:android:9589ca069b87e2b9063662",
+        "android_client_info": {
+          "package_name": "com.student.tyro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283616796487-80bcuov5hftq93j97cr058puoaef9din.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARXkgHvhi2gasMDqostPdZnRru1Y7w7Qs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283616796487-80bcuov5hftq93j97cr058puoaef9din.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
