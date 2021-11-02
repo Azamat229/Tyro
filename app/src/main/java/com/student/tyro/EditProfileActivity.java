@@ -256,40 +256,47 @@ public class EditProfileActivity extends AppCompatActivity {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 picturePath = GalleryUriToPath_New.getPath(EditProfileActivity.this, selectedImage);
                 Log.e("Gallery_Path", picturePath);
+                profile_pic.setImageBitmap(bm);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        profile_pic.setImageBitmap(bm);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
         try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-            picturePath = destination.getAbsolutePath();
+             if (data != null) {
 
-            Log.e("CameraPath", picturePath);
-            //  Log.e("CameraPath", destination.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),
+                        System.currentTimeMillis() + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                    picturePath = destination.getAbsolutePath();
+
+                    Log.e("CameraPath", picturePath);
+                    //  Log.e("CameraPath", destination.getAbsolutePath());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                profile_pic.setImageBitmap(thumbnail);
+                // Picasso.get().load(picturePath).into(profile_img);
+
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        profile_pic.setImageBitmap(thumbnail);
-        // Picasso.get().load(picturePath).into(profile_img);
-
     }
 
 
@@ -370,6 +377,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             String last_name = jsonObject1.getString("lastname");
                             String email = jsonObject1.getString("email");
                             String mobile_no = jsonObject1.getString("phone");
+                            String location = jsonObject1.getString("location");
                             String user_image = jsonObject1.getString("profile_pic");
                             String auth_level = jsonObject1.getString("auth_level");
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
@@ -381,6 +389,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             editor.putString("auth_level", auth_level);
                             editor.putString("login_number", mobile_no);
                             editor.putString("User_pic", user_image);
+                            editor.putString("location", location);
                             editor.commit();
                             editor.apply();
                             Intent i = new Intent(EditProfileActivity.this, MainActivity.class);
@@ -437,7 +446,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         return stream.toByteArray();
     }
-
 
 
     private static int getImageRotation(final File imageFile) {

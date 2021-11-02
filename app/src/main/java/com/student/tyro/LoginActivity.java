@@ -288,6 +288,7 @@ public class LoginActivity extends AppCompatActivity {
                             String profile_pic = jsonObject1.getString("profile_pic");
                             String latitude = jsonObject1.getString("latitude");
                             String longitude = jsonObject1.getString("longitude");
+                            String location = jsonObject1.getString("location");
                             System.out.println("User_id" + user_id);
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -300,6 +301,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("User_pic", profile_pic);
                             editor.putString("lat", latitude);
                             editor.putString("long", longitude);
+                            editor.putString("location", location);
                             editor.putBoolean("loginstatus", true);
                             editor.commit();
                             editor.apply();

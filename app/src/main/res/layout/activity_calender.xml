@@ -60,8 +60,6 @@
                     android:layout_marginRight="@dimen/_25sdp"
                     app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                     app:mcv_headerTextAppearance="@style/CustomTextAppearance"
-                    app:mcv_leftArrow="@drawable/ic_baseline_arrow_left_24"
-                    app:mcv_rightArrow="@drawable/ic_baseline_arrow_right_24"
                     app:mcv_weekDayTextAppearance="@style/CustomTextAppearance" />
 
                 <TextView

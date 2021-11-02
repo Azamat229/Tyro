@@ -491,30 +491,36 @@ public class ChatActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
         try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-            picturePath = destination.getAbsolutePath();
+            if (data != null) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-            Log.e("CameraPath", picturePath);
-            //  Log.e("CameraPath", destination.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),
+                        System.currentTimeMillis() + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                    picturePath = destination.getAbsolutePath();
+
+                    Log.e("CameraPath", picturePath);
+                    //  Log.e("CameraPath", destination.getAbsolutePath());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //profile_pic.setImageBitmap(thumbnail);
+                // Picasso.get().load(picturePath).into(profile_img);
+
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        //profile_pic.setImageBitmap(thumbnail);
-        // Picasso.get().load(picturePath).into(profile_img);
-
     }
 
 

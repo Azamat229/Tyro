@@ -166,7 +166,12 @@ public interface ApiCallInterface {
     //confirm booking
     @FormUrlEncoded
     @POST("addbooking_class")
-    Call<JsonElement> addbooking_class(@Field("student_id") String student_id, @Field("instructor_id") String instructor_id, @Field("start_time") String start_time, @Field("end_time") String end_time, @Field("booking_date") String booking_date, @Field("booking_hours") String booking_hours, @Field("latitude") String latitude, @Field("longitude") String longitude, @Field("payment_type") String payment_type, @Field("amount") String amount);
+    Call<JsonElement> addbooking_class(@Field("student_id") String student_id, @Field("instructor_id") String instructor_id,
+                                       @Field("start_time") String start_time, @Field("end_time") String end_time,
+                                       @Field("booking_date") String booking_date, @Field("booking_hours") String booking_hours,
+                                       @Field("latitude") String latitude, @Field("longitude") String longitude,
+                                       @Field("payment_type") String payment_type, @Field("amount") String amount,
+                                       @Field("pickup_location") String pickup_location);
 
     //Checkout
     @FormUrlEncoded

@@ -317,6 +317,7 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("lat", latitude);
                             editor.putString("long", longitude);
+                            editor.putString("location", location);
                             editor.putBoolean("loginstatus", true);
                             editor.commit();
                             editor.apply();

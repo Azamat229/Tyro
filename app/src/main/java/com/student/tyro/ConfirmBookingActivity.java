@@ -3,7 +3,9 @@ package com.student.tyro;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -50,9 +52,9 @@ import retrofit2.Response;
 public class ConfirmBookingActivity extends AppCompatActivity {
     NetworkConnection networkConnection;
     ArrayList<Covid_Rules> rules;
-    TextView txtname, txtlanguage, txtrating, txtlocation, txtdt, txttime, txthr;
+    TextView txtname, txtlanguage, txtrating, txtlocation, txtdt, txttime, txthr, student_pickup_location;
     ImageView img_instruct;
-    String id, name, lang, rating, loc, date, start_time, end_time, hr, img, longt, lat, studentid, price;
+    String id, name, lang, rating, loc, date, start_time, end_time, hr, img, longt, lat, studentid, price, student_lat, student_lng;
     List<SliderUtils> sliderImg;
     private int dotscount;
     private ImageView[] dots;
@@ -64,7 +66,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     String sp_agree = "";
     Button confrm_booking;
     TextView tvprice;
-    ImageView back,edit_location;
+    ImageView back, edit_location;
     TabLayout tabLayout;
 
     @Override
@@ -87,6 +89,11 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         back = findViewById(R.id.ivBack);
         edit_location = findViewById(R.id.edit_location);
         tabLayout = findViewById(R.id.tabLayout);
+        student_pickup_location = findViewById(R.id.student_pickup_location);
+        SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
+        student_lat = sharedPreferences.getString("lat", "");
+        student_lng = sharedPreferences.getString("long", "");
+        student_pickup_location.setText(sharedPreferences.getString("location", ""));
 
         viewPager.setClipToPadding(false);
         tabLayout.setupWithViewPager(viewPager, true);
@@ -183,6 +190,9 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                         i.putExtra("Type", "1");
                         i.putExtra("price", price);
                         i.putExtra("total_hrs", hr);
+                        i.putExtra("pickup_location", student_pickup_location.getText().toString());
+                        i.putExtra("student_lat", student_lat);
+                        i.putExtra("student_lng", student_lng);
                         startActivity(i);
                     } else {
                         Toast.makeText(getApplicationContext(), "Amount has not added by admin", Toast.LENGTH_LONG).show();
@@ -278,9 +288,9 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 loc = data.getStringExtra("location");
-                lat = data.getStringExtra("strLatitude");
-                lang = data.getStringExtra("strLongitude");
-                txtlocation.setText(loc);
+                student_lat = data.getStringExtra("strLatitude");
+                student_lng = data.getStringExtra("strLongitude");
+                student_pickup_location.setText(loc);
             }
         }
     }

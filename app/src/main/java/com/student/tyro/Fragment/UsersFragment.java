@@ -122,6 +122,10 @@ public class UsersFragment extends Fragment {
                             hours = dataobject.optString("hours");
                             kms = dataobject.optString("kms");
                             ttlclasses = dataobject.optString("total_classes");
+
+                            String latitude = dataobject.getString("latitude");
+                            String longitude = dataobject.getString("longitude");
+
                             Picasso.get().load(Constants_Urls.pic_base_url + user_image)
                                     .placeholder(R.drawable.user)
                                     .into(userimage);
@@ -139,6 +143,9 @@ public class UsersFragment extends Fragment {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("User_pic", user_image);
                             editor.putString("usermail", usermail);
+                            editor.putString("location", userlocation);
+                            editor.putString("lat", latitude);
+                            editor.putString("long", longitude);
                             editor.commit();
                             editor.apply();
 

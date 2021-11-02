@@ -66,7 +66,7 @@ public class StripePayment extends AppCompatActivity {
     String Grand_Total, Order_id;
     String Card_selection_string;
     TextView card_name;
-    KProgressHUD hud;
+    KProgressHUD hud, hud1;
     String User_id;
     String Card_id = "";
     //ArrayList<SavedCardModel> savedCardModels;
@@ -84,6 +84,7 @@ public class StripePayment extends AppCompatActivity {
     RadioGroup card_rg;
     String radio_value;
     LinearLayout card_layout;
+    private String pickup_location, student_lat, student_lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +113,12 @@ public class StripePayment extends AppCompatActivity {
             lat = (String) b.get("lat");
             type = (String) b.get("Type");
             Grand_Total = (String) b.get("price");
+            pickup_location = (String) b.get("pickup_location");
+            student_lat = (String) b.get("student_lat");
+            student_lng = (String) b.get("student_lng");
             //Toast.makeText(getApplicationContext(),lat+"longtitude"+longt,Toast.LENGTH_LONG).show();
         }
+        System.out.println("loc " + pickup_location + "\t" + student_lat + "\t" + student_lng);
 
 
         //Order_id=""+getIntent().getStringExtra("Order_id");
@@ -212,10 +217,10 @@ public class StripePayment extends AppCompatActivity {
                                 context, public_key);
                         stripe.confirmPayment(StripePayment.this, confirmParams);
 
-//                        hud = KProgressHUD.create(StripePayment.this)
-//                                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-//                                .setBackgroundColor(R.color.colorPrimary)
-//                                .show();
+                        hud1 = KProgressHUD.create(StripePayment.this)
+                                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                                .setBackgroundColor(R.color.colorPrimary)
+                                .show();
 
                     }
                 } else {
@@ -413,7 +418,7 @@ public class StripePayment extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        button_pay_now.setEnabled(false);
+        hud1.dismiss();
         stripe.onPaymentResult(requestCode, data, new PaymentResultCallback(StripePayment.this));
     }
 
@@ -555,7 +560,8 @@ public class StripePayment extends AppCompatActivity {
 
     private void Booking_confirm() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, lat, longt, "1", Grand_Total);
+        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, student_lat, student_lng,
+                "1", Grand_Total,pickup_location);
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)

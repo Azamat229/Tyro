@@ -202,6 +202,35 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:text="Instructor Location"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_8ssp"
+            app:fontFamily="@font/worksans_medium" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/instruct_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:text=""
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp"
+            app:fontFamily="@font/worksans_medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorGray" />
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:text="Location"
+                android:text="Student Pick Up Location"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_8ssp"
                 app:fontFamily="@font/worksans_medium" />
@@ -228,7 +257,7 @@
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/instruct_location"
+            android:id="@+id/student_pickup_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"

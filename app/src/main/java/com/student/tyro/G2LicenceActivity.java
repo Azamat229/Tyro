@@ -32,6 +32,7 @@ import retrofit2.Response;
 public class G2LicenceActivity extends AppCompatActivity {
     ImageView no_btn, yes_btn;
     private String status, user_id;
+    LinearLayout bottom_no_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class G2LicenceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_g2_licence);
         yes_btn = findViewById(R.id.yes_btn);
         no_btn = findViewById(R.id.no_btn);
+        bottom_no_btn = findViewById(R.id.bottom_no_btn);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         user_id = sharedPreferences.getString("User_id", "");
@@ -46,14 +48,24 @@ public class G2LicenceActivity extends AppCompatActivity {
         yes_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog("2");
+//                showDialog("1");
+                status = "1";
+                serviceBDEstatus(status);
+            }
+        });
+
+        bottom_no_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                showDialog("2");
+                status = "0";
+                serviceBDEstatus(status);
             }
         });
 
         no_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showDialog("2");
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://demomaplebrains.com/tyro/"));
                 startActivity(browserIntent);
             }
@@ -76,19 +88,19 @@ public class G2LicenceActivity extends AppCompatActivity {
             title.setText("Yes");
             description.setText("Thank you for interested in BDE Course");
         } else if (tag.equals("2")) {
-            status = "1";
-            title.setText("Yes");
+            status = "0";
+            title.setText("No");
             description.setText("Not interested in BDE Course But would you like to book private lessons");
         }
         submit_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serviceBDEstatus(status,dialog);
+                serviceBDEstatus(status);
             }
         });
     }
 
-    private void serviceBDEstatus(String status, Dialog dialog) {
+    private void serviceBDEstatus(String status) {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.bde_status(user_id, status);
         final KProgressHUD hud = KProgressHUD.create(G2LicenceActivity.this)
@@ -103,7 +115,6 @@ public class G2LicenceActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     try {
-                        dialog.dismiss();
                         Log.e("jvcnxcvb ", response.body().toString());
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         String status = jsonObject.getString("status");
@@ -126,8 +137,6 @@ public class G2LicenceActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                dialog.dismiss();
-
                 Log.e("shdfdsf ", t.toString());
 
             }
