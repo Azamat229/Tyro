@@ -1,5 +1,6 @@
 package com.student.tyro;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -23,12 +25,21 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.student.tyro.Util.ApiCallInterface;
+import com.student.tyro.Util.FileCompressor;
 import com.student.tyro.Util.NetworkConnection;
 import com.student.tyro.Util.Retrofit_Class;
-import com.student.tyro.Util.ApiCallInterface;
 
 import org.json.JSONObject;
 
@@ -40,6 +51,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,7 +62,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UploadDocumentsActivity extends AppCompatActivity {
+public class UploadDocumentsActivity1 extends AppCompatActivity {
 
     Button choose, submit;
     TextView edit_path;
@@ -66,6 +80,9 @@ public class UploadDocumentsActivity extends AppCompatActivity {
     String picturePath, User_id;
     ImageView back, upload_img;
 
+    File mPhotoFile1;
+
+    FileCompressor mCompressor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,15 +95,19 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnSubmit);
         back = findViewById(R.id.ivBack);
         upload_img = findViewById(R.id.upload_img);
+
+        mCompressor = new FileCompressor(this);
+
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(UploadDocumentsActivity.this, LoginMapActivity.class);
+                Intent i = new Intent(UploadDocumentsActivity1.this, LoginMapActivity.class);
                 startActivity(i);
                 finish();
             }
         });
-        networkConnection = new NetworkConnection(UploadDocumentsActivity.this);
+        networkConnection = new NetworkConnection(UploadDocumentsActivity1.this);
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +130,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(UploadDocumentsActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadDocumentsActivity1.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -120,7 +141,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
 
         final CharSequence[] items = {getString(R.string.takeaphoto), getString(R.string.choosefrmgallery),
                 getString(R.string.cancel)};
-        AlertDialog.Builder builder = new AlertDialog.Builder(UploadDocumentsActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(UploadDocumentsActivity1.this);
         builder.setTitle(R.string.choosefrmgallery);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -142,93 +163,111 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);*/
-        Intent i = new Intent(
-                Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, SELECT_FILE);
+        requestStoragePermission(false, 4);
     }
 
     private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        requestStoragePermission(true, 1);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+            if (requestCode == 4) {
+                edit_path.setText("");
+                onSelectFromGalleryResult(data, 4);
+            } else if (requestCode == 1) {
+                 edit_path.setText("");
+                try {
+                    mPhotoFile1 = mCompressor.compressToFile(mPhotoFile1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Glide.with(UploadDocumentsActivity1.this)
+                        .load(mPhotoFile1)
+                        .apply(new RequestOptions()
+                                .placeholder(R.drawable.drawable_user))
+                        .into(upload_img);
+            }
         }
 
         if (requestCode == 22) {
             if (resultCode == RESULT_OK) {
 
-                //Log.e("profile", "" + profile_img);
+                Log.e("profile", "" + "profile_img");
 
             }
         }
     }
 
 
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm = null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(UploadDocumentsActivity.this.getContentResolver(), data.getData());
+    private void onSelectFromGalleryResult(Intent data, int selector) {
 
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = UploadDocumentsActivity.this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                picturePath = GalleryUriToPath_New.getPath(UploadDocumentsActivity.this, selectedImage);
-                Log.e("Gallery_Path", picturePath);
-                upload_img.setImageBitmap(bm);
-                edit_path.setText("");
-            } catch (IOException e) {
-                e.printStackTrace();
+        Uri selectedImage = data.getData();
+        try {
+            if (selector == 4) {
+                mPhotoFile1 = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
+                picturePath = mPhotoFile1.getAbsolutePath();
+                Glide.with(UploadDocumentsActivity1.this).load(mPhotoFile1).into(upload_img);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+//        Bitmap bm = null;
+//        if (data != null) {
+//            try {
+//                bm = MediaStore.Images.Media.getBitmap(DocumentUploads1.this.getContentResolver(), data.getData());
+//
+//                Uri selectedImage = data.getData();
+//                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//                Cursor cursor = DocumentUploads1.this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//                cursor.moveToFirst();
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                picturePath = GalleryUriToPath_New.getPath(DocumentUploads1.this, selectedImage);
+//                Log.e("Gallery_Path", picturePath);
+//                if (selector == 4) {
+//                    licence = true;
+//                    imgPath1 = picturePath;
+//                    edit_path.setText("");
+//                    upload_img.setImageBitmap(bm);
+//                }
+//                if (selector == 5) {
+//                    insurance = true;
+//                    imgPath2 = picturePath;
+//                    insuranceText.setText("");
+//                    upload_img1.setImageBitmap(bm);
+//                }
+//                if (selector == 6) {
+//                    check = true;
+//                    imgPath3 = picturePath;
+//                    blankCheckText.setText("");
+//                    upload_img2.setImageBitmap(bm);
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         // profile_img.setImageBitmap(bm);
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    private void onCaptureImageResult(Intent data) {
+    public String getRealPathFromUri(Uri contentUri) {
+        Cursor cursor = null;
         try {
-            if (data != null) {
-                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-                File destination = new File(Environment.getExternalStorageDirectory(),
-                        System.currentTimeMillis() + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
-                    fo.close();
-                    picturePath = destination.getAbsolutePath();
-
-                    Log.e("CameraPath", picturePath);
-                    upload_img.setImageBitmap(thumbnail);
-                    edit_path.setText("");
-                    //  Log.e("CameraPath", destination.getAbsolutePath());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // profile_img.setImageBitmap(thumbnail);
-                // Picasso.get().load(picturePath).into(profile_img);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getContentResolver().query(contentUri, proj, null, null, null);
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -265,7 +304,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.upload_license(r_full_name1, image_profile);
 
-        final KProgressHUD hud = KProgressHUD.create(UploadDocumentsActivity.this)
+        final KProgressHUD hud = KProgressHUD.create(UploadDocumentsActivity1.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
@@ -287,7 +326,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
                             editor.commit();
                             editor.apply();
 
-                            Intent intent = new Intent(UploadDocumentsActivity.this, MainActivity.class);
+                            Intent intent = new Intent(UploadDocumentsActivity1.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             String user_info = jsonObject.getString("licence_info");
@@ -354,4 +393,112 @@ public class UploadDocumentsActivity extends AppCompatActivity {
             return null;
         }
     }
+    private void requestStoragePermission(boolean isCamera, int code) {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            if (isCamera) {
+                                dispatchTakePictureIntent(code);
+                            } else {
+                                dispatchGalleryIntent(code);
+                            }
+                        }
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+                            showSettingsDialog();
+                        }
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                })
+                .withErrorListener(
+                        error -> Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT)
+                                .show())
+                .onSameThread()
+                .check();
+    }
+
+    /**
+     * Select image fro gallery
+     *
+     * @param code
+     */
+    private void dispatchGalleryIntent(int code) {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickPhoto.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(pickPhoto, code);
+    }
+
+    /**
+     * Capture image from camera
+     *
+     * @param code
+     */
+    private void dispatchTakePictureIntent(int code) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                // Error occurred while creating the File
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        photoFile);
+
+                if (code == 1) {
+                    picturePath = photoFile.getAbsolutePath();
+                    mPhotoFile1 = photoFile;
+                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, code);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String mFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File mFile = File.createTempFile(mFileName, ".jpg", storageDir);
+        return mFile;
+    }
+
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Need Permissions");
+        builder.setMessage(
+                "This app needs permission to use this feature. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    // navigating user to app settings
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
 }

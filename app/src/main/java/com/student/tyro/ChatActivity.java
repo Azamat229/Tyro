@@ -103,7 +103,6 @@ public class ChatActivity extends AppCompatActivity {
         //  Log.e("chat Sender_id", Sender_id);
         //  Log.e("chat Reciver_id", Reciver_id);
         if (networkConnection.isConnectingToInternet()) {
-
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {

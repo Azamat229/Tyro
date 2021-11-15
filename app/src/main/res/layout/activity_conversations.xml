@@ -55,7 +55,7 @@
             android:background="@drawable/bg_edit_text"
             android:drawablePadding="@dimen/_10sdp"
             android:iconifiedByDefault="false"
-            android:queryHint="Search Here"
+            android:queryHint="Search"
             android:theme="@style/SearchViewTheme" />
 
         <androidx.recyclerview.widget.RecyclerView

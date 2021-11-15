@@ -45,7 +45,24 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
         // setting data to our text views from our modal class.
         Conversation msgs = conlist.get(position);
         holder.tv_username.setText(msgs.getInstruct_firstname());
-        holder.message.setText(msgs.getMessage());
+
+        if (msgs.getMessage() != null) {
+            String fileName = msgs.getMessage();
+            int i = fileName.lastIndexOf('.');
+            String fileExtension = fileName.substring(i + 1);
+
+            if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
+                Picasso.get().load(Constants_Urls.pic_base_url + msgs.getMessage())
+                        .placeholder(R.drawable.loader)
+                        .into(holder.image);
+                holder.image.setVisibility(View.VISIBLE);
+                holder.message.setVisibility(View.GONE);
+            } else {
+                holder.message.setText(msgs.getMessage());
+                holder.image.setVisibility(View.GONE);
+                holder.message.setVisibility(View.VISIBLE);
+            }
+        }
       /*  Picasso.get().load(Constants_Urls.pic_base_url+msgs.getUpic())
                 .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .into(holder.img);*/
@@ -79,7 +96,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
         // creating variables for our text views.
 
         private final TextView tv_username, message;
-        private final ImageView img;
+        private final ImageView img, image;
         private AppCompatImageView read_status;
 
         public ViewHolder(@NonNull View itemView) {
@@ -89,6 +106,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
             message = itemView.findViewById(R.id.message);
             img = itemView.findViewById(R.id.ivProfile);
             read_status = itemView.findViewById(R.id.read_status);
+            image = itemView.findViewById(R.id.image);
         }
     }
 }

@@ -43,9 +43,15 @@ public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
         Catgory courses = questionsModalArrayList.get(position);
         Log.i("array", "" + courses);
         holder.catname.setText(courses.getCategoryname());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 1);
-        holder.recycler.setLayoutManager(gridLayoutManager);
-        holder.recycler.setAdapter(new CategoryAdapter(context, courses.getFaqcatgories()));
+
+        if (courses.getFaqcatgories() != null && courses.getFaqcatgories().size() > 0) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 1);
+            holder.recycler.setLayoutManager(gridLayoutManager);
+            holder.recycler.setAdapter(new CategoryAdapter(context, courses.getFaqcatgories()));
+        } else {
+            holder.catname.setVisibility(View.GONE);
+            holder.recycler.setVisibility(View.GONE);
+        }
     }
 
     @Override

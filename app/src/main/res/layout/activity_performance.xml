@@ -88,6 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -412,7 +413,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+          <LinearLayout
             android:id="@+id/llTabReportCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -443,7 +444,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
+       <LinearLayout
         android:id="@+id/lineartab_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

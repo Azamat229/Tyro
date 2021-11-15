@@ -67,7 +67,7 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     android:text=""
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_8ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:fontFamily="@font/worksans_medium" />
 
 
@@ -83,7 +83,7 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_9ssp"
                         app:fontFamily="@font/worksans_medium" />
 
                     <View
@@ -99,7 +99,7 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_9ssp"
                         app:fontFamily="@font/worksans_medium" />
 
                     <View
@@ -115,7 +115,7 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_9ssp"
                         app:fontFamily="@font/worksans_medium" />
                 </LinearLayout>
 
