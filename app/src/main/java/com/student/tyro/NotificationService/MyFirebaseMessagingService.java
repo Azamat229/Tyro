@@ -37,10 +37,11 @@ import java.util.Random;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     int m = 0;
-    String language = "", user_id = "", type = "", product_id = "", title = "",message="";
+    String language = "", user_id = "", type = "", product_id = "", title = "", message = "";
     JSONObject object;
     private static String CHANNEL_ID = "TYRO STUDENT";
     Bitmap remote_picture = null;
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -61,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 //while App is in ForeGround
                 if (remoteMessage.getNotification() != null) {
                     String notification = remoteMessage.getNotification().getBody();
-                    Log.d("TAGTAGTAG", "onMessageReceived: "+notification);
+                    Log.d("TAGTAGTAG", "onMessageReceived: " + notification);
                     object = new JSONObject(remoteMessage.getData());
                     Log.d("JSON_OBJECT", object.toString());
                     title = object.getString("title");
@@ -74,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             e.printStackTrace();
             Log.e("onMessageReceived: ", e.getMessage());
         }
-        }
+    }
 
     private void notification_handle_data() {
         try {
@@ -95,21 +96,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        }
+    }
 
     private void handleNotification(Intent intent, String message) {
         if (isAppIsInBackground(this)) {
             int i = message.lastIndexOf('.');
             String fileExtension = message.substring(i + 1);
             if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
-                Bitmap bitmap = getBitmapFromURL(Constants_Urls.pic_base_url+message);
-                Log.i("the image path is",Constants_Urls.pic_base_url+message);
+                Bitmap bitmap = getBitmapFromURL(Constants_Urls.pic_base_url + message);
+                Log.i("the image path is", Constants_Urls.pic_base_url + message);
                 createImageNotification(intent, bitmap);
             } else {
-               createNotification(intent, message);
+                createNotification(intent, message);
             }
-            }
-            }
+        }
+    }
+
     private void createImageNotification(Intent intent, Bitmap message) {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -128,7 +130,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         //notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, builder.build());
-        notificationManager.notify(m,  builder.build());
+        notificationManager.notify(m, builder.build());
     }
 
     private void createNotification(Intent intent, String message) {
@@ -194,8 +196,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         return isInBackground;
-        }
-//    @Override
+    }
+
+    //    @Override
 //    public void onNewToken(@NonNull String s) {
 //        super.onNewToken(s);
 //        Log.d("TOGTOKEN", "onNewToken: "+s);
@@ -212,6 +215,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-          }
-         }
-         }
+        }
+    }
+}

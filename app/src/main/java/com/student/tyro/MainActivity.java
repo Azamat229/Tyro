@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout llNavNotification = findViewById(R.id.llNavNotifications);
         LinearLayout llNavFaq = findViewById(R.id.llNavFaq);
         LinearLayout llNavLogout = findViewById(R.id.llNavLogout);
+        LinearLayout llNavReferral = findViewById(R.id.llNavReferral);
         txtusername.setText(username);
         txtmail.setText(useremail);
         Picasso.get().load(Constants_Urls.pic_base_url + userimg)
@@ -137,6 +138,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ConversationsActivity.class));
+            }
+        });
+        llNavReferral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ReferalActivity.class));
             }
         });
     }

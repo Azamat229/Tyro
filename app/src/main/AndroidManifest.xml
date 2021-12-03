@@ -45,6 +45,9 @@
             android:name=".InconvenienceActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ReferalActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".AcceptTermsPolicyActivity"
             android:screenOrientation="portrait" />
         <activity
