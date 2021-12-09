@@ -143,9 +143,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     showToast("Please enter last name");
                 } else if (edtphone.getText().toString().isEmpty()) {
                     showToast(getString(R.string.enter_number));
-                } else if (edtphone.getText().toString().length() != 10) {
+                } else if (edtphone.getText().toString().length() < 11) {
 
-                    Toast.makeText(EditProfileActivity.this, getString(R.string.enter_number_length), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "Please enter valid mobile number", Toast.LENGTH_SHORT).show();
                 } else if (edtemail.getText().toString().isEmpty()) {
                     showToast(getString(R.string.Enter_email));
                 } else if (!helperClass.validateEmail(edtemail.getText().toString().trim())) {

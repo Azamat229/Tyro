@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_navigation1"
+    android:background="@drawable/bg_img"
     android:fillViewport="true">
 
     <RelativeLayout
@@ -15,25 +15,28 @@
             android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/logo"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:src="@drawable/tyrobluelogo" />
+                android:src="@drawable/tyrobluelogo"
+                android:layout_marginLeft="@dimen/_10sdp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:fontFamily="@font/worksans_regular"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/worksans_bold"
                 android:gravity="center_vertical"
                 android:text="HAVE YOU ACQUIRED A G2 LICENSE?"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_16ssp" />
+                android:textSize="@dimen/_15ssp" />
 
 
             <LinearLayout
@@ -47,56 +50,60 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
                     android:layout_weight="1"
-                    android:src="@drawable/no_icon" />
-
+                    android:scaleX="1.2"
+                    android:src="@drawable/no_icon1" />
                 <ImageView
                     android:id="@+id/yes_btn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
                     android:layout_weight="1"
+                    android:scaleX="1.2"
                     android:src="@drawable/yes_icon" />
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-50dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/road_icon" />
         </LinearLayout>
 
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="-70dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/road_icon" />
-
         <LinearLayout
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="wrap_content"
             android:id="@+id/bottom_no_btn"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/colorGrayLight"
             android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_30sdp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/worksans_bold"
                 android:gravity="center"
                 android:text="No"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_20ssp" />
+                android:textSize="@dimen/_22ssp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:lineSpacingExtra="@dimen/_10sdp"
+                android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
                 android:text="Not interested in BDE Course But would you like to book private lessons"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -16,19 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/_10sdp"
-            android:paddingRight="@dimen/_10sdp">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivBack"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_8sdp"
-                android:src="@drawable/icn_arrow_left_white" />
+            android:padding="@dimen/_10sdp">
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_70sdp"
                 android:src="@drawable/ic_tyro_logo" />
 
 
@@ -37,10 +30,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
                 android:text="Interested in Winning Free Prizes?"
-                android:textColor="#FEFEE3"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_25ssp"
                 android:textStyle="bold" />
 
@@ -49,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/referal_txt"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/bg_button1"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
@@ -67,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/_5sdp"
@@ -80,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
@@ -96,7 +90,7 @@
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/bg_yellow_rounded"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
@@ -111,11 +105,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:fontFamily="@font/worksans_medium"
                 android:text="*For more information on our giveaways and to see"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

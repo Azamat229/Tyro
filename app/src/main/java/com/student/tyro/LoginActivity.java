@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                Intent i = new Intent(LoginActivity.this, G2LicenceActivity.class);
                 startActivity(i);
             }
         });
@@ -289,6 +289,7 @@ public class LoginActivity extends AppCompatActivity {
                             String latitude = jsonObject1.getString("latitude");
                             String longitude = jsonObject1.getString("longitude");
                             String location = jsonObject1.getString("location");
+                            String reference_code = jsonObject1.getString("reference_code");
                             System.out.println("User_id" + user_id);
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -298,6 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("login_email", email);
                             editor.putString("auth_level", auth_level);
                             editor.putString("login_number", mobile_no);
+                            editor.putString("reference_code", reference_code);
                             editor.putString("User_pic", profile_pic);
                             editor.putString("lat", latitude);
                             editor.putString("long", longitude);

@@ -262,12 +262,14 @@ public class OtpActvity extends AppCompatActivity {
                             String user_image = jsonObject1.getString("profile_pic");
                             String auth_level = jsonObject1.getString("auth_level");
                             String otp_status = jsonObject1.getString("otp_status");
+                            String reference_code = jsonObject1.getString("reference_code");
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("User_id", user_id);
                             editor.putString("login_name", first_name + " " + last_name);
                             editor.putString("login_firstname", first_name);
                             editor.putString("login_email", email);
+                            editor.putString("reference_code", reference_code);
                             editor.putString("auth_level", auth_level);
                             editor.putString("login_number", mobile_no);
                             editor.putString("User_pic", user_image);

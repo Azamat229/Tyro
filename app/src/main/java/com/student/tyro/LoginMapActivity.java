@@ -312,11 +312,13 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
                             String location = jsonObject1.getString("location");
                             String latitude = jsonObject1.getString("latitude");
                             String longitude = jsonObject1.getString("longitude");
+                            String reference_code = jsonObject1.getString("reference_code");
                             String licence = jsonObject1.getString("licence");
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("lat", latitude);
                             editor.putString("long", longitude);
+                            editor.putString("reference_code", reference_code);
                             editor.putString("location", location);
                             editor.putBoolean("loginstatus", true);
                             editor.commit();

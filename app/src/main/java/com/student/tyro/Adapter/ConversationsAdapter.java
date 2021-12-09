@@ -63,6 +63,11 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
                 holder.message.setVisibility(View.VISIBLE);
             }
         }
+
+        if (msgs.getMessage() .equals("null")) {
+            holder.message.setVisibility(View.GONE);
+        }
+
       /*  Picasso.get().load(Constants_Urls.pic_base_url+msgs.getUpic())
                 .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .into(holder.img);*/

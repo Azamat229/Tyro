@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mDrawerLayout.closeDrawer(mDrawerList);
                 break;
             case R.id.llNavLogout:
-//                SignOut();
 
                 final DialogInterface.OnClickListener dialogClickListener =
                         new DialogInterface.OnClickListener() {
@@ -238,20 +237,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        SharedPreferences sharedPreferences = getSharedPreferences("Login_details", 0);
-                                        SharedPreferences sharedPreferences1 = getSharedPreferences("student_details", 0);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.clear();
-                                        editor.commit();
-                                        editor.apply();
-                                        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                                        editor1.clear();
-                                        editor1.commit();
-                                        editor1.apply();
-                                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(i);
-                                        finish();
+//                                        SharedPreferences sharedPreferences = getSharedPreferences("Login_details", 0);
+//                                        SharedPreferences sharedPreferences1 = getSharedPreferences("student_details", 0);
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.clear();
+//                                        editor.commit();
+//                                        editor.apply();
+//                                        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+//                                        editor1.clear();
+//                                        editor1.commit();
+//                                        editor1.apply();
+//                                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+//                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                        startActivity(i);
+//                                        finish();
+                                        SignOut();
 
                                         break;
 

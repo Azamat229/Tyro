@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/car_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 
@@ -30,19 +30,19 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="right"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:fontFamily="@font/worksans_regular"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
                 android:text="Coming Soon..."
-                android:textColor="@color/colorYellow"
-                android:textSize="@dimen/_25ssp" />
+                android:textColor="#DA9F00"
+                android:textSize="@dimen/_28ssp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/worksans_regular"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/worksans_medium"
                 android:gravity="center_vertical"
                 android:text="Sorry For The Inconvenience!"
                 android:textColor="@color/colorWhite"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/worksans_regular"
                 android:gravity="center_vertical"
                 android:text="As of now we do not operate within the location you have provided."
@@ -63,50 +63,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/worksans_regular"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/worksans_medium"
                 android:gravity="center_vertical"
                 android:text="Subscribe to our newsletter to be informed when we update our servicing areas!"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_13ssp" />
 
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edt_useremail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_edit_text1"
+                android:fontFamily="@font/worksans_light"
+                android:hint="Enter your email..."
+                android:textColorHint="@color/colorWhite"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_10sdp"
+                android:singleLine="true"
+                tools:text="" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnSubmit"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_button"
+                android:text="Submit"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#5D299F"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
+
+
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edt_useremail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_25sdp"
-            android:background="@drawable/bg_edit_text1"
-            android:fontFamily="@font/worksans_light"
-            android:hint="Enter your email..."
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/_10sdp"
-            android:singleLine="true"
-            tools:text="" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btnSubmit"
-            android:layout_width="@dimen/_140sdp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/bg_button"
-            android:text="Submit"
-            android:gravity="center"
-            android:padding="@dimen/_7sdp"
-            android:textColor="@color/blue1"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:src="@drawable/car_image" />
-
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
