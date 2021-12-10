@@ -31,22 +31,27 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/terms_conditions"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:fontFamily="@font/worksans_light"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="5dp"
-        android:padding="10dp"
-        android:text=""
-        android:textAlignment="textStart"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_14ssp"
-        tools:ignore="RtlCompat" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
+        <TextView
+            android:id="@+id/terms_conditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/worksans_light"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="5dp"
+            android:padding="10dp"
+            android:text=""
+            android:textAlignment="textStart"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_14ssp"
+            tools:ignore="RtlCompat" />
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

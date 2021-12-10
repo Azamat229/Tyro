@@ -156,8 +156,12 @@ public interface ApiCallInterface {
 
     //cancel upcoming classes
 
-    @GET("cancel_upcomingclass")
-    Call<JsonElement> cancel_upcomingclass(@Query("user_id") String userid, @Query("id") String id, @Query("cancel_reason") String cancel, @Query("type") String type);
+    @FormUrlEncoded
+    @POST("cancel_upcomingclass")
+    Call<JsonElement> cancel_upcomingclass(@Field("user_id") String userid,
+                                           @Field("id") String id,
+                                           @Field("cancel_reason") String cancel,
+                                           @Field("type") String type);
 
     //sliders
     @GET("terms_instructions")
@@ -171,7 +175,8 @@ public interface ApiCallInterface {
                                        @Field("booking_date") String booking_date, @Field("booking_hours") String booking_hours,
                                        @Field("latitude") String latitude, @Field("longitude") String longitude,
                                        @Field("payment_type") String payment_type, @Field("amount") String amount,
-                                       @Field("pickup_location") String pickup_location);
+                                       @Field("pickup_location") String pickup_location,
+                                       @Field("pi_latitude") String pi_latitude,@Field("pi_longitude") String pi_longitude);
 
     //Checkout
     @FormUrlEncoded

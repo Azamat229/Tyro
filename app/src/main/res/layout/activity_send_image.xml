@@ -43,22 +43,82 @@
                 android:id="@+id/viewimage"
                 android:adjustViewBounds="true"/>
         </LinearLayout>
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp">
+        android:layout_height="@dimen/_40sdp"
+        android:id="@+id/linear"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/bg_blue_black"
+        android:gravity="center"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp">
 
-        <ImageView
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/textMsg"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:background="@color/colorTransparent"
+                android:gravity="center"
+                android:hint="@string/write_message"
+                android:text="Upload"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_20sdp" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/attachment_btn"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:src="@drawable/ic_attach"
+                android:visibility="invisible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:src="@drawable/ic_camera"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/img_send"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_icon_send"
-            android:layout_alignParentRight="true"
-            android:clickable="true"/>
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/drawable_yellow_cornered_less"
+            android:gravity="center">
 
-    </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:src="@drawable/ic_send" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,14 +31,17 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.student.tyro.Adapter.ChatHistoryAdapter;
 import com.student.tyro.Model.ChatModel;
+import com.student.tyro.Util.FileCompressor;
 import com.student.tyro.Util.NetworkConnection;
 import com.student.tyro.Util.Retrofit_Class;
 import com.student.tyro.Util.ApiCallInterface;
@@ -81,6 +85,9 @@ public class ChatActivity extends AppCompatActivity {
     public static ChatHistoryAdapter chathistoryAdapter;
     private String notify;
 
+    File mPhotoFile1;
+
+    FileCompressor mCompressor;
     private BroadcastReceiver mHandler = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -102,6 +109,9 @@ public class ChatActivity extends AppCompatActivity {
         notify = getIntent().getStringExtra("notify");
         //  Log.e("chat Sender_id", Sender_id);
         //  Log.e("chat Reciver_id", Reciver_id);
+
+        mCompressor = new FileCompressor(this);
+
         if (networkConnection.isConnectingToInternet()) {
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
@@ -109,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
                     // Enter your code which you want to execute every 2 second
                     getChatHistory(ChatActivity.this);
                 }
-            }, 0, 30000);
+            }, 0, 10000);
         } else {
             Toast.makeText(ChatActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
@@ -357,46 +367,49 @@ public class ChatActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
+//                onSelectFromGalleryResult(data);
+                onSelectFromGalleryResult1(data, 4);
             else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-            final Dialog dialog = new Dialog(ChatActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            Window window = dialog.getWindow();
-            WindowManager.LayoutParams wlp = window.getAttributes();
-            wlp.gravity = Gravity.CENTER;
-            dialog.setContentView(R.layout.activity_send_image);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.setCancelable(true);
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-            dialog.show();
-            ImageView cancel = dialog.findViewById(R.id.img_cls);
-            ImageView send = dialog.findViewById(R.id.img_send);
-            ImageView imgview = dialog.findViewById(R.id.viewimage);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
-            send.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    send_Image_Message();
-                    dialog.dismiss();
-                }
-            });
-            Bitmap bitmap = null;
-            try {
-                File f = new File(picturePath);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
-                imgview.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//                onCaptureImageResult(data);
+                onCameraImage1(data, 1);
+
+//            final Dialog dialog = new Dialog(ChatActivity.this);
+//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//            Window window = dialog.getWindow();
+//            WindowManager.LayoutParams wlp = window.getAttributes();
+//            wlp.gravity = Gravity.CENTER;
+//            dialog.setContentView(R.layout.activity_send_image);
+//            dialog.setCanceledOnTouchOutside(true);
+//            dialog.setCancelable(true);
+//            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//            dialog.show();
+//            ImageView cancel = dialog.findViewById(R.id.img_cls);
+//            ImageView send = dialog.findViewById(R.id.img_send);
+//            ImageView imgview = dialog.findViewById(R.id.viewimage);
+//            cancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialog.cancel();
+//                }
+//            });
+//            send.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    send_Image_Message();
+//                    dialog.dismiss();
+//                }
+//            });
+//            Bitmap bitmap = null;
+//            try {
+//                File f = new File(picturePath);
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+//                imgview.setImageBitmap(bitmap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
 
         if (requestCode == 22) {
@@ -408,17 +421,166 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+
+    private void onCameraImage1(Intent data, int selector) {
+        if (data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            if (bitmap != null) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                File localStorage = getExternalFilesDir(null);
+                if (localStorage == null) {
+                    return;
+                }
+                String storagePath = localStorage.getAbsolutePath();
+                String rootPath = storagePath + "/test";
+                String fileName = "/upload.jpg";
+
+                File root = new File(rootPath);
+                if (!root.mkdirs()) {
+                    Log.i("Test", "This path is already exist: " + root.getAbsolutePath());
+                }
+
+                File file = new File(rootPath + fileName);
+                try {
+                    int permissionCheck = ContextCompat.checkSelfPermission(
+                            getApplicationContext(),
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                        if (!file.createNewFile()) {
+                            Log.i("Test", "This file is already exist: " + file.getAbsolutePath());
+                        }
+                    }
+
+                    FileOutputStream fo;
+                    fo = new FileOutputStream(file);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+
+                    picturePath = file.getAbsolutePath();
+                    showPreviewDialog(bitmap);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    private void showPreviewDialog(Bitmap image) {
+        final Dialog dialog = new Dialog(ChatActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        dialog.setContentView(R.layout.activity_send_image);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        ImageView cancel = dialog.findViewById(R.id.img_cls);
+        ImageView send = dialog.findViewById(R.id.img_send);
+        ImageView imgview = dialog.findViewById(R.id.viewimage);
+        imgview.setImageBitmap(image);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_Image_Message();
+                dialog.dismiss();
+            }
+
+        });
+    }
+
+
+    private void showPreviewDialog1(File image) {
+        final Dialog dialog = new Dialog(ChatActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        dialog.setContentView(R.layout.activity_send_image);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        ImageView cancel = dialog.findViewById(R.id.img_cls);
+        ImageView send = dialog.findViewById(R.id.img_send);
+        ImageView imgview = dialog.findViewById(R.id.viewimage);
+        Glide.with(getApplicationContext()).load(image).into(imgview);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_Image_Message();
+                dialog.dismiss();
+            }
+
+        });
+    }
+
+    private void onSelectFromGalleryResult1(Intent data, int selector) {
+        if (data != null) {
+            Uri selectedImage = data.getData();
+            try {
+                mPhotoFile1 = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
+                picturePath = mPhotoFile1.getAbsolutePath();
+                showPreviewDialog1(mPhotoFile1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public String getRealPathFromUri(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getContentResolver().query(contentUri, proj, null, null, null);
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+
     private void send_Image_Message() {
         File file = null;
         MultipartBody.Part image_profile = null;
-
-        if (picturePath != null && !picturePath.isEmpty()) {
-            file = new File(picturePath);
-            //  RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
-            RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)),
-                    saveBitmapToFile(file));
-            image_profile = MultipartBody.Part.createFormData("message", file.getName(), requestBody);
-            Log.d("Image", ">>>>>>>>>>" + image_profile);
+        try {
+            if (picturePath != null && !picturePath.isEmpty()) {
+                file = new File(picturePath);
+                //  RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
+                RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)),
+                        saveBitmapToFile(file));
+                image_profile = MultipartBody.Part.createFormData("message", file.getName(), requestBody);
+                Log.d("Image", ">>>>>>>>>>" + image_profile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         RequestBody r_sender_id = RequestBody.create(MediaType.parse("multipart/form-data"), Sender_id);
         RequestBody r_receiver_id = RequestBody.create(MediaType.parse("multipart/form-data"), Reciver_id);

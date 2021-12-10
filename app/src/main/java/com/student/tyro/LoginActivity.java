@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private String firebase_token;
     Handler handler;
     Runnable update;
+    ImageView showpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,14 @@ public class LoginActivity extends AppCompatActivity {
         signup = findViewById(R.id.txtSignUp);
         forgot_pswd = findViewById(R.id.tv_forgotpswd);
         tvcontent = findViewById(R.id.tv_signin_content);
+        showpassword = findViewById(R.id.showpassword);
+
+        showpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHidePassword(v, showpassword, editpassword);
+            }
+        });
         helperClass = new HelperClass(LoginActivity.this);
         networkConnection = new NetworkConnection(LoginActivity.this);
         //content getting
@@ -86,13 +97,11 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences1.edit();
                                     editor.putString("firebase_token", newToken + "");
                                     editor.apply();
-                                    Log.d("token  1  ", newToken);
                                     firebase_token = newToken;
                                     //utils.print(TAG, "onTokenRefresh" + newToken);
                                 }
                             });
                 }
-                Log.d("token  1  ", firebase_token);
             }
         };
         new Timer().schedule(new TimerTask() {
@@ -141,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, G2LicenceActivity.class);
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(i);
             }
         });
@@ -164,6 +173,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void showHidePassword(View view, ImageView imageView, EditText editText) {
+        if (view.getId() == imageView.getId()) {
+            if (editText.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+                ((ImageView) (view)).setImageResource(R.drawable.eyeinactive);
+                //Show Password
+                editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                ((ImageView) (view)).setImageResource(R.drawable.eyeactive);
+                //Hide Password
+                editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+            editText.setSelection(editText.getText().length());
+        }
+    }
+
 
     private void getcontent() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);

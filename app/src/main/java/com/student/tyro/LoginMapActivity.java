@@ -171,6 +171,10 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
                 System.out.println("lattitude" + lat + "," + lng);
 
 
+                LatLng latLng = new LatLng(lat, lng);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                getCompleteAddressString(lat, lng);
+
                 Log.i("Tag", "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
@@ -461,6 +465,10 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if (flag != null && flag.equals("1")) {
+            super.onBackPressed();
+        } else {
+            moveTaskToBack(true);
+        }
     }
 }

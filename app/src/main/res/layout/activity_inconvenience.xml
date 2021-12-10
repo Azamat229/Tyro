@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/car_bg">
+        android:background="@drawable/car_bg1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,17 +74,18 @@
                 android:id="@+id/edt_useremail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_25sdp"
                 android:background="@drawable/bg_edit_text1"
                 android:fontFamily="@font/worksans_light"
                 android:hint="Enter your email..."
-                android:textColorHint="@color/colorWhite"
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/_10sdp"
                 android:singleLine="true"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
                 tools:text="" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -94,9 +95,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/bg_button"
-                android:text="Submit"
                 android:gravity="center"
                 android:padding="@dimen/_8sdp"
+                android:text="Submit"
                 android:textColor="#5D299F"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />

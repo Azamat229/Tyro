@@ -187,6 +187,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:text=""
+                                android:visibility="gone"
                                 android:textColor="@color/colorGreen"
                                 android:textSize="@dimen/_13ssp"
                                 app:fontFamily="@font/worksans_medium" />

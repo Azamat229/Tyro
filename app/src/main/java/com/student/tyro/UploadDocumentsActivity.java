@@ -347,15 +347,18 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         File file = null;
         MultipartBody.Part image_profile = null;
 
-        if (picturePath != null && !picturePath.isEmpty()) {
-            file = new File(picturePath);
-            //RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
-            RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)),
-                    saveBitmapToFile(file));
-            image_profile = MultipartBody.Part.createFormData("licence", file.getName(), requestBody);
-            Log.d("Image", ">>>>>>>>>>" + image_profile);
+        try {
+            if (picturePath != null && !picturePath.isEmpty()) {
+                file = new File(picturePath);
+                //RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
+                RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)),
+                        saveBitmapToFile(file));
+                image_profile = MultipartBody.Part.createFormData("licence", file.getName(), requestBody);
+                Log.d("Image", ">>>>>>>>>>" + image_profile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         // RequestBody r_full_name = RequestBody.create(MediaType.parse("multipart/form-data"), file_profile_one);
         RequestBody r_full_name1 = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);

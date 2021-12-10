@@ -188,10 +188,10 @@ public class PerformanceActivity extends AppCompatActivity implements OnMapReady
         // tv_amt.setText(amount);
         tv_date.setText(date);
         tv_tme.setText(time);
-        tv_hrs.setText(hrs);
+        tv_hrs.setText(hrs + "hr");
         tv_ttltravel.setText(traveld);
-        tv_speed.setText(speed);
-        tv_ttltme.setText(ttltme);
+        tv_speed.setText(speed + "km/hr");
+        tv_ttltme.setText(ttltme + "hr");
         Picasso.get().load(Constants_Urls.pic_base_url + pic)
                 .placeholder(R.drawable.user)
                 .into(user_icon);

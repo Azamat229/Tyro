@@ -90,7 +90,6 @@ public class OtpActvity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences1.edit();
                                     editor.putString("firebase_token", newToken + "");
                                     editor.apply();
-                                    Log.d("token  1  ", newToken);
                                     firebase_token = newToken;
                                     //utils.print(TAG, "onTokenRefresh" + newToken);
                                 }

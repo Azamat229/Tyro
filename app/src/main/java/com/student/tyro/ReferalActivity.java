@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class ReferalActivity extends AppCompatActivity {
     AppCompatTextView btnSubmit;
     String user_id, referral;
-    TextView referal_txt;
+    TextView referal_txt,click_here;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class ReferalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_referal);
         btnSubmit = findViewById(R.id.btnSubmit);
         referal_txt = findViewById(R.id.referal_txt);
+        click_here = findViewById(R.id.click_here);
 
         user_id = getIntent().getStringExtra("User_id");
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
@@ -49,7 +50,15 @@ public class ReferalActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        click_here.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://demomaplebrains.com/tyro/"));
+                startActivity(browserIntent);
+            }
+        });
+
+      btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sendIntent = new Intent();

@@ -289,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:text="Refferals"
+                        android:text="Referrals "
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_14ssp"
                         app:fontFamily="@font/worksans_medium" />

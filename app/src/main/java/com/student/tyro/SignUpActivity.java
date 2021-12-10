@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -50,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
     NetworkConnection networkConnection;
     TextView txt_terms, signin, tvcontent;
     private String firebase_token;
+    ImageView showpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,14 @@ public class SignUpActivity extends AppCompatActivity {
         String text2 = " <font color=#F7BD01><u>" + "Sign In" + "</u></font>";
         signin.setText(Html.fromHtml(text2));
 
+        showpassword = findViewById(R.id.showpassword);
+
+        showpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHidePassword(v, showpassword, editpswd);
+            }
+        });
 
         networkConnection = new NetworkConnection(SignUpActivity.this);
         if (check.isChecked()) {
@@ -104,7 +115,6 @@ public class SignUpActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences1.edit();
                                     editor.putString("firebase_token", newToken + "");
                                     editor.apply();
-                                    Log.d("token  1  ", newToken);
                                     firebase_token = newToken;
                                     //utils.print(TAG, "onTokenRefresh" + newToken);
                                 }
@@ -132,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              onBackPressed();
+                onBackPressed();
             }
         });
         check.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +251,22 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    public void showHidePassword(View view, ImageView imageView, EditText editText) {
+        if (view.getId() == imageView.getId()) {
+            if (editText.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+                ((ImageView) (view)).setImageResource(R.drawable.eyeinactive);
+                //Show Password
+                editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                ((ImageView) (view)).setImageResource(R.drawable.eyeactive);
+                //Hide Password
+                editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+            editText.setSelection(editText.getText().length());
+        }
     }
 
 

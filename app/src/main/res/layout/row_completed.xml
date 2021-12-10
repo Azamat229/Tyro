@@ -49,20 +49,35 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/cmpltd_username"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:text=""
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_8ssp"
-                    app:fontFamily="@font/worksans_medium" />
+                    android:layout_marginTop="@dimen/_2sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/cmpltd_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/tv_amt"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_8ssp"
+                        app:fontFamily="@font/worksans_medium" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text=""
+                        android:textColor="@color/colorYellow"
+                        android:textSize="@dimen/_8ssp"
+                        app:fontFamily="@font/worksans_medium" />
+                </RelativeLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/cmpltd_location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:text=""
@@ -72,7 +87,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -90,7 +105,7 @@
                         android:layout_width="1dp"
                         android:layout_height="12dp"
                         android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/colorWhite"></View>
+                        android:background="@color/colorWhite"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/cmpltd_tme"
@@ -106,7 +121,7 @@
                         android:layout_width="1dp"
                         android:layout_height="12dp"
                         android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/colorWhite"></View>
+                        android:background="@color/colorWhite"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/cmpltd_tmehrs"
@@ -121,15 +136,6 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:text=""
-                android:textColor="@color/colorYellow"
-                android:textSize="@dimen/_8ssp"
-                app:fontFamily="@font/worksans_medium" />
 
         </LinearLayout>
 

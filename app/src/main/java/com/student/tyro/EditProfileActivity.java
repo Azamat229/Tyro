@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,12 +26,15 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
 import com.student.tyro.Util.ApiCallInterface;
 import com.student.tyro.Util.Constants_Urls;
+import com.student.tyro.Util.FileCompressor;
 import com.student.tyro.Util.HelperClass;
 import com.student.tyro.Util.NetworkConnection;
 import com.student.tyro.Util.Retrofit_Class;
@@ -67,6 +71,10 @@ public class EditProfileActivity extends AppCompatActivity {
     ImageView back;
     String userid, first_username, last_username, password, useremail, userphone, userloc, userpic, abut;
 
+    File mPhotoFile1;
+
+    FileCompressor mCompressor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +99,8 @@ public class EditProfileActivity extends AppCompatActivity {
         User_id = sharedPreferences.getString("User_id", "");
         Intent iin = getIntent();
         Bundle b = iin.getExtras();
+
+        mCompressor = new FileCompressor(this);
 
         if (b != null) {
             userid = (String) b.get("user_id");
@@ -228,9 +238,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
+//                onSelectFromGalleryResult(data);
+                onSelectFromGalleryResult1(data, 5);
             else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+                onCameraImage1(data, 1);
+//                onCaptureImageResult(data);
         }
 
         if (requestCode == 22) {
@@ -238,6 +250,87 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 //Log.e("profile", "" + profile_img);
 
+            }
+        }
+    }
+
+
+    private void onCameraImage1(Intent data, int selector) {
+        if (data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            if (bitmap != null) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                File localStorage = getExternalFilesDir(null);
+                if (localStorage == null) {
+                    return;
+                }
+                String storagePath = localStorage.getAbsolutePath();
+                String rootPath = storagePath + "/test";
+                String fileName = "/upload.jpg";
+
+                File root = new File(rootPath);
+                if (!root.mkdirs()) {
+                    Log.i("Test", "This path is already exist: " + root.getAbsolutePath());
+                }
+
+                File file = new File(rootPath + fileName);
+                try {
+                    int permissionCheck = ContextCompat.checkSelfPermission(
+                            getApplicationContext(),
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                        if (!file.createNewFile()) {
+                            Log.i("Test", "This file is already exist: " + file.getAbsolutePath());
+                        }
+                    }
+
+                    FileOutputStream fo;
+                    fo = new FileOutputStream(file);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+
+                    picturePath = file.getAbsolutePath();
+                    Log.e("Gallery_Path", picturePath);
+                    profile_pic.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+
+        private void onSelectFromGalleryResult1(Intent data, int selector) {
+        if (data != null) {
+            Uri selectedImage = data.getData();
+            try {
+                mPhotoFile1 = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
+                picturePath = mPhotoFile1.getAbsolutePath();
+                Log.e("Gallery_Path", picturePath);
+                Glide.with(getApplicationContext()).load(mPhotoFile1).into(profile_pic);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public String getRealPathFromUri(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getContentResolver().query(contentUri, proj, null, null, null);
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
         }
     }
@@ -267,7 +360,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     private void onCaptureImageResult(Intent data) {
         try {
-             if (data != null) {
+            if (data != null) {
 
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
@@ -318,12 +411,15 @@ public class EditProfileActivity extends AppCompatActivity {
         RequestBody r_current_password;
         File file = null;
         MultipartBody.Part image_profile = null;
-
-        if (picturePath != null && !picturePath.isEmpty()) {
-            file = new File(picturePath);
-            RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
-            image_profile = MultipartBody.Part.createFormData("profile_pic", file.getName(), requestBody);
-            Log.d("Image", ">>>>>>>>>>" + image_profile);
+        try {
+            if (picturePath != null && !picturePath.isEmpty()) {
+                file = new File(picturePath);
+                RequestBody requestBody = RequestBody.create(MediaType.parse(getMimeType(picturePath)), file);
+                image_profile = MultipartBody.Part.createFormData("profile_pic", file.getName(), requestBody);
+                Log.d("Image", ">>>>>>>>>>" + image_profile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         RequestBody r_user_id = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         RequestBody r_first_name = RequestBody.create(MediaType.parse("multipart/form-data"), edtfusername.getText().toString());

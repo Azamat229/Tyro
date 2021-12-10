@@ -67,7 +67,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
         holder.location.setText(completed.getLocation());
         holder.date.setText(completed.getBookdate());
         holder.tme.setText(completed.getStrt_tme());
-        holder.hrs.setText(completed.getBookhrs());
+        holder.hrs.setText(completed.getBookhrs()+"hr");
         holder.amount.setText("$"+completed.getAmount());
         Picasso.get().load(Constants_Urls.pic_base_url+completed.getPic())
                 .placeholder(R.drawable.user)

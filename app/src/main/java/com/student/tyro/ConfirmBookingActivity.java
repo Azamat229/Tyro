@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +57,8 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     ArrayList<Covid_Rules> rules;
     TextView txtname, txtlanguage, txtrating, txtlocation, txtdt, txttime, txthr, student_pickup_location;
     ImageView img_instruct;
-    String id, name, lang, rating, loc, date, start_time, end_time, hr, img, longt, lat, studentid, price, student_lat, student_lng;
+    String id, name, lang, rating, loc, date, start_time, end_time, hr, img, longt, lat, studentid, price, student_lat, student_lng,
+            pi_location;
     List<SliderUtils> sliderImg;
     private int dotscount;
     private ImageView[] dots;
@@ -66,6 +70,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     String sp_agree = "";
     Button confrm_booking;
     TextView tvprice;
+    AppCompatTextView txt_terms;
     ImageView back, edit_location;
     TabLayout tabLayout;
 
@@ -89,11 +94,16 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         back = findViewById(R.id.ivBack);
         edit_location = findViewById(R.id.edit_location);
         tabLayout = findViewById(R.id.tabLayout);
+        txt_terms = findViewById(R.id.txt_terms);
         student_pickup_location = findViewById(R.id.student_pickup_location);
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         student_lat = sharedPreferences.getString("lat", "");
         student_lng = sharedPreferences.getString("long", "");
+        pi_location = sharedPreferences.getString("location", "");
         student_pickup_location.setText(sharedPreferences.getString("location", ""));
+
+        String text1 = " <font color=#ffffff><u>" + getResources().getString(R.string.i_agree_the_terms_and_conditions) + "</u></font>";
+        txt_terms.setText(Html.fromHtml(text1));
 
         viewPager.setClipToPadding(false);
         tabLayout.setupWithViewPager(viewPager, true);
@@ -114,6 +124,58 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         });
 
         networkConnection = new NetworkConnection(ConfirmBookingActivity.this);
+
+
+        txt_terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkConnection.isConnectingToInternet()) {
+                    ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+                    Call<JsonElement> call = apiClass.get_termsconditions();
+                    final KProgressHUD hud = KProgressHUD.create(ConfirmBookingActivity.this)
+                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                            .setBackgroundColor(R.color.colorPrimary)
+                            .show();
+                    call.enqueue(new Callback<JsonElement>() {
+                        @Override
+                        public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                            hud.dismiss();
+                            if (response.isSuccessful()) {
+                                Log.e("response is", response.body().toString());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                                    int status = jsonObject.getInt("status");
+                                    if (status == 1) {
+                                        String guideline = jsonObject.getString("terms");
+                                        JSONObject jsonObject1 = new JSONObject(guideline);
+                                        String content = jsonObject1.getString("description");
+                                        Spanned sp = Html.fromHtml(content);
+//                                        terms.setText(sp);
+                                        Intent intent = new Intent(getApplicationContext(), TermsandConditionsActivity.class);
+                                        intent.putExtra("terms", content);
+                                        startActivity(intent);
+                                    }
+
+                                } catch (Exception e) {
+                                    hud.dismiss();
+                                    e.printStackTrace();
+                                    Log.e("dskfsdf ", e.toString());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonElement> call, Throwable t) {
+                            hud.dismiss();
+                            Log.e("sdfdsd ", t.toString());
+                        }
+                    });
+                } else {
+                    Toast.makeText(ConfirmBookingActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         if (check.isChecked()) {
             sp_agree = "1";
         } else {
@@ -287,10 +349,10 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                loc = data.getStringExtra("location");
+                pi_location = data.getStringExtra("location");
                 student_lat = data.getStringExtra("strLatitude");
                 student_lng = data.getStringExtra("strLongitude");
-                student_pickup_location.setText(loc);
+                student_pickup_location.setText(pi_location);
             }
         }
     }

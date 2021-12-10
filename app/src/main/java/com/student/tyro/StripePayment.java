@@ -560,8 +560,8 @@ public class StripePayment extends AppCompatActivity {
 
     private void Booking_confirm() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, student_lat, student_lng,
-                "1", Grand_Total,pickup_location);
+        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, lat, longt,
+                "1", Grand_Total,pickup_location,student_lat,student_lng);
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)

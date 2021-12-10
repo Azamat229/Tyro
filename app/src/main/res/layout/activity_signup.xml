@@ -101,13 +101,10 @@
                 android:inputType="textEmailAddress"
                 tools:text="" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                app:hintEnabled="false"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/colorWhite">
+                android:layout_marginTop="@dimen/_20sdp">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edit_pswd"
@@ -118,7 +115,16 @@
                     android:focusable="true"
                     android:hint="Password"
                     android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/showpassword"
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/eyeactive" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ll_terms"
@@ -143,9 +149,9 @@
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/worksans_light"
                     android:gravity="center"
-                    android:textSize="@dimen/_13ssp"
                     android:text="@string/i_agree_the_terms_and_conditions"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_13ssp" />
 
             </LinearLayout>
 

@@ -42,31 +42,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_25sdp"
-            android:inputType="textEmailAddress"
             android:fontFamily="@font/worksans_light"
             android:hint="@string/email_id"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             tools:text="" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorWhite">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp">
+
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_pswd"
                 style="@style/StyleEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/worksans_light"
                 android:hint="Password"
                 android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/showpassword"
+                android:layout_width="@dimen/_42sdp"
+                android:layout_height="@dimen/_42sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/eyeactive" />
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_forgotpswd"
