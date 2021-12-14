@@ -28,7 +28,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_7sdp"
                 android:fontFamily="@font/worksans_medium"
-                android:text="FAQ's"
+                android:text="FAQ"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_15ssp" />
         </RelativeLayout>

@@ -71,7 +71,8 @@ public class SvedCardAdapter extends RecyclerView.Adapter<SvedCardAdapter.ViewHo
                 notifyDataSetChanged();
 
                 ((StripePayment) context).showSaveCardDetails(cardDetailsList.get(position).getCard_number(),
-                        cardDetailsList.get(position).getCard_expiry(), cardDetailsList.get(position).getCard_cvv());
+                        cardDetailsList.get(position).getCard_expiry(), cardDetailsList.get(position).getCard_cvv(),
+                        cardDetailsList.get(position).getCard_name());
 
             }
         });

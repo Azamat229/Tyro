@@ -31,6 +31,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -56,8 +58,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -73,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageView send;
     EditText et_send_text;
     String Sender_id, Reciver_id;
-    ArrayList<ChatModel> chatModels;
+    ArrayList<ChatModel> chatModels, chatlist;
     RecyclerView chatRecyclerView;
     NetworkConnection networkConnection;
     ImageView back, select_image;
@@ -113,13 +119,14 @@ public class ChatActivity extends AppCompatActivity {
         mCompressor = new FileCompressor(this);
 
         if (networkConnection.isConnectingToInternet()) {
+            getChatHistory(ChatActivity.this);
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     // Enter your code which you want to execute every 2 second
-                    getChatHistory(ChatActivity.this);
+                    getChatHistory1(ChatActivity.this);
                 }
-            }, 0, 10000);
+            }, 0, 5000);
         } else {
             Toast.makeText(ChatActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
@@ -130,6 +137,9 @@ public class ChatActivity extends AppCompatActivity {
         back = findViewById(R.id.ivBack);
         nochat = findViewById(R.id.linear_nochat);
         tvnochat = findViewById(R.id.tv_nochat);
+
+        chatRecyclerView.setLayoutManager(new GridLayoutManager(ChatActivity.this, 1));
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +175,91 @@ public class ChatActivity extends AppCompatActivity {
         serviceReadmessages(Sender_id);
     }
 
+    private void getChatHistory1(ChatActivity chatActivity) {
+        ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+        Call<JsonElement> call = apiClass.chat_history(Sender_id, Reciver_id);
+        //Call<JsonElement> call = apiClass.chat_history("147","5");
+//        final KProgressHUD hud = KProgressHUD.create(ChatActivity.this)
+//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+//                .setBackgroundColor(R.color.colorPrimary)
+//                .show();
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+
+//                hud.dismiss();
+
+                if (response.isSuccessful()) {
+                    try {
+                        Log.e("jvcnxcvb ", response.body().toString());
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        String status = jsonObject.getString("status");
+
+                        if (status.equals("1")) {
+                            String chat_data = jsonObject.optString("data");
+                            System.out.println("services" + chat_data);
+                            JSONArray jsonArray = new JSONArray(chat_data);
+                            nochat.setVisibility(View.GONE);
+                            chatlist = new ArrayList<>();
+
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                                String id = jsonObject1.getString("message_id");
+                                String sender_id = jsonObject1.getString("sender_id");
+                                String receiver_id = jsonObject1.getString("receiver_id");
+                                String message = jsonObject1.getString("message");
+                                String read_status = jsonObject1.getString("read_status");
+                                String added_at = jsonObject1.getString("added_at");
+                                String image = jsonObject1.getString("user_image");
+                                String firstname = jsonObject1.getString("firstname");
+                                String receiver_name = jsonObject1.getString("receiver_name");
+                                String receiver_image = jsonObject1.getString("receiver_image");
+                                String updated_at = jsonObject1.getString("updated_at");
+
+
+                                chatlist.add(new ChatModel(id, sender_id, receiver_id, message, read_status, added_at, image, firstname, receiver_name, receiver_image, updated_at));
+
+                            }
+
+                            if (chatlist != null && chatModels != null && chatlist.size() > chatModels.size()) {
+                                chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, Sender_id);
+                                chatRecyclerView.setHasFixedSize(true);
+                                chatRecyclerView.setAdapter(chathistoryAdapter);
+                                chatRecyclerView.smoothScrollToPosition(chatModels.size());
+                                chathistoryAdapter.notifyDataSetChanged();
+                                chatModels = chatlist;
+                            }
+
+                        } else if (status.equals("0")) {
+
+                            Log.e("chathistory response", jsonObject.getString("message"));
+                            nochat.setVisibility(View.VISIBLE);
+                            tvnochat.setText(jsonObject.getString("message"));
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                        Log.e("shfdsfds", e.toString());
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+
     private void serviceReadmessages(String sender_id) {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> callRetrofit = null;
@@ -196,17 +291,51 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    public static String encodeEmoji(String message) {
+        try {
+            return URLEncoder.encode(message,
+                    "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return message;
+        }
+    }
+
+    public static String encodeToNonLossyAscii(String original) {
+        Charset asciiCharset = Charset.forName("US-ASCII");
+        if (asciiCharset.newEncoder().canEncode(original)) {
+            return original;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < original.length(); i++) {
+            char c = original.charAt(i);
+            if (c < 128) {
+                stringBuffer.append(c);
+            } else if (c < 256) {
+                String octal = Integer.toOctalString(c);
+                stringBuffer.append("\\");
+                stringBuffer.append(octal);
+            } else {
+                String hex = Integer.toHexString(c);
+                stringBuffer.append("\\u");
+                stringBuffer.append(hex);
+            }
+        }
+        return stringBuffer.toString();
+    }
+
     private void sendMessage() {
        /* RequestBody r_sender_id = RequestBody.create(MediaType.parse("multipart/form-data"),"147");
         RequestBody r_receiver_id = RequestBody.create(MediaType.parse("multipart/form-data"), "5");
         RequestBody r_message = RequestBody.create(MediaType.parse("multipart/form-data"),et_send_text.getText().toString());*/
+        String message = et_send_text.getText().toString();
+
         KProgressHUD hud = KProgressHUD.create(ChatActivity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> callRetrofit = null;
-        callRetrofit = apiClass.Send_ChatText(Sender_id, Reciver_id, et_send_text.getText().toString());
+        callRetrofit = apiClass.Send_ChatText(Sender_id, Reciver_id, message);
         //  callRetrofit = apiClass.Send_ChatText(r_sender_id,r_receiver_id,r_message);
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
@@ -271,7 +400,6 @@ public class ChatActivity extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(chat_data);
                             nochat.setVisibility(View.GONE);
                             chatModels = new ArrayList<>();
-                            chatRecyclerView.setLayoutManager(new GridLayoutManager(ChatActivity.this, 1));
 
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -295,7 +423,7 @@ public class ChatActivity extends AppCompatActivity {
 
                             }
                             chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatModels, Sender_id);
-                            chatRecyclerView.setHasFixedSize(true);
+//                            chatRecyclerView.setHasFixedSize(true);
                             chatRecyclerView.setAdapter(chathistoryAdapter);
                             chatRecyclerView.smoothScrollToPosition(chatModels.size());
                             chathistoryAdapter.notifyDataSetChanged();
@@ -460,8 +588,8 @@ public class ChatActivity extends AppCompatActivity {
                     fo.close();
 
                     picturePath = file.getAbsolutePath();
-                    showPreviewDialog(bitmap);
-
+//                    showPreviewDialog(bitmap);
+                    send_Image_Message();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -483,8 +611,8 @@ public class ChatActivity extends AppCompatActivity {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.show();
         ImageView cancel = dialog.findViewById(R.id.img_cls);
-        ImageView send = dialog.findViewById(R.id.img_send);
-        ImageView imgview = dialog.findViewById(R.id.viewimage);
+        LinearLayoutCompat send = dialog.findViewById(R.id.img_send);
+        AppCompatImageView imgview = dialog.findViewById(R.id.viewimage);
         imgview.setImageBitmap(image);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -516,8 +644,8 @@ public class ChatActivity extends AppCompatActivity {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.show();
         ImageView cancel = dialog.findViewById(R.id.img_cls);
-        ImageView send = dialog.findViewById(R.id.img_send);
-        ImageView imgview = dialog.findViewById(R.id.viewimage);
+        LinearLayoutCompat send = dialog.findViewById(R.id.img_send);
+        AppCompatImageView imgview = dialog.findViewById(R.id.viewimage);
         Glide.with(getApplicationContext()).load(image).into(imgview);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,16 +664,21 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void onSelectFromGalleryResult1(Intent data, int selector) {
-        if (data != null) {
-            Uri selectedImage = data.getData();
-            try {
-                mPhotoFile1 = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
-                picturePath = mPhotoFile1.getAbsolutePath();
-                showPreviewDialog1(mPhotoFile1);
+        try {
+            if (data != null) {
+                Uri selectedImage = data.getData();
+                try {
+                    mPhotoFile1 = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
+                    picturePath = mPhotoFile1.getAbsolutePath();
+//                    showPreviewDialog1(mPhotoFile1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                    send_Image_Message();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -703,6 +836,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Chating_screen_status.activityResumed();
+        getChatHistory(ChatActivity.this);
     }
 
     @Override

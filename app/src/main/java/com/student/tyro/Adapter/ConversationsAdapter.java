@@ -19,13 +19,19 @@ import com.student.tyro.Util.Constants_Urls;
 import com.student.tyro.R;
 import com.student.tyro.Model.Conversation;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdapter.ViewHolder> {
     private Context context;
 
     ArrayList<Conversation> conlist;
     String userid;
+    private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
+    private static final Pattern UNICODE_OCT_PATTERN = Pattern.compile("\\\\([0-7]{3})");
 
     public ConversationsAdapter(Context context, ArrayList<Conversation> msgs) {
         this.context = context;
@@ -52,11 +58,12 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
             String fileExtension = fileName.substring(i + 1);
 
             if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
-                Picasso.get().load(Constants_Urls.pic_base_url + msgs.getMessage())
-                        .placeholder(R.drawable.loader)
-                        .into(holder.image);
+//                Picasso.get().load(Constants_Urls.pic_base_url + msgs.getMessage())
+//                        .placeholder(R.drawable.loader)
+//                        .into(holder.image);
                 holder.image.setVisibility(View.VISIBLE);
-                holder.message.setVisibility(View.GONE);
+                holder.message.setVisibility(View.VISIBLE);
+                holder.message.setText("Photo");
             } else {
                 holder.message.setText(msgs.getMessage());
                 holder.image.setVisibility(View.GONE);
@@ -64,7 +71,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
             }
         }
 
-        if (msgs.getMessage() .equals("null")) {
+        if (msgs.getMessage().equals("null")) {
             holder.message.setVisibility(View.GONE);
         }
 
@@ -114,5 +121,39 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
             image = itemView.findViewById(R.id.image);
         }
     }
+
+    public static String decodeFromNonLossyAscii(String original) {
+        Matcher matcher = UNICODE_HEX_PATTERN.matcher(original);
+        StringBuffer charBuffer = new StringBuffer(original.length());
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            char unicodeChar = (char) Integer.parseInt(match, 16);
+            matcher.appendReplacement(charBuffer, Character.toString(unicodeChar));
+        }
+        matcher.appendTail(charBuffer);
+        String parsedUnicode = charBuffer.toString();
+
+        matcher = UNICODE_OCT_PATTERN.matcher(parsedUnicode);
+        charBuffer = new StringBuffer(parsedUnicode.length());
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            char unicodeChar = (char) Integer.parseInt(match, 8);
+            matcher.appendReplacement(charBuffer, Character.toString(unicodeChar));
+        }
+        matcher.appendTail(charBuffer);
+        return charBuffer.toString();
+    }
+
+
+    public static String decodeEmoji(String message) {
+        String myString = null;
+        try {
+            return URLDecoder.decode(
+                    message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return message;
+        }
+    }
+
 }
 

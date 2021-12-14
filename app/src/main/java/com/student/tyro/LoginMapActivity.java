@@ -395,6 +395,24 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
 //                                    .setPositiveButton("OK", dialogClickListener).create();
 //                            dialog.setMessage(jsonObject.getString("message"));
 //                            dialog.show();
+
+                            String user_info = jsonObject.getString("Location_info");
+                            JSONObject jsonObject1 = new JSONObject(user_info);
+                            String user_id = jsonObject1.getString("user_id");
+                            String location = jsonObject1.getString("location");
+                            String latitude = jsonObject1.getString("latitude");
+                            String longitude = jsonObject1.getString("longitude");
+                            String reference_code = jsonObject1.getString("reference_code");
+                            SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("lat", latitude);
+                            editor.putString("long", longitude);
+                            editor.putString("reference_code", reference_code);
+                            editor.putString("location", location);
+//                            editor.putBoolean("loginstatus", true);
+                            editor.commit();
+                            editor.apply();
+
                             Intent intent = new Intent(getApplicationContext(), InconvenienceActivity.class);
                             intent.putExtra("User_id", User_id);
                             startActivity(intent);

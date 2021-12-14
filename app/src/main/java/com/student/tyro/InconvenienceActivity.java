@@ -70,7 +70,7 @@ public class InconvenienceActivity extends AppCompatActivity {
                         String status = jsonObject.getString("status");
 
                         if (status.equals("1")) {
-                            Intent mainIntent = new Intent(InconvenienceActivity.this, UploadDocumentsActivity.class);
+                            Intent mainIntent = new Intent(InconvenienceActivity.this, LoginActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(mainIntent);
                             finish();

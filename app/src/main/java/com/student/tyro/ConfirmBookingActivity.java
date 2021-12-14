@@ -212,7 +212,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             longt = (String) b.get("longitude");
             lat = (String) b.get("lat");
             price = (String) b.get("price");
-            tvprice.setText(price + "/hr");
+            tvprice.setText("$"+price + "/hr");
             txtname.setText(name);
             txtlanguage.setText(lang);
             System.out.println("rating test " + rating + "\t" + price);

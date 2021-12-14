@@ -47,8 +47,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -74,6 +80,8 @@ public class EditProfileActivity extends AppCompatActivity {
     File mPhotoFile1;
 
     FileCompressor mCompressor;
+    private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
+    private static final Pattern UNICODE_OCT_PATTERN = Pattern.compile("\\\\([0-7]{3})");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -407,7 +415,72 @@ public class EditProfileActivity extends AppCompatActivity {
         return type;
     }
 
+    public static String encodeEmoji(String message) {
+        try {
+            return URLEncoder.encode(message,
+                    "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return message;
+        }
+    }
+
+    public static String decodeFromNonLossyAscii(String original) {
+        Matcher matcher = UNICODE_HEX_PATTERN.matcher(original);
+        StringBuffer charBuffer = new StringBuffer(original.length());
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            char unicodeChar = (char) Integer.parseInt(match, 16);
+            matcher.appendReplacement(charBuffer, Character.toString(unicodeChar));
+        }
+        matcher.appendTail(charBuffer);
+        String parsedUnicode = charBuffer.toString();
+
+        matcher = UNICODE_OCT_PATTERN.matcher(parsedUnicode);
+        charBuffer = new StringBuffer(parsedUnicode.length());
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            char unicodeChar = (char) Integer.parseInt(match, 8);
+            matcher.appendReplacement(charBuffer, Character.toString(unicodeChar));
+        }
+        matcher.appendTail(charBuffer);
+        return charBuffer.toString();
+    }
+
+    public static String encodeToNonLossyAscii(String original) {
+        Charset asciiCharset = Charset.forName("US-ASCII");
+        if (asciiCharset.newEncoder().canEncode(original)) {
+            return original;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < original.length(); i++) {
+            char c = original.charAt(i);
+            if (c < 128) {
+                stringBuffer.append(c);
+            } else if (c < 256) {
+                String octal = Integer.toOctalString(c);
+                stringBuffer.append("\\");
+                stringBuffer.append(octal);
+            } else {
+                String hex = Integer.toHexString(c);
+                stringBuffer.append("\\u");
+                stringBuffer.append(hex);
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String decodeEmoji(String message) {
+        String myString = null;
+        try {
+            return URLDecoder.decode(
+                    message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return message;
+        }
+    }
+
     public void Updateprofile() {
+
         RequestBody r_current_password;
         File file = null;
         MultipartBody.Part image_profile = null;
@@ -421,13 +494,15 @@ public class EditProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String bio = edabt.getText().toString();
+
         RequestBody r_user_id = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         RequestBody r_first_name = RequestBody.create(MediaType.parse("multipart/form-data"), edtfusername.getText().toString());
         RequestBody r_last_name = RequestBody.create(MediaType.parse("multipart/form-data"), edtlusername.getText().toString());
         RequestBody r_email = RequestBody.create(MediaType.parse("multipart/form-data"), edtemail.getText().toString());
         RequestBody r__mobile_no = RequestBody.create(MediaType.parse("multipart/form-data"), edtphone.getText().toString());
         r_current_password = RequestBody.create(MediaType.parse("multipart/form-data"), edtpswd.getText().toString());
-        RequestBody r_about = RequestBody.create(MediaType.parse("multipart/form-data"), edabt.getText().toString());
+        RequestBody r_about = RequestBody.create(MediaType.parse("multipart/form-data"), bio);
         //RequestBody r_confirm_password = RequestBody.create(MediaType.parse("multipart/form-data"),edtcpswd.getText().toString());
         /*if(edtpswd.getText().toString().contains("**********"))
         {

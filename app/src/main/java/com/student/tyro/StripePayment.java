@@ -404,14 +404,20 @@ public class StripePayment extends AppCompatActivity {
         }
     }
 
-    public void showSaveCardDetails(String card_number, String card_expiry, String card_cvv) {
+    public void showSaveCardDetails(String card_number, String card_expiry, String card_cvv,
+                                    String cardname) {
+        try {
+            cardInputWidget.setCardNumber(card_number);
 
-        cardInputWidget.setCardNumber(card_number);
+            cardInputWidget.setCvcCode(card_cvv);
+            card_name.setText(cardname);
+            card_expiry = card_expiry.replace(" ", "");
+            cardInputWidget.setExpiryDate(Integer.parseInt(card_expiry.trim().substring(0, card_expiry.indexOf("/"))),
+                    Integer.parseInt(card_expiry.trim().substring(3)));
 
-        cardInputWidget.setExpiryDate(Integer.parseInt(card_expiry.substring(0, card_expiry.indexOf("/"))),
-                Integer.parseInt(card_expiry.substring(3)));
-
-        cardInputWidget.setCvcCode(card_cvv);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -561,7 +567,7 @@ public class StripePayment extends AppCompatActivity {
     private void Booking_confirm() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, lat, longt,
-                "1", Grand_Total,pickup_location,student_lat,student_lng);
+                "1", Grand_Total, pickup_location, student_lat, student_lng);
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)

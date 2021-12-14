@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/worksans_medium"
                 android:text=""
-                android:textColor="@color/colorYellow"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
                 android:id="@+id/tv_que"
                 android:layout_gravity="top"
