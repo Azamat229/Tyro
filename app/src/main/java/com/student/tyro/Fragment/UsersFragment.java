@@ -40,7 +40,7 @@ public class UsersFragment extends Fragment {
     String User_id;
     ImageView edit, userimage;
     TextView name, location, email, phone, password, about;
-    String firstname, lastname, userlocation, usermail, userpswd, userphone, user_image, aboutus, hours, kms, ttlclasses;
+    String firstname, lastname, userlocation, usermail, userpswd, userphone, user_image, aboutus, hours, kms, ttlclasses,latitude,longitude;
     NetworkConnection networkConnection;
     String user_id;
     TextView tvttlcls, ttlhrs, ttldrvntme;
@@ -84,6 +84,8 @@ public class UsersFragment extends Fragment {
                 i.putExtra("userlocation", userlocation);
                 i.putExtra("user_image", user_image);
                 i.putExtra("aboutus", aboutus);
+                i.putExtra("latitude", latitude);
+                i.putExtra("longitude", longitude);
                 startActivity(i);
                 getActivity().finish();
             }
@@ -124,6 +126,8 @@ public class UsersFragment extends Fragment {
                             userphone = dataobject.optString("phone");
                             userpswd = dataobject.optString("password");
                             userlocation = dataobject.optString("location");
+                            latitude = dataobject.optString("latitude");
+                            longitude = dataobject.optString("longitude");
                             user_image = dataobject.optString("profile_pic");
                             aboutus = dataobject.optString("about_us");
                             hours = dataobject.optString("hours");

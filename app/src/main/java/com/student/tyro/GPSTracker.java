@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.core.app.ActivityCompat;
 
 
@@ -67,6 +69,7 @@ public class GPSTracker extends Service implements LocationListener {
 
             if (!isGPSEnabled) {
                 // no network provider is enabled
+                Toast.makeText(mContext, "Please enable gps", Toast.LENGTH_SHORT).show();
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider

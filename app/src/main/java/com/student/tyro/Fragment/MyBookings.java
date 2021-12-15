@@ -51,7 +51,14 @@ public class MyBookings extends Fragment {
     TextView tvnoclasses;
     CompletedAdapter compltedadapter;
 
-    public MyBookings() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (view_cmptd.isSelected()) {
+            completed_bookings();
+        } else if (view_upcmg.isSelected()) {
+            upcoming_bookings();
+        }
     }
 
     @Override
@@ -121,7 +128,7 @@ public class MyBookings extends Fragment {
     }
 
     //cmompleted bookings
-    private void completed_bookings() {
+    public void completed_bookings() {
         //RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), "211");
         RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), userid);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
@@ -175,8 +182,10 @@ public class MyBookings extends Fragment {
                                     String avg_rating = jsonObject1.getString("avg_rating");
                                     String amount = jsonObject1.getString("amount");
                                     String sts = jsonObject1.getString("status");
+                                    String ratingStatus = jsonObject1.getString("ratingStatus");
                                     complete.add(new Comleted_Booking(id, sid, insid, instructor_name, language, profile_pic, unique_id, location, strtme, endtme, booking_date, booking_hours, start_latitude,
-                                            start_longitude, end_latitude, end_longitude, total_travelled, speed, total_time, avg_rating, amount, sts));
+                                            start_longitude, end_latitude, end_longitude, total_travelled, speed, total_time, avg_rating, amount, sts,
+                                            ratingStatus));
                                     Log.i("the catagory data is", "" + complete);
 
                                 }
@@ -208,7 +217,7 @@ public class MyBookings extends Fragment {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                //hud.dismiss();
+                hud.dismiss();
                 Log.e("sdfdsd ", t.toString());
             }
         });
@@ -296,7 +305,7 @@ public class MyBookings extends Fragment {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                //hud.dismiss();
+                hud.dismiss();
                 Log.e("sdfdsd ", t.toString());
             }
         });

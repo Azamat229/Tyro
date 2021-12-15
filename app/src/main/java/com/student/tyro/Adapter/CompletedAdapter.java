@@ -22,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
+import com.student.tyro.Fragment.MyBookings;
 import com.student.tyro.Model.Comleted_Booking;
 import com.student.tyro.Model.ReportcardModel;
 import com.student.tyro.Model.Reportcardsublist;
+import com.student.tyro.StripePayment;
 import com.student.tyro.Util.ApiCallInterface;
 import com.student.tyro.Util.Constants_Urls;
 import com.student.tyro.Util.NetworkConnection;
@@ -77,101 +79,105 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
                 .placeholder(R.drawable.user)
                 .into(holder.img_icon);
 
-        holder.ratng.setOnClickListener(new View.OnClickListener() {
+            holder.ratng.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+              public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(context, R.style.MyAlertDialogTheme);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.activity_rating);
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.white_background);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.setCancelable(true);
-                dialog.show();
-                ImageView rat_img = dialog.findViewById(R.id.rating_user_icon);
-                TextView rat_username = dialog.findViewById(R.id.rating_user_name);
-                TextView rat_date = dialog.findViewById(R.id.rating_user_date);
-                TextView rat_time = dialog.findViewById(R.id.rating_user_time);
-                TextView rat_hr = dialog.findViewById(R.id.rating_user_hr);
-                ImageView close = dialog.findViewById(R.id.ivClose);
-                RatingBar rating = dialog.findViewById(R.id.rating);
-                Button submit = dialog.findViewById(R.id.btnSubmit);
-                EditText edit_review = dialog.findViewById(R.id.edit_review);
-                str_review = edit_review.getText().toString();
-                Picasso.get().load(Constants_Urls.pic_base_url + completed.getPic())
-                        .placeholder(R.drawable.user)
-                        .into(rat_img);
-                rat_username.setText(completed.getInstname());
-                rat_date.setText(completed.getBookdate());
-                rat_time.setText(completed.getStrt_tme());
-                rat_hr.setText(completed.getBookhrs() + "hr");
-                studentid = completed.getSid();
-                instid = completed.getInstid();
-                bookingid = completed.getId();
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                boolean fromUser) {
-                        str_rating = String.valueOf(rating);
-                        //    txtRatingValue.setText(String.valueOf(rating));
-                        // Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
+                if (completed.getRatingStatus() != null && completed.getRatingStatus().equals("1")) {
+                    Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
+                } else {
+                    final Dialog dialog = new Dialog(context, R.style.MyAlertDialogTheme);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.activity_rating);
+                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.white_background);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.setCancelable(true);
+                    dialog.show();
+                    ImageView rat_img = dialog.findViewById(R.id.rating_user_icon);
+                    TextView rat_username = dialog.findViewById(R.id.rating_user_name);
+                    TextView rat_date = dialog.findViewById(R.id.rating_user_date);
+                    TextView rat_time = dialog.findViewById(R.id.rating_user_time);
+                    TextView rat_hr = dialog.findViewById(R.id.rating_user_hr);
+                    ImageView close = dialog.findViewById(R.id.ivClose);
+                    RatingBar rating = dialog.findViewById(R.id.rating);
+                    Button submit = dialog.findViewById(R.id.btnSubmit);
+                    EditText edit_review = dialog.findViewById(R.id.edit_review);
+                    str_review = edit_review.getText().toString();
+                    Picasso.get().load(Constants_Urls.pic_base_url + completed.getPic())
+                            .placeholder(R.drawable.user)
+                            .into(rat_img);
+                    rat_username.setText(completed.getInstname());
+                    rat_date.setText(completed.getBookdate());
+                    rat_time.setText(completed.getStrt_tme());
+                    rat_hr.setText(completed.getBookhrs() + "hr");
+                    studentid = completed.getSid();
+                    instid = completed.getInstid();
+                    bookingid = completed.getId();
+                    close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        public void onRatingChanged(RatingBar ratingBar, float rating,
+                                                    boolean fromUser) {
+                            str_rating = String.valueOf(rating);
+                            //    txtRatingValue.setText(String.valueOf(rating));
+                            // Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
 
-                    }
-                });
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (networkConnection.isConnectingToInternet()) {
-                            ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-                            Call<JsonElement> call = apiClass.Givereviewtoinstructor(studentid, instid, bookingid, str_rating, str_review);
-                            final KProgressHUD hud = KProgressHUD.create(context)
-                                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                                    .setBackgroundColor(R.color.colorPrimary)
-                                    .show();
-                            call.enqueue(new Callback<JsonElement>() {
-                                @Override
-                                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                                    hud.dismiss();
+                        }
+                    });
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (networkConnection.isConnectingToInternet()) {
+                                ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+                                Call<JsonElement> call = apiClass.Givereviewtoinstructor(studentid, instid, bookingid, str_rating, str_review);
+                                final KProgressHUD hud = KProgressHUD.create(context)
+                                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                                        .setBackgroundColor(R.color.colorPrimary)
+                                        .show();
+                                call.enqueue(new Callback<JsonElement>() {
+                                    @Override
+                                    public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                                        hud.dismiss();
+                                        dialog.dismiss();
 
-                                    if (response.isSuccessful()) {
-                                        Log.e("spprofileee", response.body().toString());
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(response.body().toString());
-                                            int status = jsonObject.getInt("status");
-                                            if (status == 1) {
-                                                Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                        if (response.isSuccessful()) {
+                                            Log.e("spprofileee", response.body().toString());
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response.body().toString());
+                                                int status = jsonObject.getInt("status");
+                                                if (status == 1) {
+                                                    Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                                    dialog.dismiss();
+                                                } else if (status == 0) {
+                                                    Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                                }
 
-                                                dialog.dismiss();
-                                            } else if (status == 0) {
-                                                Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                            } catch (Exception e) {
+                                                hud.dismiss();
+                                                e.printStackTrace();
+                                                Log.e("dskfsdf ", e.toString());
                                             }
-
-                                        } catch (Exception e) {
-                                            hud.dismiss();
-                                            e.printStackTrace();
-                                            Log.e("dskfsdf ", e.toString());
                                         }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<JsonElement> call, Throwable t) {
-                                    hud.dismiss();
-                                    Log.e("sdfdsd ", t.toString());
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<JsonElement> call, Throwable t) {
+                                        hud.dismiss();
+                                        Log.e("sdfdsd ", t.toString());
+                                    }
+                                });
 
-                        } else {
-                            Toast.makeText(context, context.getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, context.getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-
-                    }
-                });
+                    });
+                }
             }
         });
 

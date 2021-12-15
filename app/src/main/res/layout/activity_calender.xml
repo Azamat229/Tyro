@@ -58,6 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_25sdp"
                     android:layout_marginRight="@dimen/_25sdp"
+                    app:mcv_leftArrowMask="@drawable/ic_baseline_arrow_left_24"
+                    app:mcv_rightArrowMask="@drawable/ic_baseline_arrow_right_24"
                     app:mcv_dateTextAppearance="@style/CustomTextAppearance"
                     app:mcv_headerTextAppearance="@style/CustomTextAppearance"
                     app:mcv_weekDayTextAppearance="@style/CustomTextAppearance" />

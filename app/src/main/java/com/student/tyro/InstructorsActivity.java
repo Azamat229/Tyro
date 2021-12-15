@@ -247,6 +247,7 @@ public class InstructorsActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                                     hud.dismiss();
+                                    dialog.dismiss();
 
                                     if (response.isSuccessful()) {
                                         try {
@@ -279,8 +280,12 @@ public class InstructorsActivity extends AppCompatActivity {
                                                 //recycle_instruct.setAdapter(new InstructorsAdapter(InstructorsActivity.this,instructorslist));
                                                 instructorsfilterAdapter = new InstructorsFilterAdapter(InstructorsActivity.this, instructorsfilterlist);
                                                 recycle_instruct.setAdapter(instructorsfilterAdapter);
-                                                hud.dismiss();
-                                                dialog.dismiss();
+                                                recycle_instruct.setVisibility(View.VISIBLE);
+                                                linearnoinstruct.setVisibility(View.GONE);
+                                            } else if (status == 0) {
+                                                recycle_instruct.setVisibility(View.GONE);
+                                                linearnoinstruct.setVisibility(View.VISIBLE);
+                                                tvnoinstruct.setText("No Instructors available");
                                             }
                                         } catch (Exception e) {
                                             hud.dismiss();
@@ -403,6 +408,8 @@ public class InstructorsActivity extends AppCompatActivity {
                             recycle_instruct.setAdapter(instructorsAdapter);
                             hud.dismiss();
 
+                            recycle_instruct.setVisibility(View.VISIBLE);
+                            linearnoinstruct.setVisibility(View.GONE);
                         } else if (status == 0) {
                             recycle_instruct.setVisibility(View.GONE);
                             linearnoinstruct.setVisibility(View.VISIBLE);

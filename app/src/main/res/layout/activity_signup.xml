@@ -83,9 +83,9 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/worksans_light"
-                android:hint="Ex: 185003XXXXX"
-                android:inputType="phone"
-                android:maxLength="12"
+                android:hint="Phone number"
+                android:inputType="number"
+                android:maxLength="10"
                 tools:text="" />
 
             <androidx.appcompat.widget.AppCompatEditText

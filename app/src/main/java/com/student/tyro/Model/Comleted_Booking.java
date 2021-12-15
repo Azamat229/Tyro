@@ -4,8 +4,12 @@ package com.student.tyro.Model;
 public class Comleted_Booking {
 
     String id, sid, instid, instname, language, pic, uid, location, strt_tme, end_tme, bookdate, bookhrs, start_lat, start_long, end_lat, end_long, total_travel, spped, total_tme, avg_rate,amount,sts;
-
-    public Comleted_Booking(String id, String sid, String instid, String instname, String language, String pic, String uid, String location, String strt_tme, String end_tme, String bookdate, String bookhrs, String start_lat, String start_long, String end_lat, String end_long, String total_travel, String spped, String total_tme, String avg_rate, String amt,String sts) {
+String ratingStatus;
+    public Comleted_Booking(String id, String sid, String instid, String instname, String language,
+                            String pic, String uid, String location, String strt_tme, String end_tme,
+                            String bookdate, String bookhrs, String start_lat, String start_long,
+                            String end_lat, String end_long, String total_travel, String spped,
+                            String total_tme, String avg_rate, String amt, String sts, String ratingStatus) {
         this.id = id;
         this.sid = sid;
         this.instid = instid;
@@ -28,6 +32,11 @@ public class Comleted_Booking {
         this.avg_rate = avg_rate;
         this.amount = amt;
         this.sts = sts;
+        this.ratingStatus = ratingStatus;
+    }
+
+    public String getRatingStatus() {
+        return ratingStatus;
     }
 
     public String getAmount() {

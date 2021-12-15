@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tvheading.setVisibility(View.VISIBLE);
                 ivRight_editprofile.setVisibility(View.VISIBLE);
                 img_chat.setVisibility(View.GONE);
+                imglogo.setVisibility(View.GONE);
                 tvheading.setText("My Profile");
                 imgusr.setVisibility(View.GONE);
                 imgusr1.setVisibility(View.VISIBLE);
@@ -324,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 imgcon.setVisibility(View.VISIBLE);
                 imghme.setVisibility(View.GONE);
                 imghme1.setVisibility(View.VISIBLE);
+
                 fragment = new UsersFragment();
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();

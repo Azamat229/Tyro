@@ -63,7 +63,11 @@ public interface ApiCallInterface {
     @Multipart
     @POST("profileUpdate")
     Call<JsonElement> updateuser_profile(@Part("user_id") RequestBody user_id, @Part("firstname") RequestBody firstname, @Part("lastname") RequestBody lastname, @Part("phone") RequestBody phone, @Part("password") RequestBody password,
-                                         @Part("city") RequestBody city, @Part("email") RequestBody email, @Part MultipartBody.Part profile_pic, @Part("about_us") RequestBody about_us);
+                                         @Part("city") RequestBody city, @Part("email") RequestBody email,
+                                         @Part MultipartBody.Part profile_pic,
+                                         @Part("about_us") RequestBody about_us,
+                                         @Part("latitude") RequestBody latitude,
+                                         @Part("longitude") RequestBody longitude);
 
 
 //send location to server

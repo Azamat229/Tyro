@@ -252,7 +252,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -285,7 +285,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -368,7 +368,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 //progressDoalog.dismiss();
                 hud.dismiss();
-                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -449,7 +449,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -756,7 +756,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 //progressDoalog.dismiss();
                 hud.dismiss();
-                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

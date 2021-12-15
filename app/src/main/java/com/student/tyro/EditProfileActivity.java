@@ -29,6 +29,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
@@ -53,6 +62,8 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,13 +86,15 @@ public class EditProfileActivity extends AppCompatActivity {
     NetworkConnection networkConnection;
     ImageView profile_pic;
     ImageView back;
-    String userid, first_username, last_username, password, useremail, userphone, userloc, userpic, abut;
+    String userid, first_username, last_username, password, useremail, userphone, userloc, userpic, abut, strlatitude, strlongitude;
 
     File mPhotoFile1;
 
     FileCompressor mCompressor;
     private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
     private static final Pattern UNICODE_OCT_PATTERN = Pattern.compile("\\\\([0-7]{3})");
+
+    int AUTOCOMPLETE_REQUEST_CODE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +144,21 @@ public class EditProfileActivity extends AppCompatActivity {
                     .placeholder(R.drawable.user)
                     .into(profile_pic);
             abut = (String) b.get("aboutus");
+            strlatitude = (String) b.get("latitude");
+            strlongitude = (String) b.get("longitude");
             edabt.setText(abut);
         }
         img_selectimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
+            }
+        });
+
+        edtcity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initilizeValues();
             }
         });
 
@@ -161,7 +183,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     showToast("Please enter last name");
                 } else if (edtphone.getText().toString().isEmpty()) {
                     showToast(getString(R.string.enter_number));
-                } else if (edtphone.getText().toString().length() < 11) {
+                } else if (edtphone.getText().toString().length() < 10) {
 
                     Toast.makeText(EditProfileActivity.this, "Please enter valid mobile number", Toast.LENGTH_SHORT).show();
                 } else if (edtemail.getText().toString().isEmpty()) {
@@ -198,6 +220,24 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void initilizeValues() {
+
+        Places.initialize(getApplicationContext(), "AIzaSyCziqe1Q-d4HMC3D9ZyYDFkBtx8ZHrzGzM");
+
+        PlacesClient placesClient = Places.createClient(this);
+
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+
+        Intent intent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+
+
+    }
+
 
     public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -248,9 +288,33 @@ public class EditProfileActivity extends AppCompatActivity {
             if (requestCode == SELECT_FILE)
 //                onSelectFromGalleryResult(data);
                 onSelectFromGalleryResult1(data, 5);
-            else if (requestCode == REQUEST_CAMERA)
+            else if (requestCode == REQUEST_CAMERA) {
                 onCameraImage1(data, 1);
 //                onCaptureImageResult(data);
+            }
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                if (resultCode == RESULT_OK) {
+                    Place place = Autocomplete.getPlaceFromIntent(data);
+                    // text_location.setText(place.getName());
+                    edtcity.setText(place.getName());
+                    double lat = place.getLatLng().latitude;
+                    double lng = place.getLatLng().longitude;
+
+                    strlatitude = String.valueOf(lat);
+                    strlongitude = String.valueOf(lng);
+                    System.out.println("lattitude" + lat + "," + lng);
+
+
+                    Log.i("Tag", "Place: " + place.getName() + ", " + place.getId());
+                } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                    // TODO: Handle the error.
+                    Status status = Autocomplete.getStatusFromIntent(data);
+                    Log.i("Tag", status.getStatusMessage());
+                } else if (resultCode == RESULT_CANCELED) {
+                    // The user canceled the operation.
+                }
+            }
+
         }
 
         if (requestCode == 22) {
@@ -312,7 +376,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
-        private void onSelectFromGalleryResult1(Intent data, int selector) {
+    private void onSelectFromGalleryResult1(Intent data, int selector) {
         if (data != null) {
             Uri selectedImage = data.getData();
             try {
@@ -503,6 +567,8 @@ public class EditProfileActivity extends AppCompatActivity {
         RequestBody r__mobile_no = RequestBody.create(MediaType.parse("multipart/form-data"), edtphone.getText().toString());
         r_current_password = RequestBody.create(MediaType.parse("multipart/form-data"), edtpswd.getText().toString());
         RequestBody r_about = RequestBody.create(MediaType.parse("multipart/form-data"), bio);
+        RequestBody lat = RequestBody.create(MediaType.parse("multipart/form-data"), strlatitude);
+        RequestBody lng = RequestBody.create(MediaType.parse("multipart/form-data"), strlongitude);
         //RequestBody r_confirm_password = RequestBody.create(MediaType.parse("multipart/form-data"),edtcpswd.getText().toString());
         /*if(edtpswd.getText().toString().contains("**********"))
         {
@@ -518,7 +584,8 @@ public class EditProfileActivity extends AppCompatActivity {
         final ApiCallInterface service = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> callRetrofit = null;
         callRetrofit = service.
-                updateuser_profile(r_user_id, r_first_name, r_last_name, r__mobile_no, r_current_password, r_address, r_email, image_profile, r_about);
+                updateuser_profile(r_user_id, r_first_name, r_last_name, r__mobile_no, r_current_password,
+                        r_address, r_email, image_profile, r_about,lat,lng);
         final KProgressHUD hud = KProgressHUD.create(EditProfileActivity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
@@ -551,6 +618,8 @@ public class EditProfileActivity extends AppCompatActivity {
                             String location = jsonObject1.getString("location");
                             String user_image = jsonObject1.getString("profile_pic");
                             String auth_level = jsonObject1.getString("auth_level");
+                            String latitude = jsonObject1.getString("latitude");
+                            String longitude = jsonObject1.getString("longitude");
                             SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("User_id", user_id);
@@ -561,6 +630,8 @@ public class EditProfileActivity extends AppCompatActivity {
                             editor.putString("login_number", mobile_no);
                             editor.putString("User_pic", user_image);
                             editor.putString("location", location);
+                            editor.putString("lat", latitude);
+                            editor.putString("long", longitude);
                             editor.commit();
                             editor.apply();
                             Intent i = new Intent(EditProfileActivity.this, MainActivity.class);

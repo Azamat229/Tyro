@@ -233,7 +233,7 @@ public class SignUpActivity extends AppCompatActivity {
                     showToast("Please enter lastname");
                 } else if (editphone.getText().toString().isEmpty()) {
                     showToast(getString(R.string.enter_number));
-                } else if (editphone.getText().toString().length() < 11) {
+                } else if (editphone.getText().toString().length() < 10) {
 
                     Toast.makeText(SignUpActivity.this, "Please enter valid mobile number", Toast.LENGTH_SHORT).show();
                 } else if (editemail.getText().toString().isEmpty()) {

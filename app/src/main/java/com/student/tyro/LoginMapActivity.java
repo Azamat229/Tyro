@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,6 +65,8 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
     String User_id, flag;
     NetworkConnection networkConnection;
 
+    boolean status = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,32 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
         flag = getIntent().getStringExtra("flag");
         initilaizeUI();
         initializeValues();
+
+        Handler handler = new Handler();
+        Runnable update = new Runnable() {
+            public void run() {
+                if (gpsTracker.getLocation() == null) {
+                    gpsTracker.getLocation();
+                    status = false;
+                } else {
+                    if (!status) {
+                        LatLng latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                        getCompleteAddressString(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                        status = true;
+                    }
+                    handler.removeMessages(0);
+                }
+            }
+        };
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 500, 500);
+
+
     }
 
     private void initializeValues() {

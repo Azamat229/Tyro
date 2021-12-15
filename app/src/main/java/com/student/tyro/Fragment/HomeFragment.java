@@ -52,7 +52,12 @@ public class HomeFragment extends Fragment {
     TextView tvkms, tvhrs;
     ImageView imgvew_badge;
 
-    public HomeFragment() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        Upcoming_lessons();
+        checkuser();
+        getdriven_details();
     }
 
     @Override

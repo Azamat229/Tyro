@@ -71,8 +71,7 @@ public class Exampletimeslot extends AppCompatActivity {
     List<String> greenDateList;
     MaterialCalendarView calendarView;
     String User_id;
-    KProgressHUD hud;
-    public  TimeSlotsAdapter timeSlotsAdapter;
+    public TimeSlotsAdapter timeSlotsAdapter;
     RecyclerView time_slot_recyclerview;
     ArrayList<TimeSlot> timeSlotModels;
     String get_time;
@@ -149,6 +148,12 @@ public class Exampletimeslot extends AppCompatActivity {
         linearnoslots = findViewById(R.id.no_slots_linear);
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiverTime,
                 new IntentFilter("student-timeslot"));
+
+        calendarView.state().edit()
+                .setMinimumDate(CalendarDay.from(CalendarDay.today().getYear(),
+                        CalendarDay.today().getMonth(), CalendarDay.today().getDay()))
+                .commit();
+
         bookslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -485,6 +490,7 @@ public class Exampletimeslot extends AppCompatActivity {
                             linearnoslots.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
+                        hud.dismiss();
                         e.printStackTrace();
                         Log.e("dskfsdf ", e.toString());
                     }
@@ -493,6 +499,7 @@ public class Exampletimeslot extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
+                hud.dismiss();
                 Log.e("sdfdsd ", t.toString());
             }
         });
@@ -506,7 +513,7 @@ public class Exampletimeslot extends AppCompatActivity {
         if (networkConnection.isConnectingToInternet()) {
             ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
             Call<JsonElement> call = apiClass.get_timeslot(instructid, send_date);
-            hud = KProgressHUD.create(Exampletimeslot.this)
+          KProgressHUD  hud = KProgressHUD.create(Exampletimeslot.this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                     .setBackgroundColor(R.color.colorPrimary)
                     .show();
@@ -515,6 +522,7 @@ public class Exampletimeslot extends AppCompatActivity {
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     hud.dismiss();
                     if (response.isSuccessful()) {
+                        hud.dismiss();
                         Log.e("spprofileee", response.body().toString());
                         System.out.println("data_image" + response.body().toString());
                         try {
@@ -654,7 +662,7 @@ public class Exampletimeslot extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 //progressDoalog.dismiss();
-                Toast.makeText(Exampletimeslot.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Exampletimeslot.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
