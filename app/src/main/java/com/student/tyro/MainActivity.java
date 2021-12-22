@@ -168,6 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tvheading.setVisibility(View.GONE);
                 imglogo.setVisibility(View.VISIBLE);
                 // tvheading.setText("Home");
+                imgusr.setVisibility(View.VISIBLE);
+                imgusr1.setVisibility(View.GONE);
+                imgcon1.setVisibility(View.GONE);
+                imgcon.setVisibility(View.VISIBLE);
+                imghme.setVisibility(View.VISIBLE);
+                imghme1.setVisibility(View.GONE);
                 fragment = new HomeFragment();
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -184,6 +190,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tvheading.setVisibility(View.VISIBLE);
                 tvheading.setText("My Bookings");
                 imglogo.setVisibility(View.GONE);
+                imgcon.setVisibility(View.GONE);
+                imgcon1.setVisibility(View.VISIBLE);
+                imgusr1.setVisibility(View.GONE);
+                imgusr.setVisibility(View.VISIBLE);
+                imghme.setVisibility(View.GONE);
+                imghme1.setVisibility(View.VISIBLE);
                 fragment = new MyBookings();
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();

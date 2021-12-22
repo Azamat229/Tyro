@@ -92,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
     private String notify;
 
     File mPhotoFile1;
+    Timer timer;
 
     FileCompressor mCompressor;
     private BroadcastReceiver mHandler = new BroadcastReceiver() {
@@ -120,13 +121,26 @@ public class ChatActivity extends AppCompatActivity {
 
         if (networkConnection.isConnectingToInternet()) {
             getChatHistory(ChatActivity.this);
-            new Timer().scheduleAtFixedRate(new TimerTask() {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    // Enter your code which you want to execute every 2 second
+                    if (chatModels == null) {
+                        getChatHistory(ChatActivity.this);
+                    }
                     getChatHistory1(ChatActivity.this);
                 }
             }, 0, 5000);
+//            new Timer().scheduleAtFixedRate(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    // Enter your code which you want to execute every 2 second
+//                    if (chatModels == null) {
+//                        getChatHistory(ChatActivity.this);
+//                    }
+//                    getChatHistory1(ChatActivity.this);
+//                }
+//            }, 0, 5000);
         } else {
             Toast.makeText(ChatActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
@@ -224,11 +238,19 @@ public class ChatActivity extends AppCompatActivity {
                             }
 
                             if (chatlist != null && chatModels != null && chatlist.size() > chatModels.size()) {
-                                chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, Sender_id);
-                                chatRecyclerView.setHasFixedSize(true);
-                                chatRecyclerView.setAdapter(chathistoryAdapter);
-                                chatRecyclerView.smoothScrollToPosition(chatModels.size());
-                                chathistoryAdapter.notifyDataSetChanged();
+
+//                                chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, Sender_id);
+//                                chatRecyclerView.setHasFixedSize(true);
+//                                chatRecyclerView.setAdapter(chathistoryAdapter);
+//                                chatRecyclerView.smoothScrollToPosition(chatModels.size());
+//                                chathistoryAdapter.notifyDataSetChanged();
+
+                                for (int i = 0; i < chatlist.size(); i++) {
+                                    if (!chatlist.get(i).getId().equals(chatModels.get(i).getId())) {
+                                        chatModels.add(chatlist.get(i));
+                                        chathistoryAdapter.notifyDataSetChanged();
+                                    }
+                                }
                                 chatModels = chatlist;
                             }
 
@@ -274,7 +296,7 @@ public class ChatActivity extends AppCompatActivity {
                         String message = jsonObject.optString("message");
                         if (status == 1) {
                         } else {
-                            Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
@@ -842,6 +864,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        timer.cancel();
         Chating_screen_status.activityPaused();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mHandler);
     }

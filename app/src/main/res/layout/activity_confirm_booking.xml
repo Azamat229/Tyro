@@ -177,6 +177,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_3sdp"
                                 android:text=""
+                                android:maxLength="3"
                                 android:textColor="@color/colorYellow"
                                 android:textSize="@dimen/_10ssp"
                                 app:fontFamily="@font/worksans_medium" />

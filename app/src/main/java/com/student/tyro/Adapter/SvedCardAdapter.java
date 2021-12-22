@@ -21,14 +21,17 @@ public class SvedCardAdapter extends RecyclerView.Adapter<SvedCardAdapter.ViewHo
     private Context context;
     private ArrayList<SavedCardModel> cardDetailsList;
     int type = -1;
-    int pos=-1;
+    int pos = -1;
+    boolean flag = false;
+
     // creating a constructor class.
-    public SvedCardAdapter(Context context, ArrayList<SavedCardModel> cardlist,int type) {
+    public SvedCardAdapter(Context context, ArrayList<SavedCardModel> cardlist, int type) {
         this.context = context;
         this.cardDetailsList = cardlist;
 
         this.type = type;
     }
+
     @NonNull
     @Override
     public SvedCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,15 +50,13 @@ public class SvedCardAdapter extends RecyclerView.Adapter<SvedCardAdapter.ViewHo
             string = string.substring(string.length() - 4);
         }
         holder.cardNumber.setText("****  ****  ****  " + string);
-        if (pos==position)
-        {
+        if (pos == position) {
             holder.selected_card.setVisibility(View.VISIBLE);
 
             holder.selected_card.setBackgroundResource(R.drawable.successful_color);
 
             holder.relativeLayout.setBackgroundResource(R.drawable.line_line_background);
-        }
-        else {
+        } else {
             holder.selected_card.setVisibility(View.VISIBLE);
 
             holder.selected_card.setBackgroundResource(R.drawable.track_circle);
@@ -66,13 +67,19 @@ public class SvedCardAdapter extends RecyclerView.Adapter<SvedCardAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pos=position;
+                if (!flag) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+                pos = position;
 
                 notifyDataSetChanged();
 
                 ((StripePayment) context).showSaveCardDetails(cardDetailsList.get(position).getCard_number(),
                         cardDetailsList.get(position).getCard_expiry(), cardDetailsList.get(position).getCard_cvv(),
-                        cardDetailsList.get(position).getCard_name());
+                        cardDetailsList.get(position).getCard_name(),
+                        cardDetailsList.get(position).getId());
 
             }
         });
@@ -88,12 +95,13 @@ public class SvedCardAdapter extends RecyclerView.Adapter<SvedCardAdapter.ViewHo
         TextView cardNumber;
         ImageView selected_card;
         RelativeLayout relativeLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our text views.
             cardNumber = itemView.findViewById(R.id.textCardNumber);
             selected_card = itemView.findViewById(R.id.arrow);
-            relativeLayout=itemView.findViewById(R.id.rrl);
+            relativeLayout = itemView.findViewById(R.id.rrl);
         }
     }
 }

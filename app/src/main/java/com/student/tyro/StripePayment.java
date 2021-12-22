@@ -24,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -69,6 +70,7 @@ public class StripePayment extends AppCompatActivity {
     KProgressHUD hud, hud1;
     String User_id;
     String Card_id = "";
+    String savecardid;
     //ArrayList<SavedCardModel> savedCardModels;
     // RecyclerView card_details;
     RecyclerView recyclercards;
@@ -187,7 +189,12 @@ public class StripePayment extends AppCompatActivity {
 //                        card_rg.requestFocus();
 //                    }
                     else if (params != null) {
+                        hud1 = KProgressHUD.create(StripePayment.this)
+                                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                                .setBackgroundColor(R.color.colorPrimary)
+                                .show();
 
+                        button_pay_now.setEnabled(false);
                         cardNumber = cardInputWidget.getCard().getNumber();
 
                         getCardType(cardNumber);
@@ -216,11 +223,6 @@ public class StripePayment extends AppCompatActivity {
                         stripe = new Stripe(
                                 context, public_key);
                         stripe.confirmPayment(StripePayment.this, confirmParams);
-
-                        hud1 = KProgressHUD.create(StripePayment.this)
-                                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                                .setBackgroundColor(R.color.colorPrimary)
-                                .show();
 
                     }
                 } else {
@@ -320,7 +322,9 @@ public class StripePayment extends AppCompatActivity {
                             String promocodes = jsonObject.optString("data");
                             JSONArray jsonArray = new JSONArray(promocodes);
                             savedCardModels = new ArrayList<>();
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(StripePayment.this, 1);
+                            LinearLayoutManager gridLayoutManager =
+                                    new LinearLayoutManager(StripePayment.this, LinearLayoutManager.HORIZONTAL,
+                                            false);
                             recyclercards.setLayoutManager(gridLayoutManager);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -405,7 +409,7 @@ public class StripePayment extends AppCompatActivity {
     }
 
     public void showSaveCardDetails(String card_number, String card_expiry, String card_cvv,
-                                    String cardname) {
+                                    String cardname, String id) {
         try {
             cardInputWidget.setCardNumber(card_number);
 
@@ -414,6 +418,8 @@ public class StripePayment extends AppCompatActivity {
             card_expiry = card_expiry.replace(" ", "");
             cardInputWidget.setExpiryDate(Integer.parseInt(card_expiry.trim().substring(0, card_expiry.indexOf("/"))),
                     Integer.parseInt(card_expiry.trim().substring(3)));
+
+            savecardid = id;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -442,6 +448,8 @@ public class StripePayment extends AppCompatActivity {
 
             final StripePayment activity = activityRef.get();
             /*    progressDialog.dismiss();*/
+
+            button_pay_now.setEnabled(true);
             if (activity == null) {
                 return;
             }
@@ -456,6 +464,7 @@ public class StripePayment extends AppCompatActivity {
 
         @Override
         public void onSuccess(PaymentIntentResult paymentIntentResult) {
+            button_pay_now.setEnabled(true);
             final StripePayment activity = activityRef.get();
             if (activity == null) {
                 return;
@@ -471,13 +480,15 @@ public class StripePayment extends AppCompatActivity {
                 Log.d("Stripe", "onSuccess: " + gson.toJson(paymentIntent));
                 Log.d("stripeModel", "onSuccess: " + paymentIntent.getClientSecret());
 
+                button_pay_now.setEnabled(true);
                 bookOrderAPI();
 
 
             } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
                 // Payment failed – allow retrying using a different payment method
 //                Objects.requireNonNull(paymentIntent.getLastPaymentError()).getMessage()
-                progressDialog.dismiss();
+                hud1.dismiss();
+                button_pay_now.setEnabled(true);
                 Toast.makeText(StripePayment.this, "Payment failed", Toast.LENGTH_SHORT).show();
                 displayAlert(
                         "Payment info",
@@ -502,7 +513,7 @@ public class StripePayment extends AppCompatActivity {
 
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.save_card_details(User_id, card_name.getText().toString(),
-                cardNumber, cardExpiry, cardName, "", zipcode);
+                cardNumber, cardExpiry, cardName, "", zipcode, savecardid);
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)

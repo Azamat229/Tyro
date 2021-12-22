@@ -55,7 +55,7 @@
     <string name="enter_number_length">Mobile number should be 10 digits</string>
     <string name="enter_password">Please enter password</string>
     <string name="please_check_your_network_connection">please check your internet connections</string>
-    <string name="agree_terms_cond">please agree the terms and conditions</string>
+    <string name="agree_terms_cond">please agree to the terms and conditions</string>
     <string name="pleaseenterallfields">please enter all fields</string>
     <string name="connecttointernet">connect to internet</string>
     <string name="emailaddress">Enter Email Address</string>

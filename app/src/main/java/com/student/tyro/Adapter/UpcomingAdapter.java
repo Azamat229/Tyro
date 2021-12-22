@@ -75,7 +75,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHo
         if (courses.getStatus() != null && courses.getStatus().equals("3")) {
             holder.cancel.setVisibility(View.GONE);
             holder.reschedule.setVisibility(View.GONE);
-            holder.share_location.setVisibility(View.VISIBLE);
+//            holder.share_location.setVisibility(View.VISIBLE);
             holder.inprogress.setVisibility(View.VISIBLE);
 //            holder.inprogress.setAnimation(AnimationUtils.loadAnimation(context,
 //                    R.anim.blink));
@@ -83,7 +83,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHo
         } else {
             holder.cancel.setVisibility(View.VISIBLE);
             holder.reschedule.setVisibility(View.VISIBLE);
-            holder.share_location.setVisibility(View.GONE);
+//            holder.share_location.setVisibility(View.GONE);
             holder.inprogress.setVisibility(View.GONE);
         }
         Picasso.get().load(Constants_Urls.pic_base_url + courses.getUser_image())

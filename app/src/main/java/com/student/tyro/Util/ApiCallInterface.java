@@ -196,7 +196,8 @@ public interface ApiCallInterface {
                                         @Field("card_expiry") String card_expiry,
                                         @Field("card_type") String card_type,
                                         @Field("card_cvv") String card_cvv,
-                                        @Field("zip_code") String zip_code);
+                                        @Field("zip_code") String zip_code,
+                                        @Field("id") String id);
 
     //chat history
     @FormUrlEncoded

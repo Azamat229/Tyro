@@ -446,40 +446,40 @@ public class Exampletimeslot extends AppCompatActivity {
                                 Log.i("current slot", "" + current);
                                 JSONArray jsonArray1 = new JSONArray(current);
                                 System.out.println("array is" + jsonArray1);
-                                linearnoslots.setVisibility(View.GONE);
-                                linear.setVisibility(View.VISIBLE);
+//                                linearnoslots.setVisibility(View.GONE);
+//                                linear.setVisibility(View.VISIBLE);
                                 time_slot_recyclerview.setLayoutManager(new GridLayoutManager(Exampletimeslot.this, 2));
                                 timeSlotModels = new ArrayList<>();
-                                for (int j = 0; j < jsonArray1.length(); j++) {
-                                    JSONObject jsonObject2 = jsonArray1.getJSONObject(j);
-                                    String time_id = jsonObject2.getString("id");
-                                    String sp_id = jsonObject2.getString("instructor_id");
-                                    String date1 = jsonObject2.getString("booking_date");
-                                    String from_time = jsonObject2.getString("start_time");
-                                    String to_time = jsonObject2.getString("end_time");
-                                    String total_hr = jsonObject2.getString("total_hour");
-                                    String price = jsonObject2.getString("price");
-                                    String status_type = jsonObject2.getString("status");
-                                    timeSlotModels.add(new TimeSlot(time_id, sp_id, from_time, to_time, total_hr, price, status_type));
-                                    //  Log.i("the  data is", "" + faqcatgories);
-                                    SharedPreferences sharedPreferences = getSharedPreferences("student_details", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("booking_date", date1);
-                                    editor.commit();
-                                    editor.apply();
-                                    tv_date.setText(date1);
-                                    tv_avail.setText(status_type);
-                                }
+//                                for (int j = 0; j < jsonArray1.length(); j++) {
+//                                    JSONObject jsonObject2 = jsonArray1.getJSONObject(j);
+//                                    String time_id = jsonObject2.getString("id");
+//                                    String sp_id = jsonObject2.getString("instructor_id");
+//                                    String date1 = jsonObject2.getString("booking_date");
+//                                    String from_time = jsonObject2.getString("start_time");
+//                                    String to_time = jsonObject2.getString("end_time");
+//                                    String total_hr = jsonObject2.getString("total_hour");
+//                                    String price = jsonObject2.getString("price");
+//                                    String status_type = jsonObject2.getString("status");
+//                                    timeSlotModels.add(new TimeSlot(time_id, sp_id, from_time, to_time, total_hr, price, status_type));
+//                                    //  Log.i("the  data is", "" + faqcatgories);
+//                                    SharedPreferences sharedPreferences = getSharedPreferences("student_details", Context.MODE_PRIVATE);
+//                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                    editor.putString("booking_date", date1);
+//                                    editor.commit();
+//                                    editor.apply();
+//                                    tv_date.setText(date1);
+//                                    tv_avail.setText(status_type);
+//                                }
                             }
 
-                            if (timeSlotModels.size() > 0) {
-                                timeSlotsAdapter = new TimeSlotsAdapter(Exampletimeslot.this, timeSlotModels);
-//                                time_slot_recyclerview.setHasFixedSize(true);
-                                time_slot_recyclerview.setAdapter(timeSlotsAdapter);
-                            } else {
-                                linear.setVisibility(View.GONE);
-                                linearnoslots.setVisibility(View.VISIBLE);
-                            }
+//                            if (timeSlotModels.size() > 0) {
+////                                timeSlotsAdapter = new TimeSlotsAdapter(Exampletimeslot.this, timeSlotModels);
+//////                                time_slot_recyclerview.setHasFixedSize(true);
+////                                time_slot_recyclerview.setAdapter(timeSlotsAdapter);
+//                            } else {
+//                                linear.setVisibility(View.GONE);
+//                                linearnoslots.setVisibility(View.VISIBLE);
+//                            }
                             setEvent(redDateList, red);
                             setEvent(greenDateList, green);
                             Log.i("the redlist is", "" + redDateList);

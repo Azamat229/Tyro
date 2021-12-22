@@ -84,7 +84,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
               public void onClick(View v) {
 
                 if (completed.getRatingStatus() != null && completed.getRatingStatus().equals("1")) {
-                    Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
                 } else {
                     final Dialog dialog = new Dialog(context, R.style.MyAlertDialogTheme);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

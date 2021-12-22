@@ -40,7 +40,7 @@ public class UsersFragment extends Fragment {
     String User_id;
     ImageView edit, userimage;
     TextView name, location, email, phone, password, about;
-    String firstname, lastname, userlocation, usermail, userpswd, userphone, user_image, aboutus, hours, kms, ttlclasses,latitude,longitude;
+    String firstname, lastname, userlocation, usermail, userpswd, userphone, user_image, aboutus, hours, kms, ttlclasses, latitude, longitude;
     NetworkConnection networkConnection;
     String user_id;
     TextView tvttlcls, ttlhrs, ttldrvntme;
@@ -147,7 +147,11 @@ public class UsersFragment extends Fragment {
                             //password.setText(userpswd);
                             phone.setText(userphone);
                             about.setText(aboutus);
-                            ttlhrs.setText(kms + "Km");
+                            try {
+                                ttlhrs.setText(String.format("%.2f", Float.parseFloat(kms)) + "Km");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             ttldrvntme.setText(hours + "Hr");
                             tvttlcls.setText(ttlclasses);
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", Context.MODE_PRIVATE);
