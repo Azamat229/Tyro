@@ -913,4 +913,5 @@ public class ChatActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }
