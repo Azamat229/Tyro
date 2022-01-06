@@ -59,7 +59,12 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
         if (string.length() > 4) {
             string = string.substring(string.length() - 4);
         }
-       holder.cardNumber.setText("****  ****  ****  " + string);
+
+        int cardtype = getCardType(cardDetailsList.get(position).getCard_number(), 0);
+
+        holder.visaa.setImageResource(cardtype);
+
+        holder.cardNumber.setText("****  ****  ****  " + string);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +165,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our text views.
        TextView cardNumber;
-        ImageView selected_card;
+        ImageView selected_card,visaa;
         RelativeLayout relativeLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,8 +173,50 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
               cardNumber = itemView.findViewById(R.id.textCardNumber);
               selected_card = itemView.findViewById(R.id.arrow);
               relativeLayout=itemView.findViewById(R.id.rrl);
+            visaa=itemView.findViewById(R.id.visaa);
         }
     }
+
+    private int getCardType(String card_number, int cardName) {
+
+        String[] cardtype = {"Visa", "MasterCard", "MaestroCard", "American Express", "Discover", "Diners Club", "JCB"};
+        int[] cardtype1 = {R.drawable.visa_icon, R.drawable.mastercard, R.drawable.maestrocard, R.drawable.americanexpress,
+                R.drawable.discovercard, R.drawable.dinnerclubcard, R.drawable.jcbcard};
+
+        ArrayList<String> listOfPattern = new ArrayList<String>();
+        String ptVisa = "^4[0-9]{6,}$";
+        listOfPattern.add(ptVisa);
+
+        String ptMasterCard = "^5[1-5][0-9]{5,}$";
+        listOfPattern.add(ptMasterCard);
+
+        String pMaestroCard = "^(5018|5020|5038|6304|6759|6761|6763)[0-9]{8,15}$";
+        listOfPattern.add(pMaestroCard);
+
+        String ptAmeExp = "^3[47][0-9]{5,}$";
+        listOfPattern.add(ptAmeExp);
+
+        String ptDiscover = "^6(?:011|5[0-9]{2})[0-9]{3,}$";
+        listOfPattern.add(ptDiscover);
+
+        String ptDinClb = "^3(?:0[0-5]|[68][0-9])[0-9]{4,}$";
+        listOfPattern.add(ptDinClb);
+
+        String ptJcb = "^(?:2131|1800|35[0-9]{3})[0-9]{3,}$";
+        listOfPattern.add(ptJcb);
+
+
+        if (!card_number.equalsIgnoreCase("")) {
+            for (int i = 0; i < listOfPattern.size(); i++) {
+                if (card_number.matches(listOfPattern.get(i))) {
+                    cardName = cardtype1[i];
+                    Log.d("DEBUG", "if : " + cardName);
+                }
+            }
+        }
+        return cardName;
+    }
+
 }
 
 

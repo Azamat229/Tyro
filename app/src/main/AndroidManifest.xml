@@ -41,6 +41,9 @@
             android:name=".G2LicenceActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".BDEActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".InconvenienceActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -165,6 +168,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

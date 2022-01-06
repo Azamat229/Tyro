@@ -64,7 +64,9 @@ public class ReferalActivity extends AppCompatActivity {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Hey, Have you hear about Tyro? Use this code when signing up to help me win a prize! " + referral);
+//                        "Hey, Have you hear about Tyro? Use this code when signing up to help me win a prize! " + referral);
+                        "Hey, I'm using Tyro Driving to acquire my G2 and you should too! Use this code when\n" +
+                                "purchasing the e-course and we both receive an entry into their monthly raffles! " + referral);
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             }
