@@ -344,6 +344,7 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
                             String role = jsonObject1.getString("role");
                             String type = jsonObject1.getString("type");
                             String user_status = jsonObject1.getString("user_status");
+                            String bde_status = jsonObject1.getString("bde_status");
                             String location = jsonObject1.getString("location");
                             String latitude = jsonObject1.getString("latitude");
                             String longitude = jsonObject1.getString("longitude");
@@ -353,6 +354,7 @@ public class LoginMapActivity extends AppCompatActivity implements OnMapReadyCal
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("lat", latitude);
                             editor.putString("long", longitude);
+                            editor.putString("bde_status", bde_status);
                             editor.putString("reference_code", reference_code);
                             editor.putString("location", location);
                             editor.putBoolean("loginstatus", true);

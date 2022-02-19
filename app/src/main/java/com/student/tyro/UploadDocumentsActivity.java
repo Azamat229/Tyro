@@ -103,12 +103,9 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if(edit_path.getText().toString().isEmpty())
-                {
-                    Toast.makeText(UploadDocumentsActivity.this, "Please select image path", Toast.LENGTH_SHORT).show();
-                }
-                else*/
-                if (networkConnection.isConnectingToInternet()) {
+                if (picturePath == null) {
+                    Toast.makeText(UploadDocumentsActivity.this, "Please upload licence", Toast.LENGTH_SHORT).show();
+                } else if (networkConnection.isConnectingToInternet()) {
                     try {
                         UploadDocument();
                     } catch (NullPointerException e) {
@@ -118,8 +115,8 @@ public class UploadDocumentsActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(UploadDocumentsActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
                 }
-
             }
+
         });
     }
 

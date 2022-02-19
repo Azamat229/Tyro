@@ -76,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_3sdp"
-                android:text=""
                 android:maxLength="3"
+                android:text=""
                 android:textColor="@color/colorYellow"
                 android:textSize="@dimen/_12ssp"
                 app:fontFamily="@font/worksans_medium" />
@@ -120,14 +120,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:visibility="gone"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/drawable_yellow_cornered"
             android:paddingStart="@dimen/_20sdp"
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_20sdp"
-            android:paddingBottom="@dimen/_5sdp">
+            android:paddingBottom="@dimen/_5sdp"
+            android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_20sdp"
@@ -362,8 +362,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_3sdp"
-                        android:text=""
                         android:maxLength="3"
+                        android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_14ssp"
                         app:fontFamily="@font/worksans_medium" />
@@ -399,6 +399,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="1"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_12ssp" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
@@ -433,6 +441,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="2"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_12ssp" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
@@ -463,6 +479,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="3"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
@@ -495,6 +519,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="4"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_12ssp" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
@@ -525,6 +557,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="5"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"

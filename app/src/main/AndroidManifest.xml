@@ -74,9 +74,6 @@
             android:name=".UploadDocumentsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UploadDocumentsActivity1"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".EditProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />

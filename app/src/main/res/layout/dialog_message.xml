@@ -297,34 +297,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/llNavnewscreen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingStart="@dimen/_30sdp"
-                    android:background="@drawable/selector_nav_menu"
-                    android:paddingLeft="@dimen/_30sdp"
-                    android:paddingTop="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_12sdp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/icn_nav_faq" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:text="New Screen"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_14ssp"
-                        app:fontFamily="@font/worksans_medium" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/llNavLogout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -236,7 +236,9 @@ public interface ApiCallInterface {
     //get filters
     @FormUrlEncoded
     @POST("rating_filters")
-    Call<JsonElement> get_filters(@Field("gender") String gender, @Field("gear_type") ArrayList<String> gear_type, @Field("price") String price, @Field("rating") ArrayList<String> rating, @Field("latitude") String latitude, @Field("longitude") String longitude);
+    Call<JsonElement> get_filters(@Field("gender") String gender, @Field("gear_type") ArrayList<String> gear_type,
+                                  @Field("price") String price, @Field("rating") ArrayList<String> rating,
+                                  @Field("latitude") String latitude, @Field("longitude") String longitude);
 
     //dete cards
     @FormUrlEncoded

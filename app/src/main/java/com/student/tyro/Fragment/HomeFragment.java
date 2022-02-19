@@ -217,6 +217,12 @@ public class HomeFragment extends Fragment {
                             JSONArray jsonArray = new JSONArray(get_timeslots);
                             System.out.println("slot_data is" + jsonArray);
 
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("bde_status", bdestatus);
+                            editor.commit();
+                            editor.apply();
+
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 String outofclasses = jsonObj.optString("total_classes");
@@ -225,18 +231,20 @@ public class HomeFragment extends Fragment {
                                 String hours = jsonObj.optString("hours");
                                 String badge = jsonObj.optString("badge");
 
-                                if (bdestatus != null && bdestatus.equals("1")) {
-                                    tvkms.setText(completedclasses + " out of " + outofclasses);
-                                } else {
-                                    tvkms.setText(completedclasses + " out of 10");
-                                }
 
                                 tvhrs.setText(hours + "Hr");
                                 if (badge.equals("1")) {
                                     imgvew_badge.setVisibility(View.VISIBLE);
+                                    if (bdestatus != null && bdestatus.equals("1")) {
+                                        tvkms.setText(completedclasses + " out of 10");
+                                    } else {
+                                        tvkms.setText(completedclasses + " out of " + outofclasses);
+                                    }
                                 } else {
                                     imgvew_badge.setVisibility(View.GONE);
+                                    tvkms.setText(completedclasses + " out of " + outofclasses);
                                 }
+
                             }
 
 

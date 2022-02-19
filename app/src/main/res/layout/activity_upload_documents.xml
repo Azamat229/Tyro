@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/worksans_medium"
+            android:visibility="gone"
             android:text="@string/dummy_text"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_12ssp"
@@ -72,7 +73,6 @@
                     android:focusable="false"
                     android:fontFamily="@font/worksans_medium"
                     android:gravity="center|left"
-                    android:text="@string/upload"
                     android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 

@@ -50,7 +50,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     TextView tvrate, ttlrating, tvrating, tvcartype, tvkms, tvlanguage, tvamount, tvabout;
     ImageView back;
     LinearLayout linearchat;
-    String userid;
+    String userid, bde_status;
     ImageView imgbadge;
     TextView tvratingcount5, tvratingcount4, tvratingcount3, tvratingcount2, tvratingcount1;
     private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
@@ -61,6 +61,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_instructors_details);
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         userid = sharedPreferences.getString("User_id", "");
+        bde_status = sharedPreferences.getString("bde_status", "");
         instruct_img = findViewById(R.id.img_detail_ins_img);
         tv_name = findViewById(R.id.tv_detail_ins_name);
         tv_loc = findViewById(R.id.tv_detail_ins_loc);
@@ -195,6 +196,11 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             linkedin = dataobject.optString("linkedin");*/
                             created_on = dataobject.optString("created_on");
                             String price = dataobject.optString("price");
+                            if (bde_status != null && bde_status.equals("1")) {
+                                price = "50";
+                            } else {
+                                price = price;
+                            }
                             String badge = dataobject.optString("badge");
                             total_reviews = jsonObject.optString("total_reviews");
                             JSONObject dataobject1 = jsonObject.getJSONObject("rating_values");

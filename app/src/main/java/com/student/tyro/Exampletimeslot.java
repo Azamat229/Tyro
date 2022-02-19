@@ -70,7 +70,7 @@ public class Exampletimeslot extends AppCompatActivity {
     List<String> redDateList;
     List<String> greenDateList;
     MaterialCalendarView calendarView;
-    String User_id;
+    String User_id, bde_status;
     public TimeSlotsAdapter timeSlotsAdapter;
     RecyclerView time_slot_recyclerview;
     ArrayList<TimeSlot> timeSlotModels;
@@ -114,6 +114,7 @@ public class Exampletimeslot extends AppCompatActivity {
         setContentView(R.layout.activity_calender);
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         User_id = sharedPreferences.getString("User_id", "");
+        bde_status = sharedPreferences.getString("bde_status", "");
         System.out.println("User_id" + User_id);
         lat_tude = sharedPreferences.getString("lat", "");
         long_tude = sharedPreferences.getString("long", "");
@@ -513,7 +514,7 @@ public class Exampletimeslot extends AppCompatActivity {
         if (networkConnection.isConnectingToInternet()) {
             ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
             Call<JsonElement> call = apiClass.get_timeslot(instructid, send_date);
-          KProgressHUD  hud = KProgressHUD.create(Exampletimeslot.this)
+            KProgressHUD hud = KProgressHUD.create(Exampletimeslot.this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                     .setBackgroundColor(R.color.colorPrimary)
                     .show();
@@ -565,6 +566,11 @@ public class Exampletimeslot extends AppCompatActivity {
                                     String price = jsonObject1.getString("price");
                                     String status_type = jsonObject1.getString("status");
 
+                                    if (bde_status != null && bde_status.equals("1")) {
+                                        price = "50";
+                                    } else {
+                                        price = price;
+                                    }
                                     timeSlotModels.add(new TimeSlot(time_id, sp_id, from_time,
                                             to_time, total_hr, price, status_type));
                                 }

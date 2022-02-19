@@ -30,17 +30,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class G2LicenceActivity extends AppCompatActivity {
-    ImageView no_btn, yes_btn;
+    LinearLayout no_btn, yes_btn;
     private String status, user_id;
-    LinearLayout bottom_no_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_g2_licence);
+        setContentView(R.layout.activity_bde_course);
         yes_btn = findViewById(R.id.yes_btn);
         no_btn = findViewById(R.id.no_btn);
-        bottom_no_btn = findViewById(R.id.bottom_no_btn);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         user_id = sharedPreferences.getString("User_id", "");
@@ -54,20 +52,12 @@ public class G2LicenceActivity extends AppCompatActivity {
             }
         });
 
-        bottom_no_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                showDialog("2");
-                status = "0";
-                serviceBDEstatus(status);
-            }
-        });
 
         no_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://demomaplebrains.com/tyro/"));
-                startActivity(browserIntent);
+                status = "0";
+                serviceBDEstatus(status);
             }
         });
     }
