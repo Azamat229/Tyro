@@ -36,7 +36,7 @@ public class Retrofit_Class {
                     .setLenient()
                     .create();
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://demomaplebrains.com/tyro/Mobile/")
+                    .baseUrl("http://162.240.47.148/~tyrodriving/Mobile/")
                     .client(getUnsafeOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

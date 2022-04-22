@@ -417,10 +417,13 @@ public class MyBookings extends Fragment {
                                 if (networkConnection.isConnectingToInternet()) {
                                     ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
                                     Call<JsonElement> call = apiClass.Givereviewtoinstructor(studentid, instid, bookingid, str_rating, str_review);
+                                    Log.e("review", studentid+" "+instid+" "+bookingid+" "+str_rating+" "+str_review);
+
                                     final KProgressHUD hud = KProgressHUD.create(context)
                                             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                                             .setBackgroundColor(R.color.colorPrimary)
                                             .show();
+
                                     call.enqueue(new Callback<JsonElement>() {
                                         @Override
                                         public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -428,7 +431,7 @@ public class MyBookings extends Fragment {
                                             dialog.dismiss();
 
                                             if (response.isSuccessful()) {
-                                                Log.e("spprofileee", response.body().toString());
+                                                Log.e("my_bookings", response.body().toString());
                                                 try {
                                                     JSONObject jsonObject = new JSONObject(response.body().toString());
                                                     int status = jsonObject.getInt("status");

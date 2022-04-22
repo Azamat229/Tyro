@@ -1,5 +1,6 @@
 package com.student.tyro.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class HomeFragment extends Fragment {
 
     TextView username, tvupcoming, tvnoclasses;
@@ -49,8 +51,9 @@ public class HomeFragment extends Fragment {
     Button book_cls;
     NetworkConnection networkConnection;
     LinearLayout linerupcmg;
-    TextView tvkms, tvhrs;
+    TextView tvkms, tvhrs, counter;
     ImageView imgvew_badge;
+
 
     @Override
     public void onResume() {
@@ -72,6 +75,8 @@ public class HomeFragment extends Fragment {
         tvkms = rootView.findViewById(R.id.tv_driven_kms);
         tvhrs = rootView.findViewById(R.id.tv_driven_hrs);
         imgvew_badge = rootView.findViewById(R.id.badge_for_studnt);
+
+
         networkConnection = new NetworkConnection(getActivity());
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         user_name = sharedPreferences.getString("login_firstname", "");
@@ -80,6 +85,7 @@ public class HomeFragment extends Fragment {
         username.setText(user_name + "!");
         recycler_upcmg = rootView.findViewById(R.id.upcmg_lesson);
         book_cls = rootView.findViewById(R.id.btnBookClass);
+
         book_cls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +93,8 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+
 
         if (networkConnection.isConnectingToInternet()) {
             checkuser();
@@ -107,21 +115,28 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+
+
     private void Upcoming_lessons() {
         // RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), user_id);
         RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), user_id);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.Upcoming_classes(r_userid);
+        Log.e("r_userid", r_userid.toString());
+
+
         final KProgressHUD hud = KProgressHUD.create(getActivity())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 hud.dismiss();
+
                 if (response.isSuccessful()) {
-                    Log.e("response is", response.body().toString());
+                    Log.e("up_coming_classes", response.body().toString());
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         int status = jsonObject.getInt("status");
@@ -201,6 +216,7 @@ public class HomeFragment extends Fragment {
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();*/
         call.enqueue(new Callback<JsonElement>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 //hud.dismiss();
@@ -232,14 +248,17 @@ public class HomeFragment extends Fragment {
                                 String badge = jsonObj.optString("badge");
 
 
-                                tvhrs.setText(hours + "Hr");
+//                                tvhrs.setText(hours + "Hr"); // Azamat
+                                tvhrs.setText(kms + "Km");
                                 if (badge.equals("1")) {
+
                                     imgvew_badge.setVisibility(View.VISIBLE);
                                     if (bdestatus != null && bdestatus.equals("1")) {
                                         tvkms.setText(completedclasses + " out of 10");
                                     } else {
                                         tvkms.setText(completedclasses + " out of " + outofclasses);
                                     }
+
                                 } else {
                                     imgvew_badge.setVisibility(View.GONE);
                                     tvkms.setText(completedclasses + " out of " + outofclasses);
@@ -322,6 +341,7 @@ public class HomeFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         int status = jsonObject.getInt("status");
                         if (status == 1) {
+
                             Toast.makeText(getActivity(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", 0);
                             SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("student_details", 0);

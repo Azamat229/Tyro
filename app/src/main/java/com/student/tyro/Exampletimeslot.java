@@ -112,6 +112,7 @@ public class Exampletimeslot extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
+
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         User_id = sharedPreferences.getString("User_id", "");
         bde_status = sharedPreferences.getString("bde_status", "");
@@ -391,6 +392,9 @@ public class Exampletimeslot extends AppCompatActivity {
         //RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.get_slot(instructid);
+        Log.d("instructId", instructid);
+
+
 
         KProgressHUD hud = KProgressHUD.create(Exampletimeslot.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)

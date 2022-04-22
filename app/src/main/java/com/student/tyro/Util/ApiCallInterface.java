@@ -1,8 +1,11 @@
 package com.student.tyro.Util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.student.tyro.Model.StudentReview;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -16,7 +19,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiCallInterface {
-
 
     //registration
     @Multipart
@@ -171,7 +173,7 @@ public interface ApiCallInterface {
     @GET("terms_instructions")
     Call<JsonElement> terms_instructions();
 
-    //confirm booking
+    //confirm booking ***
     @FormUrlEncoded
     @POST("addbooking_class")
     Call<JsonElement> addbooking_class(@Field("student_id") String student_id, @Field("instructor_id") String instructor_id,
@@ -180,9 +182,9 @@ public interface ApiCallInterface {
                                        @Field("latitude") String latitude, @Field("longitude") String longitude,
                                        @Field("payment_type") String payment_type, @Field("amount") String amount,
                                        @Field("pickup_location") String pickup_location,
-                                       @Field("pi_latitude") String pi_latitude,@Field("pi_longitude") String pi_longitude);
+                                       @Field("pi_latitude") String pi_latitude, @Field("pi_longitude") String pi_longitude, @Field("lesson_bde_status") String bde_status);//1 private 0 bde
 
-    //Checkout
+    //Checkout ***
     @FormUrlEncoded
     @POST("checkout")
     Call<JsonElement> checkout(@Field("amount") String amount);
@@ -229,7 +231,7 @@ public interface ApiCallInterface {
     @GET("student_home")
     Call<JsonElement> getdriven_details(@Query("student_id") String userid);
 
-    //get cards
+    //get cards ***
     @GET("user_savedcardList")
     Call<JsonElement> get_card(@Query("user_id") String user_id);
 
@@ -261,6 +263,12 @@ public interface ApiCallInterface {
 
     @GET("bde_status")
     Call<JsonElement> bde_status(@Query("user_id") String user_id, @Query("bde_status") String bde_status);
+
+//    @GET("student_review")
+//    Call<StudentReview> student_review(@Query("instructor_id") String instructor_id);
+//
+    @GET("student_review")
+    Call<List<StudentReview>> student_review(@Query("instructor_id") String instructor_id);
 
 
 }

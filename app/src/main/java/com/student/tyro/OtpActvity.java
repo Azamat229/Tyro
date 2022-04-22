@@ -235,10 +235,14 @@ public class OtpActvity extends AppCompatActivity {
         Call<JsonElement> call = apiClass.otpverification(User_id, otp, "android", firebase_token);
         Log.i("otp values is", "" + User_id + otp + "\t"
                 + firebase_token);
+
+
         final KProgressHUD hud = KProgressHUD.create(OtpActvity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {

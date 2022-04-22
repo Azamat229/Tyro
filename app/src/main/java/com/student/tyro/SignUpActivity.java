@@ -287,11 +287,17 @@ public class SignUpActivity extends AppCompatActivity {
         RequestBody r_type = RequestBody.create(MediaType.parse("multipart/form-data"), "2");
         Log.e("user data is ", "" + r_first_name + r_last_name + r_mobile_no + r_email + r_password + r_device_type + r_device_token + r_type);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+
+
         Call<JsonElement> call = apiClass.User_signup(r_first_name, r_last_name, r_mobile_no, r_email, r_password, r_device_type, r_device_token, r_type);
+
+
         final KProgressHUD hud = KProgressHUD.create(SignUpActivity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {

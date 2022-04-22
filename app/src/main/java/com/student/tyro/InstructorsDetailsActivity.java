@@ -14,11 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
+import com.student.tyro.Adapter.StudentReviewAdapter;
+import com.student.tyro.Model.StudentReview;
 import com.student.tyro.Util.Constants_Urls;
 import com.student.tyro.Util.NetworkConnection;
 import com.student.tyro.Util.Retrofit_Class;
@@ -28,6 +32,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,11 +58,23 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     LinearLayout linearchat;
     String userid, bde_status;
     ImageView imgbadge;
-    TextView tvratingcount5, tvratingcount4, tvratingcount3, tvratingcount2, tvratingcount1;
+    TextView tvratingcount5, tvratingcount4, tvratingcount3, tvratingcount2, tvratingcount1, counter_detail_inst;
     private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
     private static final Pattern UNICODE_OCT_PATTERN = Pattern.compile("\\\\([0-7]{3})");
 
+    // Student Review
+    RecyclerView recycle_student_review;
+    ArrayList<StudentReview> studentReviewsList;
+    StudentReviewAdapter studentReviewAdapter;
+
+    public interface OnItemUpdateListener{
+        static void onUpdateTotal(int total) {
+
+
+        }
+    }
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructors_details);
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login_details", Context.MODE_PRIVATE);
@@ -87,6 +105,10 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         tvratingcount3 = findViewById(R.id.star3_count);
         tvratingcount4 = findViewById(R.id.star4_count);
         tvratingcount5 = findViewById(R.id.star5_count);
+        counter_detail_inst = findViewById(R.id.counter_detail_inst);
+
+        recycle_student_review = findViewById(R.id.rvstudentreviews);
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +121,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
         if (b != null) {
             insid = (String) b.get("instruct_id");
-            //Toast.makeText(getApplicationContext(),""+insid,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "" + insid, Toast.LENGTH_LONG).show();
         }
 
         buk_cls.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +158,87 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         networkConnection = new NetworkConnection(InstructorsDetailsActivity.this);
         if (networkConnection.isConnectingToInternet()) {
             getInstructordetils();
+
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recycle_student_review.setLayoutManager(linearLayoutManager);
+//            recycle_student_review.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            studentReviewAdapter = new StudentReviewAdapter(InstructorsDetailsActivity.this, studentReviewsList);
+            getStudentReviews();
+
         } else {
             Toast.makeText(InstructorsDetailsActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void getStudentReviews() {
+        ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+        Call<List<StudentReview>> call = apiClass.student_review(insid);
+
+        final KProgressHUD hud = KProgressHUD.create(InstructorsDetailsActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setBackgroundColor(R.color.colorPrimary)
+                .show();
+
+        call.enqueue(new Callback<List<StudentReview>>() {
+            @Override
+            public void onResponse(Call<List<StudentReview>> call, Response<List<StudentReview>> response) {
+                hud.dismiss();
+                if (response.isSuccessful()) {
+                    Log.e("StudentReviews", response.body().toString());
+                    try {
+                        hud.dismiss();
+                        List<StudentReview> userResponses = response.body();
+                        studentReviewAdapter.setData(userResponses );
+                        recycle_student_review.setAdapter(studentReviewAdapter);
+
+//                        JSONArray jsonArray = new JSONArray(response.body());
+//                        studentReviewsList = new ArrayList<>();
+//                        GridLayoutManager gridLayoutManager = new GridLayoutManager(InstructorsDetailsActivity.this, 1);
+//                        recycle_student_review.setLayoutManager(gridLayoutManager);
+//
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            StudentReview jsonObject1 = userResponses.get(i);
+//                            Log.e("Loop in run", "" + jsonObject1);
+//                            String student_name = jsonObject1.getStudent_name();
+//                            String rating = jsonObject1.getRating();
+//                            String review = jsonObject1.getReview();
+//                            String time = jsonObject1.getTime();
+//                            String base_path = jsonObject1.getBase_path();
+//                            String picture = jsonObject1.getPicture();
+//
+//                            studentReviewsList.add(new StudentReview(base_path,picture,rating,  review,  student_name,  time));
+//                            Log.i("the catagory data is", "" + studentReviewsList);
+//                        }
+//                        studentReviewAdapter = new StudentReviewAdapter(InstructorsDetailsActivity.this, studentReviewsList);
+//                        recycle_student_review.setAdapter(studentReviewAdapter);
+//                        recycle_student_review.setVisibility(View.VISIBLE);
+//                            linearnoinstruct.setVisibility(View.GONE); // thing about it
+//                        } else if (status == 0) {
+//                            recycle_instruct.setVisibility(View.GONE);
+//                            linearnoinstruct.setVisibility(View.VISIBLE);
+//                            tvnoinstruct.setText("No Instructors available");
+//
+                    } catch (Exception e) {
+                        hud.dismiss();
+                        e.printStackTrace();
+                        Log.e("EXCEPTION ", e.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<StudentReview>> call, Throwable t) {
+
+            }
+
+
+        });
+
+
+    }
+
 
     private void getInstructordetils() {
 

@@ -28,11 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="Instructors"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_16ssp"
-                android:gravity="center"
                 android:textStyle="bold"
                 app:fontFamily="@font/worksans_medium" />
 

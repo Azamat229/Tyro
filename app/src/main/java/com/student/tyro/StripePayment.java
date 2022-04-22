@@ -87,6 +87,7 @@ public class StripePayment extends AppCompatActivity {
     String radio_value;
     LinearLayout card_layout;
     private String pickup_location, student_lat, student_lng;
+    String bde_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,9 +119,12 @@ public class StripePayment extends AppCompatActivity {
             pickup_location = (String) b.get("pickup_location");
             student_lat = (String) b.get("student_lat");
             student_lng = (String) b.get("student_lng");
+
             //Toast.makeText(getApplicationContext(),lat+"longtitude"+longt,Toast.LENGTH_LONG).show();
         }
-        System.out.println("loc " + pickup_location + "\t" + student_lat + "\t" + student_lng);
+
+        System.out.println("location " + pickup_location + "\t" + student_lat + "\t" + student_lng);
+        System.out.println("intent result"+b.toString());
 
 
         //Order_id=""+getIntent().getStringExtra("Order_id");
@@ -128,6 +132,7 @@ public class StripePayment extends AppCompatActivity {
 
         cardInputWidget = findViewById(R.id.cardInputWidget);
         cardInputWidget.setPostalCodeEnabled(true);
+//        cardInputWidget.setCvcCode("1234");
 
 
         card_name = findViewById(R.id.card_name);
@@ -177,6 +182,8 @@ public class StripePayment extends AppCompatActivity {
         button_pay_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 params = cardInputWidget.getPaymentMethodCreateParams();
 
                 if (Card_id.equals("")) {
@@ -213,15 +220,19 @@ public class StripePayment extends AppCompatActivity {
 
 
                         cvv = cardInputWidget.getCard().getCvc();
+
+
+
+
+
                         zipcode = cardInputWidget.getCard().getAddressZip();
 
 
-                        ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams
-                                .createWithPaymentMethodCreateParams(params, client_secret);
+                        ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(params, client_secret);
                         Log.i("client_secret is", "" + client_secret);
                         final Context context = getApplicationContext();
-                        stripe = new Stripe(
-                                context, public_key);
+
+                        stripe = new Stripe(context, public_key);
                         stripe.confirmPayment(StripePayment.this, confirmParams);
 
                     }
@@ -246,8 +257,9 @@ public class StripePayment extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Card_id = "" + intent.getExtras().getString("User_Card_id");
-            System.out.println("radiobuttonvalue" + Card_id);
 
+            System.out.println("radiobuttonvalue" + Card_id);
+            Log.e("Card_id",Card_id);
         }
     };
 
@@ -255,10 +267,13 @@ public class StripePayment extends AppCompatActivity {
 
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.checkout(Grand_Total);
+
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -281,7 +296,7 @@ public class StripePayment extends AppCompatActivity {
                     } catch (Exception e) {
                         hud.dismiss();
                         e.printStackTrace();
-                        Log.e("dskfsdf ", e.toString());
+                        Log.e("exception ", e.toString());
                     }
                 }
 
@@ -291,12 +306,13 @@ public class StripePayment extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 hud.dismiss();
-                Log.e("shdfdsf ", t.toString());
+                Log.e("on_failure ", t.toString());
 
             }
         });
 
     }
+
 
     public void get_card() {
 
@@ -365,7 +381,7 @@ public class StripePayment extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
 
-                Log.e("sdfdsd ", t.toString());
+                Log.e("failure ", t.toString());
             }
         });
 
@@ -408,8 +424,7 @@ public class StripePayment extends AppCompatActivity {
         }
     }
 
-    public void showSaveCardDetails(String card_number, String card_expiry, String card_cvv,
-                                    String cardname, String id) {
+    public void showSaveCardDetails(String card_number, String card_expiry, String card_cvv, String cardname, String id) {
         try {
             cardInputWidget.setCardNumber(card_number);
 
@@ -425,6 +440,9 @@ public class StripePayment extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -445,9 +463,12 @@ public class StripePayment extends AppCompatActivity {
 
         @Override
         public void onError(@NotNull Exception e) {
+            bookOrderAPI();
+
 
             final StripePayment activity = activityRef.get();
             /*    progressDialog.dismiss();*/
+
 
             button_pay_now.setEnabled(true);
             if (activity == null) {
@@ -459,6 +480,7 @@ public class StripePayment extends AppCompatActivity {
                     e.toString(),
                     false
             );
+
 
         }
 
@@ -499,6 +521,13 @@ public class StripePayment extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+
+
     private void bookOrderAPI() {
 //save card details
         if (check_box.isChecked()) {
@@ -514,10 +543,12 @@ public class StripePayment extends AppCompatActivity {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.save_card_details(User_id, card_name.getText().toString(),
                 cardNumber, cardExpiry, cardName, "", zipcode, savecardid);
+
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -576,13 +607,19 @@ public class StripePayment extends AppCompatActivity {
     }
 
     private void Booking_confirm() {
+        SharedPreferences sharedPreferences = StripePayment.this.getSharedPreferences("Login_details", Context.MODE_PRIVATE);
+        bde_status = sharedPreferences.getString("bde_status", "");
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time, date, hr, lat, longt,
-                "1", Grand_Total, pickup_location, student_lat, student_lng);
+        Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time,
+                date, hr, lat, longt,
+                "1", Grand_Total, pickup_location, student_lat, student_lng, bde_status); // Changed Process
+
+
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {

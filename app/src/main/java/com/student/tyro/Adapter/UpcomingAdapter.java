@@ -1,5 +1,6 @@
 package com.student.tyro.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +23,8 @@ import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
 import com.student.tyro.Exampletimeslot;
+import com.student.tyro.GPSTracker;
+import com.student.tyro.LocationChange;
 import com.student.tyro.Util.ApiCallInterface;
 import com.student.tyro.Util.Constants_Urls;
 import com.student.tyro.Util.NetworkConnection;
@@ -41,11 +43,18 @@ import retrofit2.Response;
 public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Lessions> lessionsModalArrayList;
+    private ArrayList<GPSTracker> location;
     NetworkConnection networkConnection;
     String studentid = " ";
     String instructid = " ";
     String id = " ";
     String reason;
+
+    GPSTracker gpsTracker;
+    public static double Flc_longitude, Flc_latitude;
+
+
+
 
     public UpcomingAdapter(Context applicationContext, ArrayList<Lessions> lessionslist) {
         this.context = applicationContext;
@@ -53,16 +62,24 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHo
         networkConnection = new NetworkConnection(context);
     }
 
+
+
     @Override
     public UpcomingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new UpcomingAdapter.ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_upcoming, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UpcomingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UpcomingAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         // setting data to our text views from our modal class.
         Lessions courses = lessionsModalArrayList.get(position);
         Log.i("array", "" + courses);
+
+
+        gpsTracker=new GPSTracker(holder.name.getContext());
+
+
+
         holder.name.setText(courses.getUsername());
         holder.location.setText(courses.getLocation());
         holder.date.setText(courses.getBookdate());
@@ -104,12 +121,15 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHo
         holder.share_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT,
-                        "https://maps.google.com/?q=" + courses.getUpdate_latitude() + "," + courses.getUpdate_longitude());
+                        "https://maps.google.com/?q=" + gpsTracker.getLatitude() + "," + gpsTracker.getLongitude());
                 sendIntent.setType("text/plain");
                 context.startActivity(sendIntent);
+
             }
         });
 
@@ -161,7 +181,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.ViewHo
                                                 int status = jsonObject.getInt("status");
                                                 if (status == 1) {
                                                     Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                                    //holder.line_show.setVisibility(View.GONE);
+                                                              //holder.line_show.setVisibility(View.GONE);
                                                     // holder.line_cancel.setVisibility(View.VISIBLE);
                                                   /*  lessionsModalArrayList.remove(position);
                                                     notifyDataSetChanged();

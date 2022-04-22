@@ -114,6 +114,58 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_12ssp"
             app:fontFamily="@font/worksans_light" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@color/colorWhite" />
+
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Student Reviews"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            app:fontFamily="@font/worksans_medium" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/counter_detail_inst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="counter"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:fontFamily="@font/worksans_medium" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvstudentreviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/llChat"
@@ -127,7 +179,7 @@
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_20sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_20sdp"

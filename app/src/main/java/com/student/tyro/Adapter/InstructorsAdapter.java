@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 import com.student.tyro.InstructorsDetailsActivity;
 import com.student.tyro.Util.Constants_Urls;
@@ -19,7 +20,7 @@ import com.student.tyro.Model.Instructor;
 
 import java.util.ArrayList;
 
-public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.ViewHolder>{
+public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.ViewHolder> {
     Context context;
     private ArrayList<Instructor> instructorModalArrayList;
     private ArrayList<Instructor> items;
@@ -39,19 +40,20 @@ public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.
     public void onBindViewHolder(@NonNull InstructorsAdapter.ViewHolder holder, int position) {
         // setting data to our text views from our modal class.
         Instructor ins = instructorModalArrayList.get(position);
-        Log.i("array",""+ins);
+        Log.i("array", "" + ins);
         holder.name.setText(ins.getInstruct_firstname());
         holder.lang.setText(ins.getInstruct_language());
 
-        float f=Float.parseFloat(ins.getInstruct_rate());
+        float f = Float.parseFloat(ins.getInstruct_rate());
         System.out.println(f);
-        String mytext=Float.toString(f);
+        String mytext = Float.toString(f);
         holder.rating.setText(mytext);
-        holder.distance.setText(ins.getInstruct_distance()+"Km");
+        holder.distance.setText(ins.getInstruct_distance() + "Km");
         // holder.date.setText(courses.getUsername());
-        Picasso.get().load(Constants_Urls.pic_base_url+ins.getInstruct_img())
+        Picasso.get().load(Constants_Urls.pic_base_url + ins.getInstruct_img())
                 .placeholder(R.drawable.user)
                 .into(holder.img_icon);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +62,9 @@ public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout, fragment);
                 fragmentTransaction.commit();*/
-            //Toast.makeText(context,""+ins.getInstruct_id(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,""+ins.getInstruct_id(),Toast.LENGTH_LONG).show();
 
-                Intent i=new Intent(context, InstructorsDetailsActivity.class);
+                Intent i = new Intent(context, InstructorsDetailsActivity.class);
                 i.putExtra("instruct_id", ins.getInstruct_id());
 
                 context.startActivity(i);
@@ -85,22 +87,22 @@ public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.
     }
 */
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our text views.
-        private final TextView name,lang,rating,distance;
+        private final TextView name, lang, rating, distance;
         ImageView img_icon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our text views.
             name = itemView.findViewById(R.id.tv_ins_name);
-            lang=itemView.findViewById(R.id.tv_ins_lang);
-            img_icon= itemView.findViewById(R.id.ivProfile);
-            rating=itemView.findViewById(R.id.tv_rate);
-            distance=itemView.findViewById(R.id.tv_ins_distance);
+            lang = itemView.findViewById(R.id.tv_ins_lang);
+            img_icon = itemView.findViewById(R.id.ivProfile);
+            rating = itemView.findViewById(R.id.tv_rate);
+            distance = itemView.findViewById(R.id.tv_ins_distance);
         }
-        }
-        }
+    }
+}
 
 
 

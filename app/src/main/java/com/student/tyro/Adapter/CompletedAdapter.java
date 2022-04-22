@@ -126,6 +126,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
                             //    txtRatingValue.setText(String.valueOf(rating));
                             // Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
 
+
                         }
                     });
                     submit.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +135,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
                             if (networkConnection.isConnectingToInternet()) {
                                 ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
                                 Call<JsonElement> call = apiClass.Givereviewtoinstructor(studentid, instid, bookingid, str_rating, str_review);
+
                                 final KProgressHUD hud = KProgressHUD.create(context)
                                         .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                                         .setBackgroundColor(R.color.colorPrimary)

@@ -93,10 +93,14 @@ public class G2LicenceActivity extends AppCompatActivity {
     private void serviceBDEstatus(String status) {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.bde_status(user_id, status);
+
+
         final KProgressHUD hud = KProgressHUD.create(G2LicenceActivity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)
                 .show();
+
+
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {

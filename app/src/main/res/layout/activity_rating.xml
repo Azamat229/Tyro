@@ -45,7 +45,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -58,7 +58,7 @@
                     android:id="@+id/rating_user_icon"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -117,42 +117,42 @@
                             android:id="@+id/rating_user_hr"/>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <RatingBar
-                            android:id="@+id/rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            style="@style/Base.TextAppearance.AppCompat.Medium"
-                            android:layout_marginTop="10dp"
-                            android:theme="@style/RatingBar1"/>
+                    <androidx.appcompat.widget.AppCompatEditText
+                        style="@style/StyleEditTextGray"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="top"
+                        android:hint="Write here..."
+                        android:minLines="10"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/colorGrayDark"
+                        android:id="@+id/edit_review"/>
 
 
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <RatingBar
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:layout_marginTop="10dp"
+                        android:theme="@style/RatingBar1"/>
+
+                </LinearLayout>
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatEditText
-                style="@style/StyleEditTextGray"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:gravity="top"
-                android:hint="Write here..."
-                android:minLines="10"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/colorGrayDark"
-                android:id="@+id/edit_review"/>
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSubmit"

@@ -366,6 +366,9 @@ public class InstructorsActivity extends AppCompatActivity {
         //  RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.get_instructorList(lattude, longtude);
+        Log.e("latitude and longitude", lattude+" "+longtude);
+
+//        Call<JsonElement> call = apiClass.get_instructorList("43.65322", "-79.3831843"); // Azamat temporaly hard code
         final KProgressHUD hud = KProgressHUD.create(InstructorsActivity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setBackgroundColor(R.color.colorPrimary)

@@ -13,12 +13,12 @@
         android:weightSum="10">
 
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rlHeading"
-        android:paddingBottom="@dimen/_40sdp"/>
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlHeading"
+            android:paddingBottom="@dimen/_40sdp" />
 
         <LinearLayout
             android:id="@+id/llMenu"
