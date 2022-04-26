@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,6 +63,8 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     TextView tvratingcount5, tvratingcount4, tvratingcount3, tvratingcount2, tvratingcount1, counter_detail_inst;
     private static final Pattern UNICODE_HEX_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
     private static final Pattern UNICODE_OCT_PATTERN = Pattern.compile("\\\\([0-7]{3})");
+
+    private StudentReviewAdapter model;
 
     // Student Review
     RecyclerView recycle_student_review;
@@ -121,7 +125,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
         if (b != null) {
             insid = (String) b.get("instruct_id");
-            Toast.makeText(getApplicationContext(), "" + insid, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "" + insid, Toast.LENGTH_LONG).show();
         }
 
         buk_cls.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +175,8 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
             Toast.makeText(InstructorsDetailsActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     private void getStudentReviews() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);

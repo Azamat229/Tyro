@@ -1,7 +1,9 @@
 package com.student.tyro.Fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -329,7 +331,7 @@ public class MyBookings extends Fragment {
         private Context context;
         private ArrayList<Comleted_Booking> lessionsModalArrayList;
         NetworkConnection networkConnection;
-        String str_review, str_rating;
+        String str_review_text, str_rating;
         String studentid, instid, bookingid;
         ArrayList<ReportcardModel> reportcardlist;
         ArrayList<Reportcardsublist> reportsubcardlist;
@@ -362,30 +364,41 @@ public class MyBookings extends Fragment {
                     .placeholder(R.drawable.user)
                     .into(holder.img_icon);
 
-            holder.ratng.setOnClickListener(new View.OnClickListener() {
+            holder.ratingText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (completed.getRatingStatus() != null && completed.getRatingStatus().equals("1")) {
-//                        Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
+
                     } else {
-                        final Dialog dialog = new Dialog(context, R.style.MyAlertDialogTheme);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.activity_rating);
-                        dialog.getWindow().setBackgroundDrawableResource(R.drawable.white_background);
-                        dialog.setCanceledOnTouchOutside(true);
-                        dialog.setCancelable(true);
-                        dialog.show();
-                        ImageView rat_img = dialog.findViewById(R.id.rating_user_icon);
-                        TextView rat_username = dialog.findViewById(R.id.rating_user_name);
-                        TextView rat_date = dialog.findViewById(R.id.rating_user_date);
-                        TextView rat_time = dialog.findViewById(R.id.rating_user_time);
-                        TextView rat_hr = dialog.findViewById(R.id.rating_user_hr);
-                        ImageView close = dialog.findViewById(R.id.ivClose);
-                        RatingBar rating = dialog.findViewById(R.id.rating);
-                        Button submit = dialog.findViewById(R.id.btnSubmit);
-                        EditText edit_review = dialog.findViewById(R.id.edit_review);
-                        str_review = edit_review.getText().toString();
+
+
+
+
+                        final Dialog dialog1 = new Dialog(context, R.style.MyAlertDialogTheme);
+                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog1.setContentView(R.layout.activity_rating);
+                        dialog1.getWindow().setBackgroundDrawableResource(R.drawable.white_background);
+                        dialog1.setCanceledOnTouchOutside(true);
+                        dialog1.setCancelable(true);
+                        dialog1.show();
+                        ImageView rat_img = dialog1.findViewById(R.id.rating_user_icon);
+                        TextView rat_username = dialog1.findViewById(R.id.rating_user_name);
+                        TextView rat_date = dialog1.findViewById(R.id.rating_user_date);
+                        TextView rat_time = dialog1.findViewById(R.id.rating_user_time);
+                        TextView rat_hr = dialog1.findViewById(R.id.rating_user_hr);
+                        ImageView close = dialog1.findViewById(R.id.ivClose);
+                        RatingBar rating = dialog1.findViewById(R.id.rating);
+                        Button submit = dialog1.findViewById(R.id.btnSubmit);
+                        EditText edit_review = dialog1.findViewById(R.id.edit_review);
+
+                        str_review_text = edit_review.getText().toString();
+                        String testText = edit_review.getText().toString();
+
+                        Log.e("STR_REVIEW", str_review_text+":"+edit_review.getText().toString());
+
+
                         Picasso.get().load(Constants_Urls.pic_base_url + completed.getPic())
                                 .placeholder(R.drawable.user)
                                 .into(rat_img);
@@ -399,25 +412,30 @@ public class MyBookings extends Fragment {
                         close.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialog.dismiss();
+                                dialog1.dismiss();
                             }
                         });
+
+
                         rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                             public void onRatingChanged(RatingBar ratingBar, float rating,
                                                         boolean fromUser) {
                                 str_rating = String.valueOf(rating);
-                                //    txtRatingValue.setText(String.valueOf(rating));
-                                // Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
+//                                    txtRatingValue.setText(String.valueOf(rating));
+                                 Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
 
                             }
                         });
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Toast.makeText(context, "Submit in My booking was presed", Toast.LENGTH_SHORT).show();
+
                                 if (networkConnection.isConnectingToInternet()) {
                                     ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-                                    Call<JsonElement> call = apiClass.Givereviewtoinstructor(studentid, instid, bookingid, str_rating, str_review);
-                                    Log.e("review", studentid+" "+instid+" "+bookingid+" "+str_rating+" "+str_review);
+                                    Call<JsonElement> call = apiClass.set_review_to_instructor(studentid, instid, bookingid, str_rating, edit_review.getText().toString(),"1");
+                                    Log.e("review", studentid+" "+instid+" "+bookingid+" "+str_rating+" str_review:"+str_review_text);
+                                    Log.e("STR_REVIEW", str_review_text+":"+edit_review.getText().toString());
 
                                     final KProgressHUD hud = KProgressHUD.create(context)
                                             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -428,16 +446,16 @@ public class MyBookings extends Fragment {
                                         @Override
                                         public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                                             hud.dismiss();
-                                            dialog.dismiss();
+                                            dialog1.dismiss();
 
                                             if (response.isSuccessful()) {
-                                                Log.e("my_bookings", response.body().toString());
+                                                Log.e("my_bookings1", response.body().toString());
                                                 try {
                                                     JSONObject jsonObject = new JSONObject(response.body().toString());
                                                     int status = jsonObject.getInt("status");
                                                     if (status == 1) {
                                                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss();
+                                                        dialog1.dismiss();
                                                         completed_bookings();
                                                     } else if (status == 0) {
                                                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -446,15 +464,19 @@ public class MyBookings extends Fragment {
                                                 } catch (Exception e) {
                                                     hud.dismiss();
                                                     e.printStackTrace();
-                                                    Log.e("dskfsdf ", e.toString());
+                                                    Log.e("my_booking_catch ", e.toString());
                                                 }
+                                            }else {
+                                                Log.e("my_bookings_else", response.body().toString());
+                                                Log.e("my_bookings_error_body", response.errorBody().toString());
+
                                             }
                                         }
 
                                         @Override
                                         public void onFailure(Call<JsonElement> call, Throwable t) {
                                             hud.dismiss();
-                                            Log.e("sdfdsd ", t.toString());
+                                            Log.e("my_bookings_failure ", t.toString());
                                         }
                                     });
 
@@ -506,7 +528,15 @@ public class MyBookings extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             // creating variables for our text views.
-            private final TextView name, location, date, tme, hrs, ratng, performance, amount, class_id;
+            private final TextView name;
+            private final TextView location;
+            private final TextView date;
+            private final TextView tme;
+            private final TextView hrs;
+            private final TextView performance;
+            private final TextView amount;
+            private final TextView class_id;
+            private final TextView ratingText;
             ImageView img_icon;
             CardView card_rating;
 
@@ -519,7 +549,7 @@ public class MyBookings extends Fragment {
                 tme = itemView.findViewById(R.id.cmpltd_tme);
                 hrs = itemView.findViewById(R.id.cmpltd_tmehrs);
                 img_icon = itemView.findViewById(R.id.cmpltd_usr_icon);
-                ratng = itemView.findViewById(R.id.tvRating);
+                ratingText = itemView.findViewById(R.id.tvRating);
                 performance = itemView.findViewById(R.id.tvPerformance);
                 card_rating = itemView.findViewById(R.id.cvRatings);
                 amount = itemView.findViewById(R.id.tv_amt);

@@ -199,6 +199,11 @@
         <item name="colorControlActivated">@color/colorYellow</item>
     </style>
 
+    <style name="RatingBar2" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorGray</item>
+        <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+
 
     <style name="SearchViewTheme" parent="Widget.AppCompat.Light.SearchView">
         <item name="android:textColorHint">@android:color/white</item>

@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -27,15 +29,19 @@ import com.student.tyro.Util.Constants_Urls;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.jvm.JvmField;
+
 public class StudentReviewAdapter extends RecyclerView.Adapter<StudentReviewAdapter.ViewHolder> {
 
     Context context;
     private List<StudentReview> studentReviewsArrayList;
+    private MutableLiveData<String> positionOfSlider;
 
     public StudentReviewAdapter(Context applicationContext, ArrayList<StudentReview> studentReviewsList) {
         this.context = applicationContext;
         this.studentReviewsArrayList = studentReviewsList;
     }
+    private final MutableLiveData<String> addressInput = new MutableLiveData();
 
 
     public void setData(List<StudentReview> studentReviewsArrayList) {
@@ -48,6 +54,9 @@ public class StudentReviewAdapter extends RecyclerView.Adapter<StudentReviewAdap
         return new StudentReviewAdapter.ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_student_reviews, parent, false));
     }
 
+    // Create a LiveData with a String
+    private MutableLiveData<String> currentName;
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //setting data from models to views
@@ -55,6 +64,8 @@ public class StudentReviewAdapter extends RecyclerView.Adapter<StudentReviewAdap
         Log.e("review", review.getStudent_name());
 
         InstructorsDetailsActivity.OnItemUpdateListener.onUpdateTotal(position);
+
+
 
         holder.counter.setText(String.format("%d/%d", position+1, studentReviewsArrayList.size()));
         holder.name.setText(review.getStudent_name());
@@ -111,4 +122,11 @@ public class StudentReviewAdapter extends RecyclerView.Adapter<StudentReviewAdap
             counter = itemView.findViewById(R.id.tv_reviews_counter);
         }
     }
+    public MutableLiveData<String> getCurrentName() {
+        if (currentName == null) {
+            currentName = new MutableLiveData<String>();
+        }
+        return currentName;
+    }
+
 }

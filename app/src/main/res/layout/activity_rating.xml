@@ -117,7 +117,8 @@
                             android:id="@+id/rating_user_hr"/>
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
+                        android:id="@+id/edit_review"
                         style="@style/StyleEditTextGray"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
@@ -127,7 +128,7 @@
                         android:minLines="10"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorGrayDark"
-                        android:id="@+id/edit_review"/>
+                        />
 
 
 
@@ -147,7 +148,7 @@
                         android:layout_gravity="center_horizontal"
                         style="@style/Base.TextAppearance.AppCompat.Medium"
                         android:layout_marginTop="10dp"
-                        android:theme="@style/RatingBar1"/>
+                        android:theme="@style/RatingBar2"/>
 
                 </LinearLayout>
             </LinearLayout>

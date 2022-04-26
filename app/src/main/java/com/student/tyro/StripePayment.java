@@ -443,7 +443,6 @@ public class StripePayment extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -475,11 +474,11 @@ public class StripePayment extends AppCompatActivity {
                 return;
             }
 
-            displayAlert(
-                    "Payment Error info",
-                    e.toString(),
-                    false
-            );
+//            displayAlert( Azamat откоментировать обезательно
+//                    "Payment Error info",
+//                    e.toString(),
+//                    false
+//            );
 
 
         }

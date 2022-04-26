@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/white_background.xml" value="0.1715" />
         <entry key="app/src/main/res/layout/activity_accept_terms_policy.xml" value="0.7423887587822015" />
         <entry key="app/src/main/res/layout/activity_bde_course.xml" value="0.7423887587822015" />
         <entry key="app/src/main/res/layout/activity_calender.xml" value="0.810304449648712" />
@@ -31,7 +32,7 @@
         <entry key="app/src/main/res/layout/activity_payment_message.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_performance.xml" value="0.625" />
         <entry key="app/src/main/res/layout/activity_permissions.xml" value="0.8442622950819673" />
-        <entry key="app/src/main/res/layout/activity_rating.xml" value="0.8442622950819673" />
+        <entry key="app/src/main/res/layout/activity_rating.xml" value="0.625" />
         <entry key="app/src/main/res/layout/activity_referal.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_repoty_cards.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_send_image.xml" value="0.8442622950819673" />
@@ -65,7 +66,7 @@
         <entry key="app/src/main/res/layout/row_conversations.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/row_instructors.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/row_student_reviews.xml" value="0.625" />
-        <entry key="app/src/main/res/layout/row_upcoming.xml" value="0.8442622950819673" />
+        <entry key="app/src/main/res/layout/row_upcoming.xml" value="0.680057888343686" />
         <entry key="app/src/main/res/layout/rules_list.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/saved_card_adapter.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/saved_card_list.xml" value="0.8442622950819673" />

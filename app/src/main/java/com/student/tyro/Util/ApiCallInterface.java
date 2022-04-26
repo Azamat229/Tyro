@@ -160,6 +160,14 @@ public interface ApiCallInterface {
     @GET("student_review")
     Call<JsonElement> Givereviewtoinstructor(@Query("user_id") String user_id, @Query("instructor_id") String instructor_id, @Query("booking_id") String booking_id, @Query("rating") String rating, @Query("review") String review);
 
+    @FormUrlEncoded
+    @POST("review")
+    Call<JsonElement> set_review_to_instructor(@Field("user_id") String userid,
+                                           @Field("instructor_id") String id,
+                                           @Field("booking_id") String cancel,
+                                           @Field("rating") String rating,
+                                           @Field("review") String reivew,
+                                           @Field("type") String type);
     //cancel upcoming classes
 
     @FormUrlEncoded
