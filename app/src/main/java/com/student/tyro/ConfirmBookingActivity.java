@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -48,6 +49,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,7 +58,7 @@ import retrofit2.Response;
 public class ConfirmBookingActivity extends AppCompatActivity {
     NetworkConnection networkConnection;
     ArrayList<Covid_Rules> rules;
-    TextView txtname, txtlanguage, txtrating, txtlocation, txtdt, txttime, txthr, student_pickup_location;
+    TextView txtname, txtlanguage, txtrating, txtlocation, txtdt, txttime, txthr, student_pickup_location, txt_take_by_credit;
     ImageView img_instruct;
     String id, name, lang, rating, loc, date, start_time, end_time, hr, img, longt, lat, studentid, price, student_lat, student_lng,
             pi_location;
@@ -73,6 +76,9 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     AppCompatTextView txt_terms;
     ImageView back, edit_location;
     TabLayout tabLayout;
+    String bde_status;
+    int credits;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         tvprice = findViewById(R.id.instruct_price);
         check = findViewById(R.id.check);
         back = findViewById(R.id.ivBack);
+        txt_take_by_credit = findViewById(R.id.txt_take_by_credit);
         edit_location = findViewById(R.id.edit_location);
         tabLayout = findViewById(R.id.tabLayout);
         txt_terms = findViewById(R.id.txt_terms);
@@ -183,14 +190,18 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         }
 
         check.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 if (check.isChecked()) {
                     sp_agree = "1";
                     confrm_booking.setBackgroundResource(R.drawable.bg_yellow_rounded);
+                    txt_take_by_credit.setTextColor(Color.parseColor("#F7BD01"));
+
                 } else {
                     sp_agree = "0";
                     confrm_booking.setBackgroundResource(R.drawable.bg_gray_rounded);
+                    txt_take_by_credit.setTextColor(Color.parseColor("#6F7E7D7D"));
                 }
             }
         });
@@ -212,7 +223,9 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             longt = (String) b.get("longitude");
             lat = (String) b.get("lat");
             price = (String) b.get("price");
-            tvprice.setText("$"+price + "/hr");
+            Log.e("Intent", (String) b.get("price"));
+
+            tvprice.setText("$" + price + "/hr");
             txtname.setText(name);
             txtlanguage.setText(lang);
             System.out.println("rating test " + rating + "\t" + price);
@@ -263,10 +276,49 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             }
         });
 
+        txt_take_by_credit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sp_agree.isEmpty() || sp_agree.equals("0")) {
+                    Toast.makeText(ConfirmBookingActivity.this, getResources().getString(R.string.agree_terms_cond), Toast.LENGTH_SHORT).show();
+
+
+                } else {
+                    if (Float.parseFloat(price) > 0) {
+                        Intent i = new Intent(ConfirmBookingActivity.this, BookingWithCreditsSuccess.class);
+                        i.putExtra("student_id", studentid);
+                        i.putExtra("instruct_id", id);
+                        i.putExtra("username", name);
+                        i.putExtra("location", loc);
+                        i.putExtra("language", lang);
+                        i.putExtra("rating", rating);
+                        i.putExtra("strttme", start_time);
+                        i.putExtra("endtme", end_time);
+                        i.putExtra("bookingdate", date);
+                        i.putExtra("longitude", longt);
+                        i.putExtra("lat", lat);
+                        i.putExtra("Type", "1");
+                        i.putExtra("price", price);
+                        i.putExtra("total_hrs", hr);
+                        i.putExtra("pickup_location", student_pickup_location.getText().toString());
+                        i.putExtra("student_lat", student_lat);
+                        i.putExtra("student_lng", student_lng);
+                        i.putExtra("student_credits", credits);
+                        Log.e("student_credits", String.valueOf(credits));
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Amount has not added by admin", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
         sliderImg = new ArrayList<>();
         sliderImg.clear();
         if (networkConnection.isConnectingToInternet()) {
             get_slider_Details();
+            get_credits();
+
         } else {
             Toast.makeText(ConfirmBookingActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
         }
@@ -342,6 +394,53 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         }
 
     }
+
+    private void get_credits() {
+        RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), studentid);
+        ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+        Call<JsonElement> call = apiClass.get_credits(r_userid);
+        Log.e("r_userid", r_userid.toString());
+
+        final KProgressHUD hud = KProgressHUD.create(ConfirmBookingActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setBackgroundColor(R.color.colorPrimary)
+                .show();
+
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                hud.dismiss();
+
+                if (response.isSuccessful()) {
+                    Log.e("get_credits_RESPONSE", response.body().toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        credits = jsonObject.getInt("credits");
+                        Log.e("CREDITS", String.valueOf(credits));
+
+                        if (credits > 0) {
+                            txt_take_by_credit.setVisibility(View.VISIBLE);
+                        }
+
+                    } catch (Exception e) {
+                        //hud.dismiss();
+                        e.printStackTrace();
+                        Log.e("get_credits_catch ", e.toString());
+                    }
+                }
+                hud.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                //hud.dismiss();
+                Log.e("get_credits_failure ", t.toString());
+            }
+        });
+
+
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override

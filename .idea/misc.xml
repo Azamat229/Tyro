@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bd_rounded_yellow.xml" value="0.1095" />
+        <entry key="app/src/main/res/drawable/bg_gray_rounded.xml" value="0.2545" />
+        <entry key="app/src/main/res/drawable/bg_rounded.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/bg_yellow_rounded.xml" value="0.2545" />
         <entry key="app/src/main/res/drawable/white_background.xml" value="0.1715" />
         <entry key="app/src/main/res/layout/activity_accept_terms_policy.xml" value="0.7423887587822015" />
         <entry key="app/src/main/res/layout/activity_bde_course.xml" value="0.7423887587822015" />
+        <entry key="app/src/main/res/layout/activity_booking_with_credits_success.xml" value="0.8697225572979493" />
         <entry key="app/src/main/res/layout/activity_calender.xml" value="0.810304449648712" />
         <entry key="app/src/main/res/layout/activity_cancel_reason.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_cards.xml" value="0.8442622950819673" />
@@ -21,14 +26,14 @@
         <entry key="app/src/main/res/layout/activity_g2_licence.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_inconvenience.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_instructors.xml" value="0.625" />
-        <entry key="app/src/main/res/layout/activity_instructors_details.xml" value="0.6449893390191898" />
+        <entry key="app/src/main/res/layout/activity_instructors_details.xml" value="0.5870967741935483" />
         <entry key="app/src/main/res/layout/activity_instructors_map.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_login_map.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.6861826697892272" />
         <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_otp.xml" value="0.8442622950819673" />
-        <entry key="app/src/main/res/layout/activity_payment.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/activity_payment.xml" value="0.692090395480226" />
         <entry key="app/src/main/res/layout/activity_payment_message.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/activity_performance.xml" value="0.625" />
         <entry key="app/src/main/res/layout/activity_permissions.xml" value="0.8442622950819673" />
@@ -53,7 +58,7 @@
         <entry key="app/src/main/res/layout/faqlist.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/forgot_pswd_dialog.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/fragment_contacts.xml" value="0.8442622950819673" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="1.0" />
         <entry key="app/src/main/res/layout/fragment_referral.xml" value="0.8442622950819673" />
         <entry key="app/src/main/res/layout/fragment_users.xml" value="0.4057971014492754" />
         <entry key="app/src/main/res/layout/imagepreview_dialog.xml" value="0.8442622950819673" />

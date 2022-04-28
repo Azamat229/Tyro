@@ -403,7 +403,21 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_12sdp" />
 
+
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_take_by_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="gone"
+            android:fontFamily="@font/worksans_medium"
+            android:text="@string/take_by_credit"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp" />
 
 
         <androidx.appcompat.widget.AppCompatButton

@@ -139,18 +139,18 @@
             android:textStyle="bold"
             app:fontFamily="@font/worksans_medium" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/counter_detail_inst"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="counter"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            app:fontFamily="@font/worksans_medium" />
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/counter_detail_inst"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_10sdp"-->
+<!--            android:layout_marginLeft="@dimen/_10sdp"-->
+<!--            android:layout_marginTop="@dimen/_10sdp"-->
+<!--            android:text="counter"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:textSize="@dimen/_11ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:fontFamily="@font/worksans_medium" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"

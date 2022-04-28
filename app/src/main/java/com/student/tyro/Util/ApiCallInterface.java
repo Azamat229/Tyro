@@ -163,11 +163,11 @@ public interface ApiCallInterface {
     @FormUrlEncoded
     @POST("review")
     Call<JsonElement> set_review_to_instructor(@Field("user_id") String userid,
-                                           @Field("instructor_id") String id,
-                                           @Field("booking_id") String cancel,
-                                           @Field("rating") String rating,
-                                           @Field("review") String reivew,
-                                           @Field("type") String type);
+                                               @Field("instructor_id") String id,
+                                               @Field("booking_id") String cancel,
+                                               @Field("rating") String rating,
+                                               @Field("review") String reivew,
+                                               @Field("type") String type);
     //cancel upcoming classes
 
     @FormUrlEncoded
@@ -274,9 +274,28 @@ public interface ApiCallInterface {
 
 //    @GET("student_review")
 //    Call<StudentReview> student_review(@Query("instructor_id") String instructor_id);
-//
+
     @GET("student_review")
     Call<List<StudentReview>> student_review(@Query("instructor_id") String instructor_id);
+
+    @Multipart
+    @POST("user_credits")
+    Call<JsonElement> get_credits(@Part("user_id") RequestBody user_id);
+
+    @FormUrlEncoded
+    @POST("addbooking_class_by_credits")
+    Call<JsonElement> add_booking_class_by_credits(@Field("student_id") String student_id,
+                                                   @Field("instructor_id") String instructor_id,
+                                                   @Field("start_time") String start_time,
+                                                   @Field("end_time") String end_time,
+                                                   @Field("booking_date") String booking_date,
+                                                   @Field("booking_hours") String booking_hours,
+                                                   @Field("latitude") String latitude,
+                                                   @Field("longitude") String longitude,
+                                                   @Field("pickup_location") String pickup_location,
+                                                   @Field("pi_latitude") String pi_latitude,
+                                                   @Field("pi_longitude") String pi_longitude,
+                                                   @Field("lesson_bde_status") String bde_status);//1 private 0 bde
 
 
 }

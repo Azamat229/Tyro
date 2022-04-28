@@ -93,11 +93,13 @@ public class StripePayment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
         SharedPreferences sharedPreferences = getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         User_id = sharedPreferences.getString("User_id", "");
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-User_Card"));
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver, new IntentFilter("custom-User_Card"));
         networkConnection = new NetworkConnection(StripePayment.this);
+
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         if (b != null) {
@@ -124,7 +126,7 @@ public class StripePayment extends AppCompatActivity {
         }
 
         System.out.println("location " + pickup_location + "\t" + student_lat + "\t" + student_lng);
-        System.out.println("intent result"+b.toString());
+        System.out.println("intent result" + b.toString());
 
 
         //Order_id=""+getIntent().getStringExtra("Order_id");
@@ -222,9 +224,6 @@ public class StripePayment extends AppCompatActivity {
                         cvv = cardInputWidget.getCard().getCvc();
 
 
-
-
-
                         zipcode = cardInputWidget.getCard().getAddressZip();
 
 
@@ -259,7 +258,7 @@ public class StripePayment extends AppCompatActivity {
             Card_id = "" + intent.getExtras().getString("User_Card_id");
 
             System.out.println("radiobuttonvalue" + Card_id);
-            Log.e("Card_id",Card_id);
+            Log.e("Card_id", Card_id);
         }
     };
 
@@ -442,7 +441,6 @@ public class StripePayment extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -519,12 +517,6 @@ public class StripePayment extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
 
 
     private void bookOrderAPI() {
@@ -612,6 +604,7 @@ public class StripePayment extends AppCompatActivity {
         Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time,
                 date, hr, lat, longt,
                 "1", Grand_Total, pickup_location, student_lat, student_lng, bde_status); // Changed Process
+        Log.e("DBE_status", bde_status);
 
 
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)

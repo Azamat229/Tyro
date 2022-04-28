@@ -38,6 +38,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,icon,theme,label">
         <activity
+            android:name=".BookingWithCreditsSuccess"
+            android:exported="false" />
+        <activity
             android:name=".G2LicenceActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 public class BookingSuccess extends AppCompatActivity {
     ImageView imgclose;
     Button success;
-    AppCompatImageView success_img, ivBack;
+        AppCompatImageView success_img, ivBack;//now
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

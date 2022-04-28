@@ -49,7 +49,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     TextView tv_name, tv_loc;
     NetworkConnection networkConnection;
     String id, fname, lname, loc, image, email, phone, password, unique_id, auth_level, device_name, device_token, role, type, user_status, latitude, longitude, licence, insurance, void_check, about_us;
-    String language, facebook, instagram, twitter, linkedin, created_on, carname, carmodel, caryear;
+    String language, facebook, instagram, twitter, linkedin, created_on, carname, carmodel, caryear,price;
     //int total_reviews,rating_1,rating_2,rating_3,rating_4,rating_5,avg_ratings;
     String total_reviews, rating_1, rating_2, rating_3, rating_4, rating_5, avg_ratings;
     Button buk_cls;
@@ -109,7 +109,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
         tvratingcount3 = findViewById(R.id.star3_count);
         tvratingcount4 = findViewById(R.id.star4_count);
         tvratingcount5 = findViewById(R.id.star5_count);
-        counter_detail_inst = findViewById(R.id.counter_detail_inst);
+//        counter_detail_inst = findViewById(R.id.counter_detail_inst);///Azamat
 
         recycle_student_review = findViewById(R.id.rvstudentreviews);
 
@@ -142,6 +142,8 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                 i.putExtra("longitude", longitude);
                 i.putExtra("latitude", latitude);
                 i.putExtra("payment_type", "0");
+                i.putExtra("price",price);
+                i.putExtra("price1","10");
                 startActivity(i);
             }
         });
@@ -300,12 +302,19 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             twitter = dataobject.optString("twitter");
                             linkedin = dataobject.optString("linkedin");*/
                             created_on = dataobject.optString("created_on");
-                            String price = dataobject.optString("price");
-                            if (bde_status != null && bde_status.equals("1")) {
-                                price = "50";
-                            } else {
-                                price = price;
+                            price = dataobject.optString("price");
+                            Log.e("PriceString",price);
+
+                            if (bde_status != null && bde_status.equals("0")) {
+                                Float priceInt = Float.valueOf(price);
+                                Log.e("PriceInt", String.valueOf(priceInt));
+                                priceInt = priceInt+10;
+                                price = Float.toString(priceInt);//Now it will return "10"
+                                Log.e("PriceInt",price);
+                            }else{
+                                price = "20";
                             }
+
                             String badge = dataobject.optString("badge");
                             total_reviews = jsonObject.optString("total_reviews");
                             JSONObject dataobject1 = jsonObject.getJSONObject("rating_values");
@@ -324,10 +333,11 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             String kms = jsonObject1.optString("kms");
                             Log.i("the kms data is", "" + kms);
                             String hours = jsonObject1.optString("hours");
-                            // newValue = Integer.toString((int)avg_ratings);
+
                             Picasso.get().load(Constants_Urls.pic_base_url + image)
                                     .placeholder(R.drawable.user)
                                     .into(instruct_img);
+
                             Log.i("the image path is", "" + Constants_Urls.pic_base_url + image);
                             tv_name.setText(fname);
                             tv_loc.setText(loc);

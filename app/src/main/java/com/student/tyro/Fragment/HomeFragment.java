@@ -51,8 +51,8 @@ public class HomeFragment extends Fragment {
     Button book_cls;
     NetworkConnection networkConnection;
     LinearLayout linerupcmg;
-    TextView tvkms, tvhrs, counter;
-    ImageView imgvew_badge;
+    TextView tvamout, tvhrs, counter, credits_amount;
+    ImageView imgvew_badge, imgvew_private, credits_icon;
 
 
     @Override
@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment {
         Upcoming_lessons();
         checkuser();
         getdriven_details();
+        get_credits();
     }
 
     @Override
@@ -72,9 +73,13 @@ public class HomeFragment extends Fragment {
         linerupcmg = rootView.findViewById(R.id.linear_upcmg);
         tvupcoming = rootView.findViewById(R.id.tv_upcmg);
         tvnoclasses = rootView.findViewById(R.id.txt_noclasses);
-        tvkms = rootView.findViewById(R.id.tv_driven_kms);
+        tvamout = rootView.findViewById(R.id.tv_driven_amount);
         tvhrs = rootView.findViewById(R.id.tv_driven_hrs);
         imgvew_badge = rootView.findViewById(R.id.badge_for_studnt);
+        imgvew_private = rootView.findViewById(R.id.private_for_studnt);
+        credits_amount = rootView.findViewById(R.id.credits_amount);
+        credits_icon = rootView.findViewById(R.id.credits_icon);
+
 
 
         networkConnection = new NetworkConnection(getActivity());
@@ -95,7 +100,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
         if (networkConnection.isConnectingToInternet()) {
             checkuser();
         } else {
@@ -114,7 +118,6 @@ public class HomeFragment extends Fragment {
 
         return rootView;
     }
-
 
 
     private void Upcoming_lessons() {
@@ -247,22 +250,17 @@ public class HomeFragment extends Fragment {
                                 String hours = jsonObj.optString("hours");
                                 String badge = jsonObj.optString("badge");
 
-
-//                                tvhrs.setText(hours + "Hr"); // Azamat
                                 tvhrs.setText(kms + "Km");
-                                if (badge.equals("1")) {
 
+                                if (bdestatus != null && bdestatus.equals("1")) {
                                     imgvew_badge.setVisibility(View.VISIBLE);
-                                    if (bdestatus != null && bdestatus.equals("1")) {
-                                        tvkms.setText(completedclasses + " out of 10");
-                                    } else {
-                                        tvkms.setText(completedclasses + " out of " + outofclasses);
-                                    }
-
+                                    tvamout.setText(completedclasses + " out of 10");
                                 } else {
-                                    imgvew_badge.setVisibility(View.GONE);
-                                    tvkms.setText(completedclasses + " out of " + outofclasses);
+                                    imgvew_private.setVisibility(View.VISIBLE);
+                                    tvamout.setText(completedclasses + " out of " + outofclasses);
+                                    tvamout.setText(completedclasses + " out of " + outofclasses);
                                 }
+
 
                             }
 
@@ -322,6 +320,54 @@ public class HomeFragment extends Fragment {
                 Log.e("sdfdsd ", t.toString());
             }
         });
+    }
+
+    private void get_credits() {
+        RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), user_id);
+        ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
+        Call<JsonElement> call = apiClass.get_credits(r_userid);
+        Log.e("r_userid", r_userid.toString());
+
+        final KProgressHUD hud = KProgressHUD.create(getActivity())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setBackgroundColor(R.color.colorPrimary)
+                .show();
+
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                hud.dismiss();
+
+                if (response.isSuccessful()) {
+                    Log.e("get_credits_RESPONSE", response.body().toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        int credits = jsonObject.getInt("credits");
+                        Log.e("CREDITS", String.valueOf(credits));
+
+                        if(credits > 0){
+                            credits_amount.setVisibility(View.VISIBLE);
+                            credits_icon.setVisibility(View.VISIBLE);
+                            credits_amount.setText("x"+credits);
+                        }
+
+                    } catch (Exception e) {
+                        //hud.dismiss();
+                        e.printStackTrace();
+                        Log.e("get_credits_catch ", e.toString());
+                    }
+                }
+                hud.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                //hud.dismiss();
+                Log.e("get_credits_failure ", t.toString());
+            }
+        });
+
+
     }
 
     private void SignOut() {
