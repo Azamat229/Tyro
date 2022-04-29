@@ -570,11 +570,23 @@ public class Exampletimeslot extends AppCompatActivity {
                                     String price = jsonObject1.getString("price");
                                     String status_type = jsonObject1.getString("status");
 
-                                    if (bde_status != null && bde_status.equals("1")) {
-                                        price = "50";
+//                                    if (bde_status != null && bde_status.equals("1")) {
+//                                        price = "50";
+//                                    } else {
+//                                        price = price;
+//                                    } Azamat
+
+                                    if (bde_status != null && bde_status.equals("0")) {
+                                        Float priceInt = Float.valueOf(price);
+                                        Log.e("PriceInt", String.valueOf(priceInt));
+                                        priceInt = priceInt + 10;
+                                        price = Float.toString(priceInt);//Now it will return "10"
+                                        Log.e("PriceInt", price);
                                     } else {
-                                        price = price;
+                                        price = "50";
                                     }
+
+
                                     timeSlotModels.add(new TimeSlot(time_id, sp_id, from_time,
                                             to_time, total_hr, price, status_type));
                                 }

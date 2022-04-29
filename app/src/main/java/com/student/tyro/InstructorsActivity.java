@@ -36,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -356,6 +358,7 @@ public class InstructorsActivity extends AppCompatActivity {
                     Log.i("filterlist", "" + filterlist);
                 }
             }
+
             // instructorsAdapter.filterlist(filterlist);
             instructorsAdapter = new InstructorsAdapter(InstructorsActivity.this, filterlist);
             recycle_instruct.setAdapter(instructorsAdapter);
@@ -366,7 +369,7 @@ public class InstructorsActivity extends AppCompatActivity {
         //  RequestBody r_userid = RequestBody.create(MediaType.parse("multipart/form-data"), User_id);
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.get_instructorList(lattude, longtude);
-        Log.e("latitude and longitude", lattude+" "+longtude);
+        Log.e("latitude and longitude", lattude + " " + longtude);
 
 //        Call<JsonElement> call = apiClass.get_instructorList("43.65322", "-79.3831843"); // Azamat temporaly hard code
         final KProgressHUD hud = KProgressHUD.create(InstructorsActivity.this)

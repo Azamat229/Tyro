@@ -49,7 +49,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     TextView tv_name, tv_loc;
     NetworkConnection networkConnection;
     String id, fname, lname, loc, image, email, phone, password, unique_id, auth_level, device_name, device_token, role, type, user_status, latitude, longitude, licence, insurance, void_check, about_us;
-    String language, facebook, instagram, twitter, linkedin, created_on, carname, carmodel, caryear,price;
+    String language, facebook, instagram, twitter, linkedin, created_on, carname, carmodel, caryear, price;
     //int total_reviews,rating_1,rating_2,rating_3,rating_4,rating_5,avg_ratings;
     String total_reviews, rating_1, rating_2, rating_3, rating_4, rating_5, avg_ratings;
     Button buk_cls;
@@ -71,12 +71,13 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     ArrayList<StudentReview> studentReviewsList;
     StudentReviewAdapter studentReviewAdapter;
 
-    public interface OnItemUpdateListener{
+    public interface OnItemUpdateListener {
         static void onUpdateTotal(int total) {
 
 
         }
     }
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -142,8 +143,8 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                 i.putExtra("longitude", longitude);
                 i.putExtra("latitude", latitude);
                 i.putExtra("payment_type", "0");
-                i.putExtra("price",price);
-                i.putExtra("price1","10");
+                i.putExtra("price", price);
+                i.putExtra("price1", "10");
                 startActivity(i);
             }
         });
@@ -179,26 +180,25 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
     }
 
 
-
     private void getStudentReviews() {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<List<StudentReview>> call = apiClass.student_review(insid);
 
-        final KProgressHUD hud = KProgressHUD.create(InstructorsDetailsActivity.this)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setBackgroundColor(R.color.colorPrimary)
-                .show();
+//        final KProgressHUD hud = KProgressHUD.create(InstructorsDetailsActivity.this)
+//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+//                .setBackgroundColor(R.color.colorPrimary)
+//                .show();
 
         call.enqueue(new Callback<List<StudentReview>>() {
             @Override
             public void onResponse(Call<List<StudentReview>> call, Response<List<StudentReview>> response) {
-                hud.dismiss();
+//                hud.dismiss();
                 if (response.isSuccessful()) {
                     Log.e("StudentReviews", response.body().toString());
                     try {
-                        hud.dismiss();
+//                        hud.dismiss();
                         List<StudentReview> userResponses = response.body();
-                        studentReviewAdapter.setData(userResponses );
+                        studentReviewAdapter.setData(userResponses);
                         recycle_student_review.setAdapter(studentReviewAdapter);
 
 //                        JSONArray jsonArray = new JSONArray(response.body());
@@ -229,7 +229,7 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
 //                            tvnoinstruct.setText("No Instructors available");
 //
                     } catch (Exception e) {
-                        hud.dismiss();
+//                        hud.dismiss();
                         e.printStackTrace();
                         Log.e("EXCEPTION ", e.toString());
                     }
@@ -303,16 +303,16 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             linkedin = dataobject.optString("linkedin");*/
                             created_on = dataobject.optString("created_on");
                             price = dataobject.optString("price");
-                            Log.e("PriceString",price);
+                            Log.e("PriceString", price);
 
                             if (bde_status != null && bde_status.equals("0")) {
                                 Float priceInt = Float.valueOf(price);
                                 Log.e("PriceInt", String.valueOf(priceInt));
-                                priceInt = priceInt+10;
+                                priceInt = priceInt + 10;
                                 price = Float.toString(priceInt);//Now it will return "10"
-                                Log.e("PriceInt",price);
-                            }else{
-                                price = "20";
+                                Log.e("PriceInt", price);
+                            } else {
+                                price = "50";
                             }
 
                             String badge = dataobject.optString("badge");
@@ -411,7 +411,11 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             String myrating = Float.toString(f);
                             newValue = myrating;
                             tvrate.setText(myrating);
-                            tvrating.setText(myrating);
+
+                            String finalRating;
+                            finalRating = calculateOverallRating(rating1,rating2,rating3,rating4,rating5);
+
+                            tvrating.setText(finalRating);
                             ttlrating.setText(total_reviews + " " + "Ratings");
                             /*if(badge.equals("1"))
                             {
@@ -432,6 +436,16 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                             tvratingcount3.setText(String.format("%.0f", Float.parseFloat(rating_3)));
                             tvratingcount4.setText(String.format("%.0f", Float.parseFloat(rating_4)));
                             tvratingcount5.setText(String.format("%.0f", Float.parseFloat(rating_5)));
+
+
+
+
+
+
+
+
+
+                            float sum = rating1 + (rating2 * 2) + (rating3 * 3) + (rating4 * 4) + (rating5 * 5);
                             hud.dismiss();
                         }
                     } catch (Exception e) {
@@ -441,6 +455,39 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            private String calculateOverallRating(float rating1, float rating2, float rating3, float rating4, float rating5) {
+                float a, b, c, d, e;
+                ArrayList<Float> nums = new ArrayList<Float>();
+                if (rating1 > 0) {
+                    a = rating1 * 1;
+                    nums.add(a);
+                }
+                if (rating2 > 0) {
+                    b = rating2 * 2;
+                    nums.add(b);
+                }
+                if (rating3 > 0) {
+                    c = rating3 * 3;
+                    nums.add(c);
+                }
+                if (rating4 > 0) {
+                    d = rating4 * 4;
+                    nums.add(d);
+                }
+                if (rating5 > 0) {
+                    e = rating5 * 5;
+                    nums.add(e);
+                }
+                float summ = 0;
+                for (float i : nums)
+                    summ = summ + i;
+
+                summ = summ / nums.size();
+                String summ_str = Float.toString(summ);
+                return  summ_str;
+            }
+
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {

@@ -162,10 +162,10 @@ public class StripePayment extends AppCompatActivity {
 //            }
 //        });
 
+                finish();
         back_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
             }
         });
         if (networkConnection.isConnectingToInternet()) {
@@ -604,7 +604,7 @@ public class StripePayment extends AppCompatActivity {
         Call<JsonElement> call = apiClass.addbooking_class(studentid, id, start_time, end_time,
                 date, hr, lat, longt,
                 "1", Grand_Total, pickup_location, student_lat, student_lng, bde_status); // Changed Process
-        Log.e("DBE_status", bde_status);
+        Log.e("POST BOOKING", "bde_status: "+bde_status+" Grand_Total: "+Grand_Total);
 
 
         final KProgressHUD hud = KProgressHUD.create(StripePayment.this)

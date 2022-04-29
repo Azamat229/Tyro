@@ -168,36 +168,64 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/llChat"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/drawable_yellow_cornered"
-            android:paddingStart="@dimen/_20sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_20sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:visibility="visible">
+            android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/icn_nav_message"
-                app:tint="@color/colorBlack" />
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <LinearLayout
+                android:id="@+id/llChat"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_40sdp"
+
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:text="Chat"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_16ssp"
-                app:fontFamily="@font/worksans_medium" />
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/drawable_yellow_cornered"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/icn_nav_message"
+                    app:tint="@color/colorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="Chat"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_16ssp"
+                    app:fontFamily="@font/worksans_medium" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBookAClass"
+                style="@style/StyleButtonYellow"
+                android:layout_width="@dimen/_160sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:text="Book a Class"
+
+                android:textSize="@dimen/_16ssp" />
 
         </LinearLayout>
+
+
 
         <View
             android:layout_width="match_parent"
@@ -210,9 +238,13 @@
             android:background="@color/colorWhite" />
 
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+
 
 
             <LinearLayout
@@ -225,9 +257,9 @@
 
 
                 <LinearLayout
-                    android:layout_width="@dimen/_60sdp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_rectangle"
                     android:gravity="center"
@@ -257,9 +289,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="@dimen/_60sdp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_rectangle"
                     android:gravity="center"
@@ -287,9 +319,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="@dimen/_60sdp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_rectangle"
                     android:gravity="center"
@@ -322,9 +354,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="@dimen/_60sdp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_rectangle"
                     android:gravity="center"
@@ -360,7 +392,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </HorizontalScrollView>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -425,7 +457,6 @@
                     android:id="@+id/ttl_ratings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_3sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text=""
                     android:textColor="@color/colorWhite"
@@ -444,7 +475,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp">
+                android:paddingEnd="@dimen/_5sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -452,7 +483,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="1"
@@ -477,15 +508,13 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/star1_count"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_3sdp"
                         android:progressTint="@color/colorYellow"
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12ssp"
                         app:fontFamily="@font/worksans_medium" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -494,7 +523,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="2"
@@ -504,6 +533,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center"
+
                         android:src="@drawable/ic_star_active" />
 
                     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -517,9 +548,8 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/star2_count"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_3sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12ssp"
@@ -533,7 +563,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="3"
@@ -543,6 +573,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center"
+
                         android:src="@drawable/ic_star_active" />
 
                     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -556,9 +588,8 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/star3_count"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_3sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12ssp"
@@ -572,7 +603,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="4"
@@ -582,6 +613,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center"
+
                         android:src="@drawable/ic_star_active" />
 
                     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -595,9 +628,8 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/star4_count"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_3sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12ssp"
@@ -611,7 +643,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="5"
@@ -621,6 +653,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center"
+
                         android:src="@drawable/ic_star_active" />
 
                     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -634,9 +668,8 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/star5_count"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_3sdp"
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_12ssp"
@@ -646,18 +679,18 @@
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBookAClass"
-            style="@style/StyleButtonYellow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:text="Book a Class"
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnBookAClass"-->
+<!--            style="@style/StyleButtonYellow"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_5sdp"-->
+<!--            android:layout_marginTop="@dimen/_20sdp"-->
+<!--            android:layout_marginEnd="@dimen/_5sdp"-->
+<!--            android:layout_marginBottom="@dimen/_20sdp"-->
+<!--            android:text="Book a Class"-->
 
-            android:textSize="@dimen/_16ssp" />
+<!--            android:textSize="@dimen/_16ssp" />-->
 
     </LinearLayout>
 </ScrollView>

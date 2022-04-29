@@ -12,6 +12,7 @@ public class Instructor {
         this.instruct_img = instruct_img;
         this.instruct_rate = instruct_rate;
         this.instruct_distance = instruct_distance;
+
     }
 
     public String getInstruct_rate() {

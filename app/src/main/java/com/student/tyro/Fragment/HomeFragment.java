@@ -246,11 +246,11 @@ public class HomeFragment extends Fragment {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 String outofclasses = jsonObj.optString("total_classes");
                                 String completedclasses = jsonObj.optString("completed_classes");
-                                String kms = jsonObj.optString("kms");
+                                Double kms = jsonObj.optDouble("kms");
                                 String hours = jsonObj.optString("hours");
                                 String badge = jsonObj.optString("badge");
 
-                                tvhrs.setText(kms + "Km");
+                                tvhrs.setText(String.format("%.1f", kms) + "Km");
 
                                 if (bdestatus != null && bdestatus.equals("1")) {
                                     imgvew_badge.setVisibility(View.VISIBLE);
