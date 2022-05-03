@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,14 +50,18 @@ public class InstructorsActivity extends AppCompatActivity {
     NetworkConnection networkConnection;
     ImageView img_back;
     ArrayList<Instructor> instructorslist;
+    ArrayList<Instructor> instructors_list_filter;
     ArrayList<Instructor_Filter> instructorsfilterlist;
+
     SearchView edit_search;
     InstructorsAdapter instructorsAdapter;
     InstructorsFilterAdapter instructorsfilterAdapter;
     String lattude, longtude;
     String Rating, Distance;
     ImageView filter;
-    String Price_range = "", Max_range = "";
+    int Price_range = 0;
+    String Price_rangeString = "";
+    String Max_range = "";
     LinearLayout linearnoinstruct;
     TextView tvnoinstruct;
 
@@ -103,7 +108,7 @@ public class InstructorsActivity extends AppCompatActivity {
                 RadioGroup radioGroup = dialog.findViewById(R.id.radioGroup);
                 Button apply = dialog.findViewById(R.id.btnapply);
                 Button reset = dialog.findViewById(R.id.btnReset);
-                ArrayList<String> ratingtList = new ArrayList<String>();
+                ArrayList<Integer> ratingtList = new ArrayList<Integer>();
                 ArrayList<String> garetypeList = new ArrayList<String>();
                 SeekBar price_seekbar = dialog.findViewById(R.id.price_seekbar);
                 TextView txt_max_value = dialog.findViewById(R.id.txt_max_value);
@@ -114,9 +119,10 @@ public class InstructorsActivity extends AppCompatActivity {
                         int val = (progress * (seekBar.getWidth() - 2 * seekBar.getThumbOffset())) / seekBar.getMax();
                         txt_max_value.setText("$" + progress + "/hr");
                         txt_max_value.setX(seekBar.getX() + val + seekBar.getThumbOffset() / 2);
-                        Price_range = "" + progress;
+                        Price_range = progress;
+                        Price_rangeString = "" + progress;
                         Log.i("Price_range is", "" + Price_range);
-                        Max_range = "120";
+                        Max_range = "300";
                     }
 
                     @Override
@@ -135,11 +141,11 @@ public class InstructorsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (checkbox1.isChecked()) {
-                            ratingtList.add("4");
-                            ratingtList.add("5");
+                            ratingtList.add(4);
+                            ratingtList.add(5);
                         } else {
-                            ratingtList.remove("4");
-                            ratingtList.remove("5");
+                            ratingtList.remove(4);
+                            ratingtList.remove(5);
                         }
 
                     }
@@ -151,11 +157,11 @@ public class InstructorsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (checkbox2.isChecked()) {
-                            ratingtList.add("3");
-                            ratingtList.add("4");
+                            ratingtList.add(3);
+                            ratingtList.add(4);
                         } else {
-                            ratingtList.remove("3");
-                            ratingtList.remove("4");
+                            ratingtList.remove(3);
+                            ratingtList.remove(4);
                         }
 
                     }
@@ -168,11 +174,11 @@ public class InstructorsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (checkbox3.isChecked()) {
-                            ratingtList.add("2");
-                            ratingtList.add("3");
+                            ratingtList.add(2);
+                            ratingtList.add(3);
                         } else {
-                            ratingtList.remove("2");
-                            ratingtList.remove("3");
+                            ratingtList.remove(2);
+                            ratingtList.remove(3);
                         }
 
                     }
@@ -183,11 +189,11 @@ public class InstructorsActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (checkbox4.isChecked()) {
 
-                            ratingtList.add("1");
-                            ratingtList.add("2");
+                            ratingtList.add(1);
+                            ratingtList.add(2);
                         } else {
-                            ratingtList.remove("1");
-                            ratingtList.remove("2");
+                            ratingtList.remove(1);
+                            ratingtList.remove(2);
                         }
 
                     }
@@ -228,86 +234,51 @@ public class InstructorsActivity extends AppCompatActivity {
                         RadioButton genderradioButton = dialog.findViewById(selectedId);
                         Log.i("Radiobutton text", "" + genderradioButton.getText().toString());
 
-                        StringBuilder sb = new StringBuilder(ratingtList.size());
-                        ArrayList ratingvalues = new ArrayList();
-                        if (ratingtList != null && ratingtList.size() > 0) {
-                            for (int i = 0; i < ratingtList.size(); i++) {
-                                ratingvalues.add(ratingtList.get(i));
+
+                        instructors_list_filter = new ArrayList<>();
+                        for (Instructor i : instructorslist) {
+                            int counter1 = 0, counter2 = 0;
+                            float ratting = Float.parseFloat(i.getInstruct_rate());
+
+                            if (ratingtList.size() > 0) {
+                                counter1 += 1;
+                                if (ratting > Collections.min(ratingtList) && ratting < Collections.max(ratingtList)) {
+                                    counter2 += 1;
+                                }
                             }
-                            System.out.println("post rating data " + ratingvalues);
-                        }
-                        if (networkConnection.isConnectingToInternet()) {
-                            ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-                            Call<JsonElement> call = apiClass.get_filters
-                                    (genderradioButton.getText().toString(),
-                                            garetypeList, Price_range, ratingvalues, lattude, longtude);
-                            final KProgressHUD hud = KProgressHUD.create(InstructorsActivity.this)
-                                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                                    .setBackgroundColor(R.color.colorPrimary)
-                                    .show();
-                            call.enqueue(new Callback<JsonElement>() {
-                                @Override
-                                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                                    hud.dismiss();
-                                    dialog.dismiss();
-
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(response.body().toString());
-                                            int status = jsonObject.getInt("status");
-                                            if (status == 1) {
-                                                String data = jsonObject.optString("data");
-                                                JSONArray jsonArray = new JSONArray(data);
-                                                System.out.println("array is" + jsonArray);
-                                                instructorsfilterlist = new ArrayList<>();
-                                                GridLayoutManager gridLayoutManager = new GridLayoutManager(InstructorsActivity.this, 1);
-                                                recycle_instruct.setLayoutManager(gridLayoutManager);
-                                                for (int i = 0; i < jsonArray.length(); i++) {
-                                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                                    String langu_age = jsonObject1.getString("language");
-                                                    String inst_id = jsonObject1.getString("user_id");
-                                                    String inst_first_name = jsonObject1.getString("firstname");
-                                                    String inst_img = jsonObject1.getString("profile_pic");
-                                                    String inst_prce = jsonObject1.getString("price");
-                                                    String gender = jsonObject1.getString("gender");
-                                                    String rating = jsonObject1.getString("rating");
-                                                    String inst_distance = jsonObject1.getString("distance");
-                                                    //String inst_lat = jsonObject1.getString("latitude");
-                                                    //String inst_long = jsonObject1.getString("longitude");
-                                                    // Rating = Integer.toString((int)rating);
-                                                    // Distance = Integer.toString((int)inst_distance);
-                                                    instructorsfilterlist.add(new Instructor_Filter(langu_age, inst_id, inst_first_name, inst_img, inst_prce, gender, rating, inst_distance));
-                                                    Log.i("the catagory data is", "" + instructorsfilterlist);
-                                                }
-                                                //recycle_instruct.setAdapter(new InstructorsAdapter(InstructorsActivity.this,instructorslist));
-                                                instructorsfilterAdapter = new InstructorsFilterAdapter(InstructorsActivity.this, instructorsfilterlist);
-                                                recycle_instruct.setAdapter(instructorsfilterAdapter);
-                                                recycle_instruct.setVisibility(View.VISIBLE);
-                                                linearnoinstruct.setVisibility(View.GONE);
-                                            } else if (status == 0) {
-                                                recycle_instruct.setVisibility(View.GONE);
-                                                linearnoinstruct.setVisibility(View.VISIBLE);
-                                                tvnoinstruct.setText("No Instructors available");
-                                            }
-                                        } catch (Exception e) {
-                                            hud.dismiss();
-                                            dialog.dismiss();
-                                            e.printStackTrace();
-                                            Log.e("dskfsdf ", e.toString());
-                                        }
-                                    }
+                            if (garetypeList.size() > 0 && !garetypeList.isEmpty()) {
+                                counter1 += 1;
+                                if (garetypeList.contains(i.getInstruct_gear_type())) {
+                                    counter2 += 1;
                                 }
+                            }
+                            float price = Float.parseFloat(i.getInstruct_price());
 
-                                @Override
-                                public void onFailure(Call<JsonElement> call, Throwable t) {
-                                    hud.dismiss();
-                                    Log.e("sdfdsd ", t.toString());
+                            if (Price_range != 0) {
+                                counter1 += 1;
+                                if (price <= Price_range) {
+                                    Log.i("PRICE_", String.valueOf(price));
+                                    counter2 += 1;
                                 }
-                            });
-                        } else {
-                            Toast.makeText(InstructorsActivity.this, getResources().getText(R.string.connecttointernet), Toast.LENGTH_SHORT).show();
+                            }
+                            Log.i("COUNTERS", "1 :" + counter1 + " 2 :" + counter2);
+
+                            if (counter1 == counter2) {
+                                instructors_list_filter.add(i);
+                            }
                         }
+                        dialog.dismiss();
+
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(InstructorsActivity.this, 1);
+                        recycle_instruct.setLayoutManager(gridLayoutManager);
+
+                        instructorsAdapter = new InstructorsAdapter(InstructorsActivity.this, instructors_list_filter);
+                        recycle_instruct.setAdapter(instructorsAdapter);
+                        recycle_instruct.setVisibility(View.VISIBLE);
+                        linearnoinstruct.setVisibility(View.GONE);
+
                     }
+
                 });
                 ImageView cls = dialog.findViewById(R.id.img_cls);
                 cls.setOnClickListener(new View.OnClickListener() {
@@ -402,11 +373,14 @@ public class InstructorsActivity extends AppCompatActivity {
                                 String inst_rating = jsonObject1.getString("rating");
                                 // String inst_last_name = jsonObject1.getString("lastname");
                                 String inst_distance = jsonObject1.getString("distance");
+                                String inst_gear_type = jsonObject1.getString("gear_type");
+                                String inst_price = jsonObject1.getString("price");
+
                                 //String inst_lat = jsonObject1.getString("latitude");
                                 //String inst_long = jsonObject1.getString("longitude");
                                 // Rating = Integer.toString((int)inst_rating);
                                 //  Distance = Integer.toString((int)inst_distance);
-                                instructorslist.add(new Instructor(langu_age, inst_id, inst_first_name, inst_img, inst_rating, inst_distance));
+                                instructorslist.add(new Instructor(langu_age, inst_id, inst_first_name, inst_img, inst_rating, inst_distance, inst_gear_type, inst_price));
                                 Log.i("the catagory data is", "" + instructorslist);
                             }
                             //recycle_instruct.setAdapter(new InstructorsAdapter(InstructorsActivity.this,instructorslist));

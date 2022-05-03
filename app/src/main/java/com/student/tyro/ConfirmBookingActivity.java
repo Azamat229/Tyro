@@ -245,11 +245,8 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (sp_agree.isEmpty() || sp_agree.equals("0")) {
                     Toast.makeText(ConfirmBookingActivity.this, getResources().getString(R.string.agree_terms_cond), Toast.LENGTH_SHORT).show();
-
-
                 } else {
                     if (Float.parseFloat(price) > 0) {
-                        //Booking_confirm();
                         Intent i = new Intent(ConfirmBookingActivity.this, StripePayment.class);
                         i.putExtra("student_id", studentid);
                         i.putExtra("instruct_id", id);
@@ -304,7 +301,6 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                         i.putExtra("student_lat", student_lat);
                         i.putExtra("student_lng", student_lng);
                         i.putExtra("student_credits", credits);
-                        Log.e("student_credits", String.valueOf(credits));
                         startActivity(i);
                     } else {
                         Toast.makeText(getApplicationContext(), "Amount has not added by admin", Toast.LENGTH_LONG).show();

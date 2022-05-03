@@ -162,10 +162,11 @@ public class StripePayment extends AppCompatActivity {
 //            }
 //        });
 
-                finish();
         back_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+
             }
         });
         if (networkConnection.isConnectingToInternet()) {

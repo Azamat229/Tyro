@@ -2,9 +2,11 @@ package com.student.tyro.Model;
 
 public class Instructor {
 
-    String instruct_language,instruct_id,instruct_firstname,instruct_img,instruct_rate,instruct_distance;
+    String instruct_language,instruct_id,instruct_firstname,instruct_img,instruct_rate,instruct_distance, gear_type,price;
 
-    public Instructor(String instruct_language, String instruct_id, String instruct_firstname, String instruct_img, String instruct_rate, String instruct_distance) {
+
+
+    public Instructor(String instruct_language, String instruct_id, String instruct_firstname, String instruct_img, String instruct_rate, String instruct_distance, String gear_type, String price) {
 
         this.instruct_language = instruct_language;
         this.instruct_id = instruct_id;
@@ -12,11 +14,29 @@ public class Instructor {
         this.instruct_img = instruct_img;
         this.instruct_rate = instruct_rate;
         this.instruct_distance = instruct_distance;
+        this.gear_type = gear_type;
+        this.price = price;
 
+    }
+
+    public String getInstruct_price() {
+        return price;
+    }
+
+    public void setInstruct_price(String price) {
+        this.price = price;
     }
 
     public String getInstruct_rate() {
         return instruct_rate;
+    }
+
+    public void setInstruct_gear_type(String gear_type) {
+        this.gear_type = gear_type;
+    }
+
+    public String getInstruct_gear_type() {
+        return gear_type;
     }
 
     public void setInstruct_rate(String instruct_rate) {
