@@ -71,7 +71,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     public static LinearLayout sliderDotspanel;
     CheckBox check;
     String sp_agree = "";
-    Button confrm_booking;
+    Button confrm_booking, take_by_credit;
     TextView tvprice;
     AppCompatTextView txt_terms;
     ImageView back, edit_location;
@@ -95,10 +95,11 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
         confrm_booking = findViewById(R.id.btnConfirmBooking);
+        take_by_credit = findViewById(R.id.btnTakeByCredits);
         tvprice = findViewById(R.id.instruct_price);
         check = findViewById(R.id.check);
         back = findViewById(R.id.ivBack);
-        txt_take_by_credit = findViewById(R.id.txt_take_by_credit);
+//        txt_take_by_credit = findViewById(R.id.txt_take_by_credit);
         edit_location = findViewById(R.id.edit_location);
         tabLayout = findViewById(R.id.tabLayout);
         txt_terms = findViewById(R.id.txt_terms);
@@ -196,12 +197,14 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                 if (check.isChecked()) {
                     sp_agree = "1";
                     confrm_booking.setBackgroundResource(R.drawable.bg_yellow_rounded);
-                    txt_take_by_credit.setTextColor(Color.parseColor("#F7BD01"));
+                    take_by_credit.setBackgroundResource(R.drawable.bg_yellow_rounded);
+//                    txt_take_by_credit.setTextColor(Color.parseColor("#F7BD01"));
 
                 } else {
                     sp_agree = "0";
                     confrm_booking.setBackgroundResource(R.drawable.bg_gray_rounded);
-                    txt_take_by_credit.setTextColor(Color.parseColor("#6F7E7D7D"));
+                    take_by_credit.setBackgroundResource(R.drawable.bg_gray_rounded);
+//                    txt_take_by_credit.setTextColor(Color.parseColor("#6F7E7D7D"));
                 }
             }
         });
@@ -273,7 +276,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             }
         });
 
-        txt_take_by_credit.setOnClickListener(new View.OnClickListener() {
+        take_by_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (sp_agree.isEmpty() || sp_agree.equals("0")) {
@@ -311,6 +314,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
         sliderImg = new ArrayList<>();
         sliderImg.clear();
+
         if (networkConnection.isConnectingToInternet()) {
             get_slider_Details();
             get_credits();
@@ -415,7 +419,8 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                         Log.e("CREDITS", String.valueOf(credits));
 
                         if (credits > 0) {
-                            txt_take_by_credit.setVisibility(View.VISIBLE);
+                            take_by_credit.setVisibility(View.VISIBLE);
+                            confrm_booking.setVisibility(View.GONE);
                         }
 
                     } catch (Exception e) {

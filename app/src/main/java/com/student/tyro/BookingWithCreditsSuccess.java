@@ -134,7 +134,7 @@ public class BookingWithCreditsSuccess extends AppCompatActivity {
                                 int status = jsonObject.getInt("status");
                                 if (status == 1) {
                                     Toast.makeText(BookingWithCreditsSuccess.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(BookingWithCreditsSuccess.this, MainActivity.class));
+                                    startActivity(new Intent(BookingWithCreditsSuccess.this, BookingSuccess.class));
                                     finish();
                                 } else {
                                     Toast.makeText(BookingWithCreditsSuccess.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

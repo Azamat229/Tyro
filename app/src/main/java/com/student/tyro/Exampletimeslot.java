@@ -582,9 +582,10 @@ public class Exampletimeslot extends AppCompatActivity {
                                         priceInt = priceInt + 10;
                                         price = Float.toString(priceInt);//Now it will return "10"
                                         Log.e("PriceInt", price);
-                                    } else {
-                                        price = "50";
                                     }
+//                                    else {
+//                                        price = "50";
+//                                    }
 
 
                                     timeSlotModels.add(new TimeSlot(time_id, sp_id, from_time,

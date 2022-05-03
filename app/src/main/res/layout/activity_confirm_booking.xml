@@ -406,20 +406,37 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_take_by_credit"
-            android:layout_width="wrap_content"
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/txt_take_by_credit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:layout_marginTop="@dimen/_20sdp"-->
+<!--            android:visibility="gone"-->
+<!--            android:fontFamily="@font/worksans_medium"-->
+<!--            android:text="@string/take_by_credit"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:textSize="@dimen/_12sdp" />-->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTakeByCredits"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="5dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_rounded"
+            android:paddingStart="@dimen/_20sdp"
             android:visibility="gone"
-            android:fontFamily="@font/worksans_medium"
+            android:paddingLeft="@dimen/_20sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingRight="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_10sdp"
             android:text="@string/take_by_credit"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_12sdp" />
-
-
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnConfirmBooking"
             android:layout_width="match_parent"
@@ -431,6 +448,7 @@
             android:paddingLeft="@dimen/_20sdp"
             android:paddingTop="@dimen/_10sdp"
             android:paddingEnd="@dimen/_20sdp"
+            android:visibility="gone"
             android:paddingRight="@dimen/_20sdp"
             android:paddingBottom="@dimen/_10sdp"
             android:text="Confirm Booking"

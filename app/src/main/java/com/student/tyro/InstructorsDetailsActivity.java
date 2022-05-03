@@ -311,9 +311,10 @@ public class InstructorsDetailsActivity extends AppCompatActivity {
                                 priceInt = priceInt + 10;
                                 price = Float.toString(priceInt);//Now it will return "10"
                                 Log.e("PriceInt", price);
-                            } else {
-                                price = "50";
                             }
+//                            else {
+//                                price = "50";
+//                            }
 
                             String badge = dataobject.optString("badge");
                             total_reviews = jsonObject.optString("total_reviews");

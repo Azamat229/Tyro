@@ -65,6 +65,8 @@ public class MyBookings extends Fragment {
     LinearLayout linearnoclasses;
     TextView tvnoclasses;
     CompletedAdapter compltedadapter;
+    int rating_exist = 0;
+
 
     @Override
     public void onResume() {
@@ -364,17 +366,19 @@ public class MyBookings extends Fragment {
                     .placeholder(R.drawable.user)
                     .into(holder.img_icon);
 
+            for (Comleted_Booking comp_class : lessionsModalArrayList) {
+                if (comp_class.getRatingStatus().equals("1")) {
+                    rating_exist = 1;
+                }
+            }
+
             holder.ratingText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (completed.getRatingStatus() != null && completed.getRatingStatus().equals("1")) {
+                    if (rating_exist == 1) {
                         Toast.makeText(context, "Rating already given", Toast.LENGTH_SHORT).show();
-
                     } else {
-
-
-
 
                         final Dialog dialog1 = new Dialog(context, R.style.MyAlertDialogTheme);
                         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -396,7 +400,7 @@ public class MyBookings extends Fragment {
                         str_review_text = edit_review.getText().toString();
                         String testText = edit_review.getText().toString();
 
-                        Log.e("STR_REVIEW", str_review_text+":"+edit_review.getText().toString());
+                        Log.e("STR_REVIEW", str_review_text + ":" + edit_review.getText().toString());
 
 
                         Picasso.get().load(Constants_Urls.pic_base_url + completed.getPic())
@@ -422,7 +426,7 @@ public class MyBookings extends Fragment {
                                                         boolean fromUser) {
                                 str_rating = String.valueOf(rating);
 //                                    txtRatingValue.setText(String.valueOf(rating));
-                                 Toast.makeText(context,""+String.valueOf(rating), Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "" + String.valueOf(rating), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -433,9 +437,9 @@ public class MyBookings extends Fragment {
 
                                 if (networkConnection.isConnectingToInternet()) {
                                     ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
-                                    Call<JsonElement> call = apiClass.set_review_to_instructor(studentid, instid, bookingid, str_rating, edit_review.getText().toString(),"1");
-                                    Log.e("review", studentid+" "+instid+" "+bookingid+" "+str_rating+" str_review:"+str_review_text);
-                                    Log.e("STR_REVIEW", str_review_text+":"+edit_review.getText().toString());
+                                    Call<JsonElement> call = apiClass.set_review_to_instructor(studentid, instid, bookingid, str_rating, edit_review.getText().toString(), "1");
+                                    Log.e("review", studentid + " " + instid + " " + bookingid + " " + str_rating + " str_review:" + str_review_text);
+                                    Log.e("STR_REVIEW", str_review_text + ":" + edit_review.getText().toString());
 
                                     final KProgressHUD hud = KProgressHUD.create(context)
                                             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -466,7 +470,7 @@ public class MyBookings extends Fragment {
                                                     e.printStackTrace();
                                                     Log.e("my_booking_catch ", e.toString());
                                                 }
-                                            }else {
+                                            } else {
                                                 Log.e("my_bookings_else", response.body().toString());
                                                 Log.e("my_bookings_error_body", response.errorBody().toString());
 
