@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     Log.d("JSON_OBJECT", object.toString());
                     title = object.getString("title");
                     type = object.getString("type");
-                    //   description = object.getString("message");
+//                       description = object.getString("message");
                     notification_handle_data();
                 }
             }
@@ -136,7 +136,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(Notification.PRIORITY_HIGH);
 
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-        //notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, builder.build());
+//        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, builder.build());
         notificationManager.notify(m, builder.build());
     }
 

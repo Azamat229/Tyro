@@ -56,7 +56,7 @@ public class InstructorsActivity extends AppCompatActivity {
     SearchView edit_search;
     InstructorsAdapter instructorsAdapter;
     InstructorsFilterAdapter instructorsfilterAdapter;
-    String lattude, longtude;
+    String lattude,     longtude;
     String Rating, Distance;
     ImageView filter;
     int Price_range = 0;
@@ -64,6 +64,8 @@ public class InstructorsActivity extends AppCompatActivity {
     String Max_range = "";
     LinearLayout linearnoinstruct;
     TextView tvnoinstruct;
+    GPSTracker gpsTracker;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,16 @@ public class InstructorsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         lattude = sharedPreferences.getString("lat", "");
         longtude = sharedPreferences.getString("long", "");
+
+        gpsTracker = new GPSTracker(InstructorsActivity.this);
+        gpsTracker.getLocation();
+
+        if (lattude.equals("") || longtude.equals("")) {
+            lattude = String.valueOf(gpsTracker.getLatitude());
+            longtude = String.valueOf(gpsTracker.getLongitude());
+            Log.e("Lattude: ", lattude + " logtude: "+longtude);
+
+        }
         networkConnection = new NetworkConnection(InstructorsActivity.this);
         linearnoinstruct = findViewById(R.id.linear_noinstructors);
         tvnoinstruct = findViewById(R.id.tv_noinstructors);

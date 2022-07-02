@@ -1,5 +1,6 @@
 package com.student.tyro;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -130,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     getChatHistory1(ChatActivity.this);
                 }
-            }, 0, 5000);
+            }, 500, 5000);
 //            new Timer().scheduleAtFixedRate(new TimerTask() {
 //                @Override
 //                public void run() {
@@ -198,8 +199,10 @@ public class ChatActivity extends AppCompatActivity {
 //                .setBackgroundColor(R.color.colorPrimary)
 //                .show();
         call.enqueue(new Callback<JsonElement>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.e("CHAT_ACTIVITY", response.body().toString());
 
 //                hud.dismiss();
 
@@ -238,19 +241,23 @@ public class ChatActivity extends AppCompatActivity {
                             }
 
                             if (chatlist != null && chatModels != null && chatlist.size() > chatModels.size()) {
+                                Log.e("CHAT_FOR1",chatlist.toString());
 
-//                                chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, Sender_id);
-//                                chatRecyclerView.setHasFixedSize(true);
-//                                chatRecyclerView.setAdapter(chathistoryAdapter);
-//                                chatRecyclerView.smoothScrollToPosition(chatModels.size());
-//                                chathistoryAdapter.notifyDataSetChanged();
+                                chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, Sender_id);
+                                chatRecyclerView.setHasFixedSize(true);
+                                chatRecyclerView.setAdapter(chathistoryAdapter);
 
-                                for (int i = 0; i < chatlist.size(); i++) {
-                                    if (!chatlist.get(i).getId().equals(chatModels.get(i).getId())) {
-                                        chatModels.add(chatlist.get(i));
-                                        chathistoryAdapter.notifyDataSetChanged();
-                                    }
-                                }
+                                chatRecyclerView.smoothScrollToPosition(chatModels.size()+1);
+                                chathistoryAdapter.notifyDataSetChanged();
+
+
+//                                for (int i = 0; i < chatlist.size(); i++) {
+//                                    if (!chatlist.get(i).getId().equals(chatModels.get(i).getId())) {
+//                                        chatModels.add(chatlist.get(i));
+//                                        Log.e("CHAT_FOR",chatlist.toString());
+//                                        chathistoryAdapter.notifyDataSetChanged();
+//                                    }
+//                                }
                                 chatModels = chatlist;
                             }
 
@@ -274,7 +281,9 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-//                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+//                hud.dismiss();
+//                Log.e("TIMBER_Failure", t.toString());
+//                Toast.makeText(ChatActivity.this, t.toString(), Toast.LENGTH_SHORT).show();//Aza,a
 
             }
         });
@@ -362,6 +371,8 @@ public class ChatActivity extends AppCompatActivity {
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.e("CHAT_ACTIVITY", response.body().toString());
+
                 //  progressDoalog.dismiss();
                 hud.dismiss();
                 if (response.isSuccessful()) {
@@ -447,7 +458,7 @@ public class ChatActivity extends AppCompatActivity {
                             chathistoryAdapter = new ChatHistoryAdapter(ChatActivity.this, chatModels, Sender_id);
 //                            chatRecyclerView.setHasFixedSize(true);
                             chatRecyclerView.setAdapter(chathistoryAdapter);
-                            chatRecyclerView.smoothScrollToPosition(chatModels.size());
+                            chatRecyclerView.smoothScrollToPosition(chatModels.size()+1);
                             chathistoryAdapter.notifyDataSetChanged();
 
 

@@ -420,7 +420,9 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
                         if (credits > 0) {
                             take_by_credit.setVisibility(View.VISIBLE);
-                            confrm_booking.setVisibility(View.GONE);
+                        }else {
+                            confrm_booking.setVisibility(View.VISIBLE);
+
                         }
 
                     } catch (Exception e) {

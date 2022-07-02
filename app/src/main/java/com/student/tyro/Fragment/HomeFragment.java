@@ -45,7 +45,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     TextView username, tvupcoming, tvnoclasses;
-    String user_name, user_id;
+    String user_name, user_id, badge, bdestatus;
     RecyclerView recycler_upcmg;
     ArrayList<Lessions> lessionslist;
     Button book_cls;
@@ -81,7 +81,6 @@ public class HomeFragment extends Fragment {
         credits_icon = rootView.findViewById(R.id.credits_icon);
 
 
-
         networkConnection = new NetworkConnection(getActivity());
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", Context.MODE_PRIVATE);
         user_name = sharedPreferences.getString("login_firstname", "");
@@ -91,9 +90,12 @@ public class HomeFragment extends Fragment {
         recycler_upcmg = rootView.findViewById(R.id.upcmg_lesson);
         book_cls = rootView.findViewById(R.id.btnBookClass);
 
+
         book_cls.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(getActivity(), InstructorsActivity.class);
                 startActivity(i);
             }
@@ -229,7 +231,7 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         int status = jsonObject.getInt("status");
-                        String bdestatus = jsonObject.getString("BDE");
+                        bdestatus = jsonObject.getString("BDE");
                         if (status == 1) {
 
                             String get_timeslots = jsonObject.optString("data");
@@ -248,7 +250,7 @@ public class HomeFragment extends Fragment {
                                 String completedclasses = jsonObj.optString("completed_classes");
                                 Double kms = jsonObj.optDouble("kms");
                                 String hours = jsonObj.optString("hours");
-                                String badge = jsonObj.optString("badge");
+                                badge = jsonObj.optString("badge");
 
                                 tvhrs.setText(String.format("%.1f", kms) + "Km");
 
@@ -345,10 +347,10 @@ public class HomeFragment extends Fragment {
                         int credits = jsonObject.getInt("credits");
                         Log.e("CREDITS", String.valueOf(credits));
 
-                        if(credits > 0){
+                        if (credits > 0) {
                             credits_amount.setVisibility(View.VISIBLE);
                             credits_icon.setVisibility(View.VISIBLE);
-                            credits_amount.setText("x"+credits);
+                            credits_amount.setText("x" + credits);
                         }
 
                     } catch (Exception e) {

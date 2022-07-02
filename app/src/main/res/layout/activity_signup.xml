@@ -34,6 +34,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/worksans_medium"
                 android:text="@string/sign_up"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />
@@ -41,6 +42,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_signup_content"
                 android:layout_width="wrap_content"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/worksans_medium"
