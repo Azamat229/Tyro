@@ -87,7 +87,7 @@ public class StripePayment extends AppCompatActivity {
     String radio_value;
     LinearLayout card_layout;
     private String pickup_location, student_lat, student_lng;
-    String bde_status;
+    String   bde_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

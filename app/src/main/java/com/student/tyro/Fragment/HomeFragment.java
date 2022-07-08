@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     TextView username, tvupcoming, tvnoclasses;
-    String user_name, user_id, badge, bdestatus;
+    String user_name, user_id, badge, bdestatus, is_paid;
     RecyclerView recycler_upcmg;
     ArrayList<Lessions> lessionslist;
     Button book_cls;
@@ -95,9 +96,19 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                Log.e("is_paid", is_paid.toString());
 
-                Intent i = new Intent(getActivity(), InstructorsActivity.class);
-                startActivity(i);
+                if (is_paid.equals("0") || is_paid == null || is_paid.equals("")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://info@tyrodriving.com"));
+                    startActivity(intent);
+                } else if (is_paid.equals("1")) {
+                    Intent i = new Intent(getActivity(), InstructorsActivity.class);
+                    startActivity(i);
+                } else if (is_paid.equals("3")) {
+                    Intent i = new Intent(getActivity(), InstructorsActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -251,6 +262,7 @@ public class HomeFragment extends Fragment {
                                 Double kms = jsonObj.optDouble("kms");
                                 String hours = jsonObj.optString("hours");
                                 badge = jsonObj.optString("badge");
+                                is_paid = jsonObj.optString("is_paid");
 
                                 tvhrs.setText(String.format("%.1f", kms) + "Km");
 

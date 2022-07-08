@@ -66,7 +66,11 @@ public class InstructorsAdapter extends RecyclerView.Adapter<InstructorsAdapter.
             price = Float.toString(priceInt);//Now it will return "10"
             Log.e("PriceInt", price);
         }
-        holder.price.setText("$ "+price);
+        if(price==null){
+            holder.price.setText("S "+0);
+        }else {
+            holder.price.setText("$ "+price);
+        }
 
         // holder.date.setText(courses.getUsername());
         Picasso.get().load(Constants_Urls.pic_base_url + ins.getInstruct_img())
