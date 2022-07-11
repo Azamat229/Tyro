@@ -23,6 +23,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
+                android:id="@+id/tv_home_frag"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_5sdp"

@@ -450,74 +450,74 @@ public class StripePayment extends AppCompatActivity {
         stripe.onPaymentResult(requestCode, data, new PaymentResultCallback(StripePayment.this));
     }
 
-    private class PaymentResultCallback implements ApiResultCallback<PaymentIntentResult> {
+        private class PaymentResultCallback implements ApiResultCallback<PaymentIntentResult> {
 
-        private final WeakReference<StripePayment> activityRef;
+            private final WeakReference<StripePayment> activityRef;
 
-        public PaymentResultCallback(StripePayment activity) {
+            public PaymentResultCallback(StripePayment activity) {
 
-            activityRef = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void onError(@NotNull Exception e) {
-            bookOrderAPI();
-
-
-            final StripePayment activity = activityRef.get();
-            /*    progressDialog.dismiss();*/
-
-
-            button_pay_now.setEnabled(true);
-            if (activity == null) {
-                return;
+                activityRef = new WeakReference<>(activity);
             }
 
-//            displayAlert( Azamat откоментировать обезательно
-//                    "Payment Error info",
-//                    e.toString(),
-//                    false
-//            );
-
-
-        }
-
-        @Override
-        public void onSuccess(PaymentIntentResult paymentIntentResult) {
-            button_pay_now.setEnabled(true);
-            final StripePayment activity = activityRef.get();
-            if (activity == null) {
-                return;
-            }
-
-            PaymentIntent paymentIntent = paymentIntentResult.getIntent();
-            PaymentIntent.Status status = paymentIntent.getStatus();
-
-            if (status == PaymentIntent.Status.Succeeded) {
-                // Payment completed successfully
-                /* progressDialog.dismiss();*/
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                Log.d("Stripe", "onSuccess: " + gson.toJson(paymentIntent));
-                Log.d("stripeModel", "onSuccess: " + paymentIntent.getClientSecret());
-
-                button_pay_now.setEnabled(true);
+            @Override
+            public void onError(@NotNull Exception e) {
                 bookOrderAPI();
 
 
-            } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
-                // Payment failed – allow retrying using a different payment method
-//                Objects.requireNonNull(paymentIntent.getLastPaymentError()).getMessage()
-                hud1.dismiss();
+                final StripePayment activity = activityRef.get();
+                /*    progressDialog.dismiss();*/
+
+
                 button_pay_now.setEnabled(true);
-                Toast.makeText(StripePayment.this, "Payment failed", Toast.LENGTH_SHORT).show();
-                displayAlert(
-                        "Payment info",
-                        "Payment failed",
-                        false
-                );
+                if (activity == null) {
+                    return;
+                }
+
+    //            displayAlert( Azamat откоментировать обезательно
+    //                    "Payment Error info",
+    //                    e.toString(),
+    //                    false
+    //            );
+
+
+            }
+
+            @Override
+            public void onSuccess(PaymentIntentResult paymentIntentResult) {
+                button_pay_now.setEnabled(true);
+                final StripePayment activity = activityRef.get();
+                if (activity == null) {
+                    return;
+                }
+
+                PaymentIntent paymentIntent = paymentIntentResult.getIntent();
+                PaymentIntent.Status status = paymentIntent.getStatus();
+
+                if (status == PaymentIntent.Status.Succeeded) {
+                    // Payment completed successfully
+                    /* progressDialog.dismiss();*/
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    Log.d("Stripe", "onSuccess: " + gson.toJson(paymentIntent));
+                    Log.d("stripeModel", "onSuccess: " + paymentIntent.getClientSecret());
+
+                    button_pay_now.setEnabled(true);
+                    bookOrderAPI();
+
+
+                } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
+                    // Payment failed – allow retrying using a different payment method
+    //                Objects.requireNonNull(paymentIntent.getLastPaymentError()).getMessage()
+                    hud1.dismiss();
+                    button_pay_now.setEnabled(true);
+                    Toast.makeText(StripePayment.this, "Payment failed", Toast.LENGTH_SHORT).show();
+                    displayAlert(
+                            "Payment info",
+                            "Payment failed",
+                            false
+                    );
+                }
             }
         }
-    }
 
 
     private void bookOrderAPI() {

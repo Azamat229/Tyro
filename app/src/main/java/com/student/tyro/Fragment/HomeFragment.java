@@ -24,6 +24,8 @@ import com.google.gson.JsonElement;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.student.tyro.InstructorsActivity;
 import com.student.tyro.LoginActivity;
+import com.student.tyro.MainActivity;
+import com.student.tyro.StripePaymentFullCourse;
 import com.student.tyro.Util.ApiCallInterface;
 import com.student.tyro.Util.NetworkConnection;
 import com.student.tyro.Util.Retrofit_Class;
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment {
     LinearLayout linerupcmg;
     TextView tvamout, tvhrs, counter, credits_amount;
     ImageView imgvew_badge, imgvew_private, credits_icon;
+    TextView tv_home_frag;
 
 
     @Override
@@ -81,6 +84,16 @@ public class HomeFragment extends Fragment {
         credits_amount = rootView.findViewById(R.id.credits_amount);
         credits_icon = rootView.findViewById(R.id.credits_icon);
 
+        tv_home_frag = rootView.findViewById(R.id.tv_home_frag); /// Testing delete me from here
+        tv_home_frag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), StripePaymentFullCourse.class));
+
+            }
+        }); // to here
+
+
 
         networkConnection = new NetworkConnection(getActivity());
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login_details", Context.MODE_PRIVATE);
@@ -90,6 +103,7 @@ public class HomeFragment extends Fragment {
         username.setText(user_name + "!");
         recycler_upcmg = rootView.findViewById(R.id.upcmg_lesson);
         book_cls = rootView.findViewById(R.id.btnBookClass);
+
 
 
         book_cls.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +125,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
 
 
         if (networkConnection.isConnectingToInternet()) {

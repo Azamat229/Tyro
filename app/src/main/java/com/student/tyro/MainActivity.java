@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NetworkConnection networkConnection;
     AlertDialog dialog;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.closeDrawer(mDrawerList);
         linear_bottom.setVisibility(View.VISIBLE);
 
+
+
     }
 
     private void initUI() {
+
 
         //slider
         frameLayout = findViewById(R.id.frameLayout);
@@ -147,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
 
     @Override
     public void onClick(View v) {

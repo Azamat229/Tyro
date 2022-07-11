@@ -10,7 +10,6 @@
         android:smallScreens="true" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,6 +38,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,icon,theme,label">
+        <activity
+            android:name=".StripePaymentFullCourse"
+            android:exported="false" />
         <activity
             android:name=".BookingWithCreditsSuccess"
             android:exported="false" />
@@ -148,14 +150,13 @@
             </intent-filter>
         </activity>
 
-         <service
-         android:name=".NotificationService.MyFirebaseInstanceIDService"
-         android:exported="true">
-         <intent-filter>
-         <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-         </intent-filter>
-         </service>
-
+        <service
+            android:name=".NotificationService.MyFirebaseInstanceIDService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
         <service
             android:name=".NotificationService.MyFirebaseMessagingService"
             android:exported="false">
@@ -163,8 +164,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

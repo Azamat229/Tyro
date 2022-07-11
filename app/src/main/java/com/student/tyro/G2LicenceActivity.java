@@ -93,6 +93,7 @@ public class G2LicenceActivity extends AppCompatActivity {
     private void serviceBDEstatus(String status) {
         ApiCallInterface apiClass = Retrofit_Class.getClient().create(ApiCallInterface.class);
         Call<JsonElement> call = apiClass.bde_status(user_id, status);
+        Log.d("USER_ID", user_id.toString());
 
 
         final KProgressHUD hud = KProgressHUD.create(G2LicenceActivity.this)
@@ -114,7 +115,7 @@ public class G2LicenceActivity extends AppCompatActivity {
                         String status = jsonObject.getString("status");
 
                         if (status.equals("1")) {
-                            Intent mainIntent = new Intent(G2LicenceActivity.this, LoginMapActivity.class);
+                            Intent mainIntent = new Intent(G2LicenceActivity.this, StripePaymentFullCourse.class);//LoginMapActivity
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(mainIntent);
                         } else if (status.equals("0")) {
